@@ -10,8 +10,8 @@ class IndexController extends Controller
     public function index()
     {
         // get local json files
-        $headgear = Storage::disk('local')->get('splatdata/GearInfo_Head.json');
-        $headgear = json_decode($headgear, true);
+        $headgears = Storage::disk('local')->get('splatdata/GearInfo_Head.json');
+        $headgears = json_decode($headgears, true);
         
         $skills = Storage::disk('local')->get('splatdata/Skills.json');
         $skills = json_decode($skills, true);
@@ -19,8 +19,13 @@ class IndexController extends Controller
         
 
         return view('index', [
-            'headgear' => $headgear,
+            'headgearss' => $headgears,
             'skills' => $skills,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        dd($request);
     }
 }

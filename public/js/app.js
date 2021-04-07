@@ -1930,14 +1930,17 @@ function dropHandler(e) {
   }
 
   e.target.appendChild(newNode);
-  getSkillId(e.target.id);
-} // get the skill's id from the dropped image
+  setSkillId(e.target.id);
+} // set the skill's id from the dropped image
 
 
-function getSkillId(skillTypeId) {
+function setSkillId(skillTypeId) {
   var slotEle = document.getElementById(skillTypeId);
-  var droppedEle = slotEle.children[0];
-  var skillId = droppedEle.getAttribute('data-skill-id');
+  var droppedEle = slotEle.children[0]; // get skil; id
+
+  var skillId = droppedEle.getAttribute('data-skill-id'); // set id to input value
+
+  document.getElementById('hidden-' + skillTypeId).value = skillId;
 } // assign dragstart listener on draggable elements
 
 

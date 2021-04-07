@@ -64,17 +64,21 @@ function dropHandler(e) {
 
 
 
-    getSkillId(e.target.id);
+    setSkillId(e.target.id);
 }
 
 
 
-// get the skill's id from the dropped image
-function getSkillId(skillTypeId) {
+// set the skill's id from the dropped image
+function setSkillId(skillTypeId) {
     var slotEle = document.getElementById(skillTypeId);
     var droppedEle = slotEle.children[0];
 
+    // get skil; id
     var skillId = droppedEle.getAttribute('data-skill-id');
+
+    // set id to input value
+    document.getElementById('hidden-' + skillTypeId).value = skillId;
 }
 
 

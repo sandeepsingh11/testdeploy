@@ -18,14 +18,6 @@ class Gear extends Model
         'gear_name',
         'gear_desc',
         'gear_id',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
         'gear_main',
         'gear_sub_1',
         'gear_sub_2',

@@ -2,6 +2,10 @@
 
 @section('content')
 
+    @foreach ($errors->all() as $message)
+        <h1>{{ $message }}</h1>
+    @endforeach
+
     {{-- form --}}
     <form action="/" method="post">
         @csrf
@@ -14,14 +18,14 @@
 
         {{-- gear desc --}}
         <div>
-            <label for="gear-description" class="block">Gear description:</label>
-            <input type="text" name="gear-description" id="gear-description">
+            <label for="gear-desc" class="block">Gear description:</label>
+            <input type="text" name="gear-desc" id="gear-desc">
         </div>
 
         {{-- gear piece --}}
         <div>
-            <label for="gear-piece" class="block">Gear piece</label>
-            <select name="gear-piece" id="gear-piece">
+            <label for="gear-id" class="block">Gear piece</label>
+            <select name="gear-id" id="gear-id">
                 @foreach ($headgears as $headgear)
                     <option value="{{ $headgear['ModelName'] }}">{{ $headgear['ModelName'] }}</option>
                 @endforeach
@@ -33,15 +37,15 @@
         {{-- slots --}}
         <div class="w-1/2 mt-4">
             <div class="grid grid-cols-3 grid-rows-2 gap-1 h-40 mx-auto">
-                <div id="skill-main" class="drag-into border-solid border border-gray-900 col-span-3" data-source="slot"></div>
-                <div id="skill-sub-1" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
-                <div id="skill-sub-2" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
-                <div id="skill-sub-3" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
+                <div id="gear-main" class="drag-into border-solid border border-gray-900 col-span-3" data-source="slot"></div>
+                <div id="gear-sub-1" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
+                <div id="gear-sub-2" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
+                <div id="gear-sub-3" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
 
-                <input type="hidden" name="skill-main" id="hidden-skill-main" value="">
-                <input type="hidden" name="skill-sub-1" id="hidden-skill-sub-1" value="">
-                <input type="hidden" name="skill-sub-2" id="hidden-skill-sub-2" value="">
-                <input type="hidden" name="skill-sub-3" id="hidden-skill-sub-3" value="">
+                <input type="hidden" name="gear-main" id="hidden-gear-main" value="">
+                <input type="hidden" name="gear-sub-1" id="hidden-gear-sub-1" value="">
+                <input type="hidden" name="gear-sub-2" id="hidden-gear-sub-2" value="">
+                <input type="hidden" name="gear-sub-3" id="hidden-gear-sub-3" value="">
             </div>
         </div>
         

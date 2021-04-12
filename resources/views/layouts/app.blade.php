@@ -9,7 +9,14 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-200">
-    <nav></nav>
+    <nav>
+        @auth
+            <form action="{{ route('logout') }}" method="post" class="p-3 inline">
+                @csrf
+                <button type="submit">Logout</button>
+            </form>
+        @endauth
+    </nav>
 
     @yield('content')
 

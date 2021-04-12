@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\User\GearPieceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,4 +30,4 @@ Route::post('/login', [LoginController::class, 'login']);
 // setting Logout to GET is vul to csrf. use POST instead
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-// show gear pieces
+Route::get('/{user:username}/gear-pieces', [GearPieceController::class, 'index'])->name('gear-pieces');

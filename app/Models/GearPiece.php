@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Gear extends Model
+class GearPiece extends Model
 {
     use HasFactory;
 
@@ -15,12 +15,12 @@ class Gear extends Model
      * @var array
      */
     protected $fillable = [
-        'gear_name',
-        'gear_desc',
-        'gear_id',
-        'gear_main',
-        'gear_sub_1',
-        'gear_sub_2',
-        'gear_sub_3',
+        'gear_piece_name',
+        'gear_piece_desc',
+        'gear_piece_id',
+        'gear_piece_main',
+        'gear_piece_sub_1',
+        'gear_piece_sub_2',
+        'gear_piece_sub_3',
     ];
 }

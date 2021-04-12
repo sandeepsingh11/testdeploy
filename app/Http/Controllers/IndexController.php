@@ -27,24 +27,24 @@ class IndexController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'gear-name' => 'max:255',
-            'gear-desc' => 'max:512',
-            'gear-id' => 'required|max:64',
-            'gear-main' => 'numeric|nullable',
-            'gear-sub-1' => 'numeric|nullable',
-            'gear-sub-2' => 'numeric|nullable',
-            'gear-sub-3' => 'numeric|nullable',
+            'gear-piece-name' => 'max:255',
+            'gear-piece-desc' => 'max:512',
+            'gear-piece-id' => 'required|max:64',
+            'gear-piece-main' => 'numeric|nullable',
+            'gear-piece-sub-1' => 'numeric|nullable',
+            'gear-piece-sub-2' => 'numeric|nullable',
+            'gear-piece-sub-3' => 'numeric|nullable',
         ]);
 
         // create a gear piece THROUGH a user
-        $request->user()->gears()->create([
-            'gear_name' => $request->get('gear-name'),
-            'gear_desc' => $request->get('gear-desc'),
-            'gear_id' => $request->get('gear-id'),
-            'gear_main' => $request->get('gear-main'),
-            'gear_sub_1' => $request->get('gear-sub-1'),
-            'gear_sub_2' => $request->get('gear-sub-2'),
-            'gear_sub_3' => $request->get('gear-sub-3'),
+        $request->user()->gearPieces()->create([
+            'gear_piece_name' => $request->get('gear-piece-name'),
+            'gear_piece_desc' => $request->get('gear-piece-desc'),
+            'gear_piece_id' => $request->get('gear-piece-id'),
+            'gear_piece_main' => $request->get('gear-piece-main'),
+            'gear_piece_sub_1' => $request->get('gear-piece-sub-1'),
+            'gear_piece_sub_2' => $request->get('gear-piece-sub-2'),
+            'gear_piece_sub_3' => $request->get('gear-piece-sub-3'),
         ]);
 
         return back();

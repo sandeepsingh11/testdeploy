@@ -42,8 +42,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function gears()
+    public function gearPieces()
     {
-        return $this->hasMany(Gear::class);
+        return $this->hasMany(GearPiece::class);
     }
 }

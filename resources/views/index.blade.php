@@ -12,20 +12,20 @@
 
         {{-- gear name --}}
         <div>
-            <label for="gear-name" class="block">Gear name:</label>
-            <input type="text" name="gear-name" id="gear-name">
+            <label for="gear-piece-name" class="block">Gear name:</label>
+            <input type="text" name="gear-piece-name" id="gear-piece-name">
         </div>
 
         {{-- gear desc --}}
         <div>
-            <label for="gear-desc" class="block">Gear description:</label>
-            <input type="text" name="gear-desc" id="gear-desc">
+            <label for="gear-piece-desc" class="block">Gear description:</label>
+            <input type="text" name="gear-piece-desc" id="gear-piece-desc">
         </div>
 
         {{-- gear piece --}}
         <div>
-            <label for="gear-id" class="block">Gear piece</label>
-            <select name="gear-id" id="gear-id">
+            <label for="gear-piece-id" class="block">Gear piece</label>
+            <select name="gear-piece-id" id="gear-piece-id">
                 @foreach ($headgears as $headgear)
                     <option value="{{ $headgear['ModelName'] }}">{{ $headgear['ModelName'] }}</option>
                 @endforeach
@@ -37,15 +37,15 @@
         {{-- slots --}}
         <div class="w-1/2 mt-4">
             <div class="grid grid-cols-3 grid-rows-2 gap-1 h-40 mx-auto">
-                <div id="gear-main" class="drag-into border-solid border border-gray-900 col-span-3" data-source="slot"></div>
-                <div id="gear-sub-1" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
-                <div id="gear-sub-2" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
-                <div id="gear-sub-3" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
+                <div id="gear-piece-main" class="drag-into border-solid border border-gray-900 col-span-3" data-source="slot"></div>
+                <div id="gear-piece-sub-1" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
+                <div id="gear-piece-sub-2" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
+                <div id="gear-piece-sub-3" class="drag-into border-solid border border-gray-900" data-source="slot"></div>
 
-                <input type="hidden" name="gear-main" id="hidden-gear-main" value="">
-                <input type="hidden" name="gear-sub-1" id="hidden-gear-sub-1" value="">
-                <input type="hidden" name="gear-sub-2" id="hidden-gear-sub-2" value="">
-                <input type="hidden" name="gear-sub-3" id="hidden-gear-sub-3" value="">
+                <input type="hidden" name="gear-piece-main" id="hidden-gear-piece-main" value="">
+                <input type="hidden" name="gear-piece-sub-1" id="hidden-gear-piece-sub-1" value="">
+                <input type="hidden" name="gear-piece-sub-2" id="hidden-gear-piece-sub-2" value="">
+                <input type="hidden" name="gear-piece-sub-3" id="hidden-gear-piece-sub-3" value="">
             </div>
         </div>
         

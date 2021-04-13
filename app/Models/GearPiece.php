@@ -22,5 +22,6 @@ class GearPiece extends Model
         'gear_piece_sub_1',
         'gear_piece_sub_2',
         'gear_piece_sub_3',
+        'gear_piece_type',
     ];
 }

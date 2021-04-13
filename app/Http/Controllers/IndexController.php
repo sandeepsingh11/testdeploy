@@ -36,8 +36,26 @@ class IndexController extends Controller
             'gear-piece-sub-3' => 'numeric|nullable',
         ]);
 
+
+        // get gear type
+        $baseId = explode('_', $request->get('gear-piece-id'))[0];
+        $gearpieceType = '';
+        if ($baseId == 'Hed') {
+            // head gear piece
+            $gearpieceType = 'h';
+        }
+        else if ($baseId == 'Clt') {
+            // clothing gear piece
+            $gearpieceType = 'c';
+        }
+        else {
+            // shoes gear piece
+            $gearpieceType = 's';
+        }
+
+
         // create a gear piece THROUGH a user
-        $request->user()->gearPieces()->create([
+        $request->user()->gearpieces()->create([
             'gear_piece_name' => $request->get('gear-piece-name'),
             'gear_piece_desc' => $request->get('gear-piece-desc'),
             'gear_piece_id' => $request->get('gear-piece-id'),
@@ -45,6 +63,7 @@ class IndexController extends Controller
             'gear_piece_sub_1' => $request->get('gear-piece-sub-1'),
             'gear_piece_sub_2' => $request->get('gear-piece-sub-2'),
             'gear_piece_sub_3' => $request->get('gear-piece-sub-3'),
+            'gear_piece_type' => $gearpieceType,
         ]);
 
         return back();

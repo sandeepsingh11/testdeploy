@@ -42,7 +42,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function gearPieces()
+    public function gearpieces()
     {
         return $this->hasMany(GearPiece::class);
     }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\User\GearPieceController;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,7 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::get('/{user:username}/gear-pieces', [GearPieceController::class, 'index'])->name('gear-pieces');
+Route::get('/{user:username}/gear-pieces/{gearpiece:id}', [GearPieceController::class, 'show'])->name('gear-pieces-show')
+        ->missing(function () { 
+            return Redirect::route('home'); 
+        });

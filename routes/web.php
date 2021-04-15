@@ -31,8 +31,9 @@ Route::post('/login', [LoginController::class, 'login']);
 // setting Logout to GET is vul to csrf. use POST instead
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-Route::get('/{user:username}/gear-pieces', [GearPieceController::class, 'index'])->name('gear-pieces');
-Route::get('/{user:username}/gear-pieces/{gearpiece:id}', [GearPieceController::class, 'show'])->name('gear-pieces-show')
+Route::get('/{user:username}/gearpieces', [GearPieceController::class, 'index'])->name('gearpieces');
+Route::get('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'show'])->name('gearpieces.show')
         ->missing(function () { 
             return Redirect::route('home'); 
         });
+Route::delete('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'destroy'])->name('gearpieces.delete');

@@ -37,4 +37,15 @@ class GearPieceController extends GearAbstractController
             'gearpiece' => $gearpiece
         ]);
     }
+
+    public function destroy(User $user, GearPiece $gearpiece)
+    {
+        // check if the current user can delete the specified gear piece
+        $this->authorize('delete', $gearpiece);
+
+        // delete this model instance
+        $gearpiece->delete();
+
+        return back();
+    }
 }

@@ -21,16 +21,25 @@ class Base extends Component
     public $skills;
 
     /**
+     * The user object.
+     *
+     * @var User
+     */
+    public $user;
+
+    /**
      * Create a new component instance.
      *
      * @param  GearPiece  $gearpiece
      * @param  array  $skills
+     * @param  User  $user
      * @return void
      */
-    public function __construct($gearpiece, $skills)
+    public function __construct($gearpiece, $skills, $user)
     {
         $this->gearpiece = $gearpiece;
         $this->skills = $skills;
+        $this->user = $user;
     }
 
     /**

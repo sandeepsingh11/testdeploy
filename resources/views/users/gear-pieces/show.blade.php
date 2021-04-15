@@ -6,7 +6,7 @@
         $skills = $gpc->getGearPieceSkills($gearpiece);    
     @endphp
 
-    <x-gear-piece.base :gearpiece="$gearpiece" :skills="$skills" />
+    <x-gear-piece.base :gearpiece="$gearpiece" :skills="$skills" :user="$user" />
 
     <i>Gearpiece by {{ $user->username }}</i>
 @endsection

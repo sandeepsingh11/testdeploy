@@ -15,7 +15,7 @@
 
 
             {{-- gearpiece component --}}
-            <x-gear-piece.base :gearpiece="$gearpiece" :skills="$skills" />
+            <x-gear-piece.base :gearpiece="$gearpiece" :skills="$skills" :user="$user" />
             
         @endforeach
     @else

@@ -9,13 +9,36 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-200">
-    <nav>
-        @auth
-            <form action="{{ route('logout') }}" method="post" class="p-3 inline">
-                @csrf
-                <button type="submit">Logout</button>
-            </form>
-        @endauth
+    <nav class="p-2 bg-purple-600 text-white flex justify-between mb-6">
+        <ul class="flex items-center">
+            <li>
+                Splat Build
+            </li>
+        </ul>
+
+        <ul class="flex items-center">
+            <li>
+                <a href="/" class="p-3">Home</a>
+            </li>
+            
+            @auth
+                <li>
+                    <form action="{{ route('logout') }}" method="post" class="inline">
+                        @csrf
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+            @endauth
+
+            @guest
+                <li>
+                    <a href="{{ route('login') }}" class="p-3">Login</a>
+                </li>
+                <li>
+                    <a href="{{ route('register') }}" class="p-3">Register</a>
+                </li>
+            @endguest
+        </ul>
     </nav>
 
     @yield('content')

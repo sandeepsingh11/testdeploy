@@ -30,9 +30,9 @@ class GearPieceController extends GearAbstractController
     public function show(User $user, GearPiece $gearpiece)
     {
         // get specified gearpiece passed from uri
-        $gearpiece = $user->gearpieces->where('id', $gearpiece->id);
-
-        return view('users.gear-piece.show', [
+        $gearpiece = $user->gearpieces->where('id', $gearpiece->id)->first();
+        
+        return view('users.gear-pieces.show', [
             'user' => $user,
             'gearpiece' => $gearpiece
         ]);

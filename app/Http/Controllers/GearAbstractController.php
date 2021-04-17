@@ -13,7 +13,7 @@ abstract class GearAbstractController extends Controller
      * @param string $dataType specify which data file to get ('Head', 'Clothes', 'Shoes', 'Skills', or 'All')
      * @return array|null array of the data, null if invalid string passed
      */
-    public function getSplatdata($dataType = 'All')
+    public static function getSplatdata($dataType = 'All')
     {
         if ($dataType == 'All') {
             // get headgear, clothing, and shoes, AND skills data
@@ -46,7 +46,7 @@ abstract class GearAbstractController extends Controller
             $gear = Storage::disk('local')->get('splatdata/GearInfo_' . $dataType . '.json');
             $skills = json_decode($gear, true);
 
-            return $gear;
+            return $skills;
         }
         else {
             // invalid arg passed, return null

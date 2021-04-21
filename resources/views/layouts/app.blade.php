@@ -6,7 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ env('APP_NAME') }}</title>
 
+    @yield('scripts-head')
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('styles')
 </head>
 <body class="bg-gray-200">
     <nav class="p-2 bg-purple-600 text-white flex justify-between mb-6">
@@ -48,5 +51,6 @@
     @yield('content')
 
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>

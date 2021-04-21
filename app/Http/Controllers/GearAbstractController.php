@@ -10,13 +10,13 @@ abstract class GearAbstractController extends Controller
     /**
      * Get local Splatdata JSON file(s)
      * 
-     * @param string $dataType specify which data file to get ('Head', 'Clothes', 'Shoes', 'Skills', or 'All')
+     * @param string $dataType specify which data file to get ('Head', 'Clothes', 'Shoes', 'Skills', 'Weapons', or 'All'')
      * @return array|null array of the data, null if invalid string passed
      */
     public static function getSplatdata($dataType = 'All')
     {
         if ($dataType == 'All') {
-            // get headgear, clothing, and shoes, AND skills data
+            // get headgear, clothing, shoes, skills, AND weapons data
 
             $headgears = Storage::disk('local')->get('splatdata/GearInfo_Head.json');
             $headgears = json_decode($headgears, true);
@@ -29,8 +29,11 @@ abstract class GearAbstractController extends Controller
 
             $skills = Storage::disk('local')->get('splatdata/Skills.json');
             $skills = json_decode($skills, true);
+            
+            $weapons = Storage::disk('local')->get('splatdata/WeaponInfo_Main.json');
+            $weapons = json_decode($weapons, true);
 
-            return [$headgears, $clothes, $shoes, $skills];
+            return [$headgears, $clothes, $shoes, $skills, $weapons];
         }
         else if ($dataType == 'Skills') {
             // only get skills data
@@ -39,6 +42,14 @@ abstract class GearAbstractController extends Controller
             $skills = json_decode($skills, true);
 
             return $skills;
+        }
+        else if ($dataType == 'Weapons') {
+            // only get weapons
+
+            $weapons = Storage::disk('local')->get('splatdata/WeaponInfo_Main.json');
+            $weapons = json_decode($weapons, true);
+
+            return $weapons;
         }
         else if ( ($dataType == 'Head') || ($dataType == 'Clothes') || ($dataType == 'Shoes') ) {
             // only get headgear, clothing, OR shoes data

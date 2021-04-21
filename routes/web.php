@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\GearController;
 use App\Http\Controllers\User\GearPieceController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
@@ -40,3 +41,6 @@ Route::get('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::c
             return Redirect::route('home'); 
         });
 Route::delete('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'destroy'])->name('gearpieces.delete');
+
+Route::get('/{user:username}/gear/create', [GearController::class, 'create'])->name('gears.create');
+Route::post('/{user:username}/gear/create', [GearController::class, 'store']);

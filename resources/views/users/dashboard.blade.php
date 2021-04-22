@@ -1,27 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Hello {{ $user->username }}</h2>
+    <h2 class="mb-6">Hello {{ $user->username }}</h2>
     
     <ul>
         <li>
-            <a href="{{ route('gearpieces', $user) }}" class="p-3">All Gearpieces</a>
+            <a href="{{ route('gearpieces', $user) }}">All Gearpieces</a>
         </li>
         <li>
-            <a href="/" class="p-3">New Gearpiece</a>
+            <a href="/">New Gearpiece</a>
         </li>
         <li>
-            <a href="/" class="p-3">Edit Gearpiece</a>
+            <a href="/">Edit Gearpiece</a>
         </li>
 
         <li>
-            <a href="/" class="p-3">All Gear</a>
+            <a href="/">All Gear</a>
         </li>
         <li>
-            <a href="/" class="p-3">New Gear</a>
+            <a href="{{ route('gears.create', $user) }}">New Gear</a>
         </li>
         <li>
-            <a href="/" class="p-3">Edit Gear</a>
+            <a href="/">Edit Gear</a>
         </li>
     </ul>
 @endsection

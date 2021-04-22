@@ -21,13 +21,7 @@
         {{-- gear desc --}}
         <div>
             <label for="gear-desc" class="block">Gear description:</label>
-            <input type="text" name="gear-desc" id="gear-desc">
-        </div>
-
-        {{-- gear weapon --}}
-        <div>
-            <label for="gear-weapon" class="block">Weapon:</label>
-            <input type="text" name="gear-weapon" id="gear-weapon">
+            <textarea name="gear-desc" id="gear-desc"></textarea>
         </div>
 
         {{-- gear mode --}}
@@ -48,16 +42,7 @@
         </div>
 
         {{-- weapons --}}
-        <div>
-            <label for="gear-weapon" class="block">Weapon</label>
-            <select name="gear-weapon" id="gear-weapon">
-                @foreach ($splatdata[4] as $weapon)
-                    <option value="{{ $weapon['Id'] }}">{{ $weapon['Name'] }}
-                        <img src="{{ asset('storage/weapons/Wst_' . $weapon['Name'] . '.png') }}" alt="{{ $weapon['Name'] }}">
-                    </option>
-                @endforeach
-            </select>
-        </div>
+        <livewire:weapon :weapons="$splatdata[4]" />
 
         {{-- gear piece (head) --}}
         <livewire:gearpiece :gearpieces="$gearpieces" gearpieceType="head" />

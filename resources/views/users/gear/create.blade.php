@@ -9,56 +9,58 @@
 @endsection
 
 @section('content')
-    <form action="{{ route('gears.create', $user) }}" method="post">
-        @csrf
-
-        {{-- gear name --}}
-        <div>
-            <label for="gear-name" class="block">Gear name:</label>
-            <input type="text" name="gear-name" id="gear-name">
-        </div>
-
-        {{-- gear desc --}}
-        <div>
-            <label for="gear-desc" class="block">Gear description:</label>
-            <textarea name="gear-desc" id="gear-desc"></textarea>
-        </div>
-
-        {{-- gear mode --}}
-        <div>
-            <label for="mode" class="block">Game mode:</label>
-
-            <input type="checkbox" name="gear-mode-rm">
-            <label for="gear-mode-rm">Rainmaker</label>
-
-            <input type="checkbox" name="gear-mode-cb">
-            <label for="gear-mode-cb">Clamblitz</label>
-
-            <input type="checkbox" name="gear-mode-sz">
-            <label for="gear-mode-sz">Splatzones</label>
-
-            <input type="checkbox" name="gear-mode-tc">
-            <label for="gear-mode-tc">Towercontrol</label>
-        </div>
-
-        {{-- weapons --}}
-        <livewire:weapon :weapons="$splatdata[4]" />
-
-        {{-- gear piece (head) --}}
-        <livewire:gearpiece :gearpieces="$gearpieces" gearpieceType="head" />
-
-        {{-- gear piece (clothes) --}}
-        <livewire:gearpiece :gearpieces="$gearpieces" gearpieceType="clothes" />
+    <div class="w-1/2 mx-auto">
+        <form action="{{ route('gears.create', $user) }}" method="post">
+            @csrf
+    
+            {{-- gear name --}}
+            <div>
+                <label for="gear-name" class="block">Gear name:</label>
+                <input type="text" name="gear-name" id="gear-name">
+            </div>
+    
+            {{-- gear desc --}}
+            <div>
+                <label for="gear-desc" class="block">Gear description:</label>
+                <textarea name="gear-desc" id="gear-desc"></textarea>
+            </div>
+    
+            {{-- gear mode --}}
+            <div>
+                <label for="mode" class="block">Game mode:</label>
+    
+                <input type="checkbox" name="gear-mode-rm">
+                <label for="gear-mode-rm">Rainmaker</label>
+    
+                <input type="checkbox" name="gear-mode-cb">
+                <label for="gear-mode-cb">Clamblitz</label>
+    
+                <input type="checkbox" name="gear-mode-sz">
+                <label for="gear-mode-sz">Splatzones</label>
+    
+                <input type="checkbox" name="gear-mode-tc">
+                <label for="gear-mode-tc">Towercontrol</label>
+            </div>
+    
+            <div class="grid grid-cols-2 grid-rows-2 gap-4 min-w-min w-full max-w-max">
+                {{-- weapons --}}
+                <livewire:weapon :weapons="$splatdata[4]" />
         
-        {{-- gear piece (shoes) --}}
-        <livewire:gearpiece :gearpieces="$gearpieces" gearpieceType="shoes" />
-
-
-
-        <input type="submit" value="Create">
-
-        {{ $gearpieces[0] }}
-    </form>
+                {{-- gear piece (head) --}}
+                <livewire:gearpiece :gearpieces="$gearpieces" gearpieceType="head" :skills="$splatdata[3]" />
+        
+                {{-- gear piece (clothes) --}}
+                <livewire:gearpiece :gearpieces="$gearpieces" gearpieceType="clothes" :skills="$splatdata[3]" />
+                
+                {{-- gear piece (shoes) --}}
+                <livewire:gearpiece :gearpieces="$gearpieces" gearpieceType="shoes" :skills="$splatdata[3]" />
+            </div>
+    
+    
+    
+            <input type="submit" value="Create" class="p-2 border-black rounded-md bg-indigo-200 border hover:bg-indigo-400 mt-4">
+        </form>
+    </div>
 @endsection
 
 @section('scripts')

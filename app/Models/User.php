@@ -17,8 +17,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
-        'email',
+        // 'name',
+        // 'email',
         'password',
         'username',
     ];
@@ -45,5 +45,10 @@ class User extends Authenticatable
     public function gearpieces()
     {
         return $this->hasMany(GearPiece::class);
+    }
+
+    public function gears()
+    {
+        return $this->hasMany(Gear::class);
     }
 }

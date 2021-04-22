@@ -1,8 +1,8 @@
 <div class="w-full">
-    <label for="gear-weapon" class="block">Weapon</label>
+    <label for="gear-weapon-id" class="block">Weapon</label>
     <select 
         wire:change="updateWeapon($event.target.value)" 
-        name="gear-weapon" 
+        name="gear-weapon-id" 
         id="gear-weapon"
         class="w-full"
         >

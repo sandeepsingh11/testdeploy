@@ -9,6 +9,24 @@
 @endsection
 
 @section('content')
+
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
+
+
+
+
+
+
     <div class="w-1/2 mx-auto">
         <form action="{{ route('gears.create', $user) }}" method="post">
             @csrf
@@ -29,16 +47,16 @@
             <div>
                 <label for="mode" class="block">Game mode:</label>
     
-                <input type="checkbox" name="gear-mode-rm">
+                <input type="checkbox" name="gear-mode-rm" value="1">
                 <label for="gear-mode-rm">Rainmaker</label>
     
-                <input type="checkbox" name="gear-mode-cb">
+                <input type="checkbox" name="gear-mode-cb" value="1">
                 <label for="gear-mode-cb">Clamblitz</label>
     
-                <input type="checkbox" name="gear-mode-sz">
+                <input type="checkbox" name="gear-mode-sz" value="1">
                 <label for="gear-mode-sz">Splatzones</label>
     
-                <input type="checkbox" name="gear-mode-tc">
+                <input type="checkbox" name="gear-mode-tc" value="1">
                 <label for="gear-mode-tc">Towercontrol</label>
             </div>
     

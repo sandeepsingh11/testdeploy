@@ -24,4 +24,9 @@ class GearPiece extends Model
         'gear_piece_sub_3',
         'gear_piece_type',
     ];
+
+    public function gears()
+    {
+        return $this->belongsToMany(Gear::class, 'gear_gearpiece');
+    }
 }

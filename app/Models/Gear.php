@@ -22,8 +22,10 @@ class Gear extends Model
         'gear_mode_sz',
         'gear_mode_tc',
         'gear_weapon_id',
-        'gear_piece_h_id',
-        'gear_piece_c_id',
-        'gear_piece_s_id',
     ];
+
+    public function gearpieces()
+    {
+        return $this->belongsToMany(GearPiece::class, 'gear_gearpiece');
+    }
 }

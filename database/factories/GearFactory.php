@@ -21,6 +21,9 @@ class GearFactory extends Factory
      */
     public function definition()
     {
+        $Gear = new Gear;
+        $gearpieces = $Gear->gearpieces;
+
         return [
             //
         ];

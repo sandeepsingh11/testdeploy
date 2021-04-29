@@ -23,9 +23,6 @@ class CreateGearsTable extends Migration
             $table->boolean('gear_mode_sz')->nullable();
             $table->boolean('gear_mode_tc')->nullable();
             $table->integer('gear_weapon_id')->nullable();
-            $table->integer('gear_piece_h_id')->nullable();
-            $table->integer('gear_piece_c_id')->nullable();
-            $table->integer('gear_piece_s_id')->nullable();
             $table->timestamps();
         });
     }

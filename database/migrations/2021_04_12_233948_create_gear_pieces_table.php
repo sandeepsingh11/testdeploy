@@ -19,6 +19,7 @@ class CreateGearPiecesTable extends Migration
             $table->text('gear_piece_name')->nullable();
             $table->text('gear_piece_desc')->nullable();
             $table->text('gear_piece_id');
+            $table->char('gear_piece_type', 1);
             $table->smallInteger('gear_piece_main')->nullable();
             $table->smallInteger('gear_piece_sub_1')->nullable();
             $table->smallInteger('gear_piece_sub_2')->nullable();

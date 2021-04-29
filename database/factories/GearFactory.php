@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Http\Controllers\GearAbstractController;
 use App\Models\Gear;
+use App\Models\GearPiece;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GearFactory extends Factory
@@ -21,11 +23,19 @@ class GearFactory extends Factory
      */
     public function definition()
     {
-        $Gear = new Gear;
-        $gearpieces = $Gear->gearpieces;
+        $weaponsData = GearAbstractController::getSplatdata('Weapons');
+        $wLen = sizeof($weaponsData) - 1;
 
         return [
-            //
+            'gear_name' => $this->faker->words(5, true),
+            'gear_desc' => $this->faker->sentence(10),
+            'gear_mode_rm' => $this->faker->boolean(),
+            'gear_mode_cb' => $this->faker->boolean(),
+            'gear_mode_sz' => $this->faker->boolean(),
+            'gear_mode_tc' => $this->faker->boolean(),
+            'gear_weapon_id' => $this->faker->numberBetween(0, $wLen),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

@@ -14,7 +14,32 @@ class GearController extends Controller
     public function __construct()
     {
         // user must be logged in to view, otherwise redirect
-        $this->middleware(['auth']);
+        $this->middleware(['auth'])
+            ->except(['index']);
+    }
+
+    public function index(User $user)
+    {
+        // get user's gears
+        $userGears = $user->gears;
+
+        // get gears' gearpieces
+        $userGearpieces = [];
+        foreach ($userGears as $gear) {
+            $userGearpieces[$gear->id] = $gear->gearpieces;
+        }
+
+        // get splatdata
+        $splatdata = GearAbstractController::getSplatdata();
+
+
+        // get view
+        return view('users.gear.index', [
+            'user' => $user,
+            'gears' => $userGears,
+            'gearpieces' => $userGearpieces,
+            'splatdata' => $splatdata,
+        ]);
     }
 
     public function create(User $user)

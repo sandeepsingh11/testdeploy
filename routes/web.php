@@ -21,20 +21,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// root
 Route::get('/', [IndexController::class, 'index'])->name('home');
 Route::post('/', [IndexController::class, 'store']);
 
+// register
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
 
+// login
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
+// logout
 // setting Logout to GET is vul to csrf. use POST instead
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
+// dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+// gearpieces
 Route::get('/{user:username}/gearpieces', [GearPieceController::class, 'index'])->name('gearpieces');
 Route::get('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'show'])->name('gearpieces.show')
         ->missing(function () { 
@@ -42,5 +48,7 @@ Route::get('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::c
         });
 Route::delete('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'destroy'])->name('gearpieces.delete');
 
-Route::get('/{user:username}/gear/create', [GearController::class, 'create'])->name('gears.create');
-Route::post('/{user:username}/gear/create', [GearController::class, 'store']);
+// gears
+Route::get('/{user:username}/gears', [GearController::class, 'index'])->name(('gears'));
+Route::get('/{user:username}/gears/create', [GearController::class, 'create'])->name('gears.create');
+Route::post('/{user:username}/gears/create', [GearController::class, 'store']);

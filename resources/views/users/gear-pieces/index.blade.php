@@ -21,7 +21,7 @@
             @endforeach
         </div>
     @else
-        {{ $user }} does not have any gear pieces yet...
+        {{ $user->username }} does not have any gear pieces yet...
     @endif
 
 @endsection

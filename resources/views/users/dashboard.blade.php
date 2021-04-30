@@ -15,7 +15,7 @@
         </li>
 
         <li>
-            <a href="/">All Gear</a>
+            <a href="{{ route('gears', $user) }}">All Gears</a>
         </li>
         <li>
             <a href="{{ route('gears.create', $user) }}">New Gear</a>

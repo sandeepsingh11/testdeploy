@@ -33,7 +33,7 @@ class GearFactory extends Factory
             'gear_mode_cb' => $this->faker->boolean(),
             'gear_mode_sz' => $this->faker->boolean(),
             'gear_mode_tc' => $this->faker->boolean(),
-            'gear_weapon_id' => $this->faker->numberBetween(0, $wLen),
+            'gear_weapon_id' => $weaponsData[$this->faker->numberBetween(0, $wLen)]['Id'],
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -53,3 +53,4 @@ Route::get('/{user:username}/gears', [GearController::class, 'index'])->name('ge
 Route::get('/{user:username}/gears/{gear:id}', [GearController::class, 'show'])->name('gears.show');
 Route::get('/{user:username}/gears/create', [GearController::class, 'create'])->name('gears.create');
 Route::post('/{user:username}/gears/create', [GearController::class, 'store']);
+Route::delete('/{user:username}/gears/{gear:id}', [GearController::class, 'destroy'])->name('gears.delete');

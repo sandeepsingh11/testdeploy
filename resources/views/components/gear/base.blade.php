@@ -37,4 +37,24 @@
 
     {{-- gear's description --}}
     <x-gear-piece.desc :desc="$gear->gear_desc" />
+
+    {{-- delete gear --}}
+    @auth
+        @can('delete', $gear)
+            <div class="flex justify-evenly">
+                <form action="" method="post" class="w-full">
+                    @csrf
+                    @method('UPDATE')
+                    <button type="submit" class="bg-indigo-400 w-full py-2 rounded-bl-md">Edit</button>
+                </form>
+
+                <form action="{{ route('gears.delete', [$user, $gear]) }}" method="post" class="w-full">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-400 w-full py-2 rounded-br-md">Delete</button>
+                </form>
+            </div>
+        @endcan
+    @endauth
+
 </div>

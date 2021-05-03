@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\GearAbstractController;
 use App\Models\Gear;
-use App\Models\GearPiece;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -66,8 +65,7 @@ class GearController extends Controller
 
         // get splatdata
         $splatdata = GearAbstractController::getSplatdata();
-        // dd($splatdata[4][0]);
-        // dd($userGearPieces);
+
 
         return view('users.gear.create', [
             'user' => $user,
@@ -125,6 +123,17 @@ class GearController extends Controller
         
 
         
+        return back();
+    }
+
+    public function destroy(User $user, Gear $gear)
+    {
+        // check if the current user can delete the specified gear piece
+        $this->authorize('delete', $gear);
+
+        // delete this model instance
+        $gear->delete();
+
         return back();
     }
 }

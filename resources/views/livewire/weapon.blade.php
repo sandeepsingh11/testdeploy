@@ -7,7 +7,7 @@
         class="w-full"
         >
         @foreach ($weapons as $weapon)
-            <option value="{{ $weapon['Id'] }}">{{ $weapon['Name'] }}</option>
+            <option value="{{ $weapon['Id'] }}" @if($oldWeapon == $weapon['Id']) selected  @endif>{{ $weapon['Name'] }}</option>
         @endforeach
     </select>
 

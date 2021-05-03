@@ -17,12 +17,17 @@ class Gearpiece extends Component
     public string $skillSub1 = 'unknown';
     public string $skillSub2 = 'unknown';
     public string $skillSub3 = 'unknown';
+    public int $oldGearpiece = -1;
 
-    public function mount(Collection $gearpieces, string $gearpieceType, array $skills)
+    public function mount(Collection $gearpieces, string $gearpieceType, array $skills, int $oldGearpiece = -1)
     {
         $this->gearpieces = $gearpieces;
         $this->gearpieceType = $gearpieceType;
         $this->skills = $skills;
+
+        if ($oldGearpiece != -1) {
+            $this->updateGearpiece($oldGearpiece);
+        }
     }
 
     public function render()

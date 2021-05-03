@@ -10,7 +10,7 @@
 
         @foreach ($gearpieces as $gearpiece)
             @if ($gearpiece->gear_piece_type == lcfirst($gearpieceType[0]))
-                <option value="{{ $gearpiece->id }}">{{ $gearpiece->gear_piece_name }}</option>
+                <option value="{{ $gearpiece->id }}" @if($oldGearpiece == $gearpiece->id) selected  @endif>{{ $gearpiece->gear_piece_name }}</option>
             @endif
         @endforeach
     </select>

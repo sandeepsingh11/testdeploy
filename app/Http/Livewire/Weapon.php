@@ -10,6 +10,14 @@ class Weapon extends Component
     public string $weaponName = 'Shooter_Short_00';
     public string $specialName = 'SuperLanding';
     public string $subName = 'Bomb_Curling';
+    public int $oldWeapon = -1;
+
+    public function mount(int $oldWeapon = -1)
+    {
+        if ($oldWeapon != -1) {
+            $this->updateWeapon($oldWeapon);
+        }
+    }
 
     public function render()
     {

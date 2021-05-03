@@ -1,4 +1,4 @@
-<div class="bg-gray-700 rounded-md shadow-lg">
+<div class="bg-gray-700 rounded-md shadow-lg mb-6">
     
     {{-- gear's title --}}
     <x-gear-piece.title :title="$gear->gear_name" />
@@ -42,11 +42,9 @@
     @auth
         @can('delete', $gear)
             <div class="flex justify-evenly">
-                <form action="" method="post" class="w-full">
-                    @csrf
-                    @method('UPDATE')
-                    <button type="submit" class="bg-indigo-400 w-full py-2 rounded-bl-md">Edit</button>
-                </form>
+                <a href="{{ route('gears.edit', [$user, $gear]) }}" class="block w-full">
+                    <div class="bg-indigo-400 w-full py-2 rounded-bl-md text-center">Edit</div>
+                </a>
 
                 <form action="{{ route('gears.delete', [$user, $gear]) }}" method="post" class="w-full">
                     @csrf

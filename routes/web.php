@@ -49,6 +49,7 @@ Route::get('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::c
 Route::delete('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'destroy'])->name('gearpieces.delete');
 
 // gears
-Route::get('/{user:username}/gears', [GearController::class, 'index'])->name(('gears'));
+Route::get('/{user:username}/gears', [GearController::class, 'index'])->name('gears');
+Route::get('/{user:username}/gears/{gear:id}', [GearController::class, 'show'])->name('gears.show');
 Route::get('/{user:username}/gears/create', [GearController::class, 'create'])->name('gears.create');
 Route::post('/{user:username}/gears/create', [GearController::class, 'store']);

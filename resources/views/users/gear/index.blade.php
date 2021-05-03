@@ -7,8 +7,10 @@
         <div class="flex justify-evenly flex-wrap">
             @foreach ($gears as $gear)
 
-                {{-- gear component --}}
-                <x-gear.base :gear="$gear" :gearpieces="$gearpieces" :weapons="$splatdata[4]" :user="$user" />
+                <a href="{{ route('gears.show', [$user, $gear]) }}" class="h-full mb-6">
+                    {{-- gear component --}}
+                    <x-gear.base :gear="$gear" :gearpieces="$gearpieces" :weapons="$splatdata[4]" :user="$user" />
+                </a>
                 
             @endforeach
         </div>

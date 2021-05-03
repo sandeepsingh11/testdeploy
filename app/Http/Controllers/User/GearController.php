@@ -15,7 +15,7 @@ class GearController extends Controller
     {
         // user must be logged in to view, otherwise redirect
         $this->middleware(['auth'])
-            ->except(['index']);
+            ->except(['index', 'show']);
     }
 
     public function index(User $user)
@@ -39,6 +39,23 @@ class GearController extends Controller
             'gears' => $userGears,
             'gearpieces' => $userGearpieces,
             'splatdata' => $splatdata,
+        ]);
+    }
+
+    public function show(User $user, Gear $gear)
+    {
+        // get gears' gearpieces
+        $gearpieces[$gear->id] = $gear->gearpieces;
+        
+        // get splatdata
+        $weapons = GearAbstractController::getSplatdata('Weapons');
+
+
+        return view('users.gear.show', [
+            'user' => $user,
+            'gear' => $gear,
+            'gearpieces' => $gearpieces,
+            'weapons' => $weapons,
         ]);
     }
 

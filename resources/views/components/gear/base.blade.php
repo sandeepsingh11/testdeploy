@@ -1,4 +1,4 @@
-<div class="bg-gray-700 rounded-md shadow-lg h-full mb-6">
+<div class="bg-gray-700 rounded-md shadow-lg">
     
     {{-- gear's title --}}
     <x-gear-piece.title :title="$gear->gear_name" />

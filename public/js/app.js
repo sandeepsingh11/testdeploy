@@ -1885,62 +1885,52 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 // ==================== HANDLE DRAG AND DROP ==================== //
 // global vars
-var copyNum = 1;
-var source = ''; // on dragstart handler
+var source = '';
+var draggedSkillName = '';
+var draggedSkillId = -1;
+var draggedSkillType = ''; // on dragstart handler
 
 function dragStartHandler(e) {
-  e.dataTransfer.effectAllowed = "copyMove";
-  var skillId = e.target.dataset.skillId;
+  e.dataTransfer.effectAllowed = "copyMove"; // set draggable info
+
+  e.dataTransfer.setData("text/uri-list", e.target.src);
+  e.dataTransfer.setData("text/plain", e.target.src);
+  draggedSkillName = e.target.dataset.skillName;
+  draggedSkillId = e.target.dataset.skillId;
+  draggedSkillType = e.target.dataset.skillType;
   source = e.target.parentElement.dataset.source;
-  e.dataTransfer.setData('text/plain', e.target.id);
 } // on dragover handler
 
 
 function dragOverHandler(e) {
-  e.preventDefault();
-
-  if (source == 'bank') {
-    e.dataTransfer.dropEffect = "copy";
-  } else if (source == 'slot') {
-    e.dataTransfer.dropEffect = "move";
-  }
+  e.preventDefault(); // if (source == 'bank') {
+  //     e.dataTransfer.dropEffect = "copy";
+  // }
+  // else if (source == 'slot') {
+  //     e.dataTransfer.dropEffect = "move";
+  // }
 } // on drop handler
 
 
 function dropHandler(e) {
-  e.preventDefault();
-  var droppedEleId = e.dataTransfer.getData("text/plain");
+  e.preventDefault(); // skill types of 'Main' must be dropped in the 'Main' skill slot
 
-  if (source == 'bank') {
-    // clone image if dragging from source (bank)
-    // clone to make new dropped element
-    var newNode = document.getElementById(droppedEleId).cloneNode(true);
-    newNode.id = droppedEleId + '-copy-' + copyNum++;
-    newNode.addEventListener('dragstart', function (e) {
-      dragStartHandler(e);
-    });
-  } else {
-    // move image (not clone) if dragging from gear slot
-    var newNode = document.getElementById(droppedEleId);
-  } // if image exists already, delete it first, then append
+  if (draggedSkillType === 'Main') {
+    if (e.target.parentNode.id !== 'gear-piece-main') {
+      // illegal drop
+      return;
+    }
+  } // get dropped image url
 
 
-  if (e.target.children.length > 0) {
-    e.target.children[0].remove();
-  }
+  var droppedImageUrl = e.dataTransfer.getData("text/plain"); // update newly dropped image values
 
-  e.target.appendChild(newNode);
-  setSkillId(e.target.id);
-} // set the skill's id from the dropped image
+  e.target.src = droppedImageUrl;
+  e.target.alt = draggedSkillName;
+  e.target.dataset.skillId = draggedSkillId;
+  e.target.dataset.skillName = draggedSkillName; // set the dropped skill's id to the hidden input field
 
-
-function setSkillId(skillTypeId) {
-  var slotEle = document.getElementById(skillTypeId);
-  var droppedEle = slotEle.children[0]; // get skil; id
-
-  var skillId = droppedEle.getAttribute('data-skill-id'); // set id to input value
-
-  document.getElementById('hidden-' + skillTypeId).value = skillId;
+  document.getElementById('hidden-' + e.target.parentNode.id).value = draggedSkillId;
 } // assign dragstart listener on draggable elements
 
 

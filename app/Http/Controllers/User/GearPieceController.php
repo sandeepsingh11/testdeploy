@@ -38,6 +38,20 @@ class GearPieceController extends GearAbstractController
         ]);
     }
 
+    public function create(User $user)
+    {
+        // get according splatdata
+        $headData = GearAbstractController::getSplatdata('Head');
+        $skillsData = GearAbstractController::getSplatdata('Skills');
+
+
+        return view('users.gear-pieces.create', [
+            'user' => $user,
+            'headData' => $headData,
+            'skillsData' => $skillsData,
+        ]);
+    }
+
     public function destroy(User $user, GearPiece $gearpiece)
     {
         // check if the current user can delete the specified gear piece

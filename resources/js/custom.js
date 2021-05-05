@@ -1,8 +1,10 @@
 // ==================== HANDLE DRAG AND DROP ==================== //
 
 // global vars
-var copyNum = 1;
 var source = '';
+var draggedSkillName = '';
+var draggedSkillId = -1;
+var draggedSkillType = '';
 
 
 
@@ -10,10 +12,14 @@ var source = '';
 function dragStartHandler(e) {
     e.dataTransfer.effectAllowed = "copyMove";
     
-    var skillId = e.target.dataset.skillId;
+    
+    // set draggable info
+    e.dataTransfer.setData("text/uri-list", e.target.src);
+    e.dataTransfer.setData("text/plain", e.target.src);
+    draggedSkillName = e.target.dataset.skillName;
+    draggedSkillId = e.target.dataset.skillId;
+    draggedSkillType = e.target.dataset.skillType;
     source = e.target.parentElement.dataset.source;
-
-    e.dataTransfer.setData('text/plain', e.target.id);
 }
 
 
@@ -22,12 +28,12 @@ function dragStartHandler(e) {
 function dragOverHandler(e) {
     e.preventDefault();
     
-    if (source == 'bank') {
-        e.dataTransfer.dropEffect = "copy";
-    }
-    else if (source == 'slot') {
-        e.dataTransfer.dropEffect = "move";
-    }
+    // if (source == 'bank') {
+    //     e.dataTransfer.dropEffect = "copy";
+    // }
+    // else if (source == 'slot') {
+    //     e.dataTransfer.dropEffect = "move";
+    // }
 }
 
 
@@ -36,50 +42,33 @@ function dragOverHandler(e) {
 function dropHandler(e) {
     e.preventDefault();
 
-    const droppedEleId = e.dataTransfer.getData("text/plain");
     
-    if (source == 'bank') {
-        // clone image if dragging from source (bank)
+    // skill types of 'Main' must be dropped in the 'Main' skill slot
+    if (draggedSkillType === 'Main') {
+        
+        if (e.target.parentNode.id !== 'gear-piece-main') {
 
-        // clone to make new dropped element
-        var newNode = document.getElementById(droppedEleId).cloneNode(true);
-        newNode.id = droppedEleId + '-copy-' + copyNum++;
-        newNode.addEventListener('dragstart', (e) => {
-            dragStartHandler(e);
-        });
-    }
-    else {
-        // move image (not clone) if dragging from gear slot
-        var newNode = document.getElementById(droppedEleId);
+            // illegal drop
+            return;
+        }
     }
 
+    // get dropped image url
+    var droppedImageUrl = e.dataTransfer.getData("text/plain");
+        
+        
+    // update newly dropped image values
+    e.target.src = droppedImageUrl;
+    e.target.alt = draggedSkillName;
+    e.target.dataset.skillId = draggedSkillId;
+    e.target.dataset.skillName = draggedSkillName;
 
 
-    // if image exists already, delete it first, then append
-    if (e.target.children.length > 0) {
-        e.target.children[0].remove();
-    }
-
-    e.target.appendChild(newNode);
-
-
-
-    setSkillId(e.target.id);
+    // set the dropped skill's id to the hidden input field
+    document.getElementById('hidden-' + e.target.parentNode.id).value = draggedSkillId;
 }
 
 
-
-// set the skill's id from the dropped image
-function setSkillId(skillTypeId) {
-    var slotEle = document.getElementById(skillTypeId);
-    var droppedEle = slotEle.children[0];
-
-    // get skil; id
-    var skillId = droppedEle.getAttribute('data-skill-id');
-
-    // set id to input value
-    document.getElementById('hidden-' + skillTypeId).value = skillId;
-}
 
 
 

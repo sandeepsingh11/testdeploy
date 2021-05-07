@@ -10,9 +10,9 @@ class GameGpSelect extends Component
     public array $gearpieces;
     public array $skills;
     public array $gearpieceTypes = ['Head gearpieces', 'Clothes gearpieces', 'Shoes gearpieces'];
-    public string $gpName = 'Hed_CAP000';
-    public string $gpSkill = 'unknown';
-    public int $gpSkillId = 26;
+    public string $gpName = 'Hed_FST000';
+    public string $mainSkill = 'unknown';
+    public int $mainSkillId = 26;
 
     public function mount($gearpieces, $skills)
     {
@@ -31,11 +31,11 @@ class GameGpSelect extends Component
             foreach ($gearpieceType as $gearpiece) {
                 if ($gearpiece['ModelName'] == $modelName) {
                     $this->gpName = $gearpiece['ModelName'];
-                    $this->gpSkill = $gearpiece['Skill0'];
+                    $this->mainSkill = $gearpiece['Skill0'];
 
                     foreach ($this->skills as $skill) {
-                        if ($skill['skill'] === $this->gpSkill) {
-                            $this->gpSkillId = $skill['id'];
+                        if ($skill['skill'] === $this->mainSkill) {
+                            $this->mainSkillId = $skill['id'];
 
                             break;
                         }

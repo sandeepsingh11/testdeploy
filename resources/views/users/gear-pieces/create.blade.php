@@ -14,7 +14,7 @@
     @endforeach
 
     {{-- form --}}
-    <form action="/" method="post">
+    <form action="{{ route('gearpieces.create') }}" method="post">
         @csrf
 
         {{-- gear name --}}
@@ -26,14 +26,15 @@
         {{-- gear desc --}}
         <div>
             <label for="gear-piece-desc" class="block">Gear description:</label>
-            <input type="text" name="gear-piece-desc" id="gear-piece-desc">
+            <textarea name="gear-piece-desc" id="gear-piece-desc" cols="30" rows="3"></textarea>
         </div>
 
-        {{-- gearpiece --}}
+        {{-- gearpiece and skills selector --}}
         <div class="w-1/3 mx-auto bg-indigo-500">
-            @livewire('game-gp-select', ['gearpieces' => $gearpieces, 'skills' => $skillsData])
+            <x-gear-piece.gp-skills-builder :gearpieces="$gearpieces" :skills="$skillsData" />
         </div>
 
+        {{-- submit --}}
         <input type="submit" class="p-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 hover:cursor-pointer" value="Create">
     </form>
 @endsection

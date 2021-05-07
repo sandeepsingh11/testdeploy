@@ -7,6 +7,7 @@ use App\Http\Controllers\GearAbstractController;
 use App\Models\GearPiece;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class GearPieceController extends GearAbstractController
@@ -42,12 +43,20 @@ class GearPieceController extends GearAbstractController
     {
         // get according splatdata
         $headData = GearAbstractController::getSplatdata('Head');
+        $clothesData = GearAbstractController::getSplatdata('Clothes');
+        $shoesData = GearAbstractController::getSplatdata('Shoes');
         $skillsData = GearAbstractController::getSplatdata('Skills');
+
+        $gearpieces = [
+            $headData, 
+            $clothesData, 
+            $shoesData
+        ];
 
 
         return view('users.gear-pieces.create', [
             'user' => $user,
-            'headData' => $headData,
+            'gearpieces' =>$gearpieces,
             'skillsData' => $skillsData,
         ]);
     }

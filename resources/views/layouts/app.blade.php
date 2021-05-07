@@ -15,13 +15,13 @@
     <nav class="p-2 bg-purple-600 text-white flex justify-between mb-6">
         <ul class="flex items-center">
             <li>
-                Splat Build
+                <a href="{{ route('home') }}" class="p-3 pl-0">Splat Build</a>
             </li>
         </ul>
 
         <ul class="flex items-center">
             <li>
-                <a href="/" class="p-3">Home</a>
+                <a href="{{ route('home') }}" class="p-3">Home</a>
             </li>
 
             @auth

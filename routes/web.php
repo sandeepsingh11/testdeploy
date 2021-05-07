@@ -41,8 +41,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // gearpieces
 Route::get('/{user:username}/gearpieces', [GearPieceController::class, 'index'])->name('gearpieces');
-Route::get('/gearpieces/create', [GearPieceController::class, 'create'])->name('gearpieces.create');
-Route::post('/gearpieces/create', [GearPieceController::class, 'store'])->name('gearpieces.store');
+Route::get('/{user:username}/gearpieces/create', [GearPieceController::class, 'create'])->name('gearpieces.create');
+Route::post('/{user:username}/gearpieces/create', [GearPieceController::class, 'store'])->name('gearpieces.store');
 Route::get('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'show'])->name('gearpieces.show');
 Route::delete('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'destroy'])->name('gearpieces.delete');
 

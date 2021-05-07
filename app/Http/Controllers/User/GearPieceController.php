@@ -44,7 +44,7 @@ class GearPieceController extends GearAbstractController
         ]);
     }
 
-    public function create()
+    public function create(User $user)
     {
         // get according splatdata
         $headData = GearAbstractController::getSplatdata('Head');
@@ -61,12 +61,13 @@ class GearPieceController extends GearAbstractController
 
 
         return view('users.gear-pieces.create', [
+            'user' => $user,
             'gearpieces' => $gearpieces,
             'skillsData' => $skillsData,
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
         // validate input
         $this->validate($request, [

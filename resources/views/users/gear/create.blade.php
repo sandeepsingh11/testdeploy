@@ -28,7 +28,7 @@
 
 
     <div class="w-1/2 mx-auto">
-        <form action="{{ route('gears.create', $user) }}" method="post">
+        <form action="{{ route('gears.store', $user) }}" method="post">
             @csrf
     
             {{-- gear name --}}

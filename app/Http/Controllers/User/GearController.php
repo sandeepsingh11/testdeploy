@@ -106,7 +106,7 @@ class GearController extends Controller
 
 
         // create gear record
-        $newGear = $request->user->gears()->create([
+        $newGear = $request->user()->gears()->create([
             'gear_name' => $request->input('gear-name'),
             'gear_desc' => $request->input('gear-desc'),
             'gear_mode_rm' => $request->boolean('gear-mode-rm'),

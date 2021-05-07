@@ -14,7 +14,7 @@
     @endforeach
 
     {{-- form --}}
-    <form action="{{ route('gearpieces.create') }}" method="post">
+    <form action="{{ route('gearpieces.store', $user) }}" method="post">
         @csrf
 
         {{-- gear name --}}

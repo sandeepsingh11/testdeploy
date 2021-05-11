@@ -14,12 +14,12 @@
 
     @auth
         @can('delete', $gearpiece)
-        <div class="flex justify-evenly">
-                <form action="" method="post" class="w-full">
-                    @csrf
-                    @method('UPDATE')
-                    <button type="submit" class="bg-indigo-400 w-full py-2 rounded-bl-md">Edit</button>
-                </form>
+            <div class="flex justify-evenly">
+                <div class="w-full">
+                    <a href="{{ route('gearpieces.edit', [$user, $gearpiece]) }}" class="block">
+                        <div class="bg-indigo-400 w-full py-2 rounded-bl-md text-center">Edit</div>
+                    </a>
+                </div>
 
                 <form action="{{ route('gearpieces.delete', [$user, $gearpiece]) }}" method="post" class="w-full">
                     @csrf

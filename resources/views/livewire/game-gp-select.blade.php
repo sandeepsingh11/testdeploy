@@ -16,7 +16,7 @@
                 
                 @foreach ($gearpieceType as $gearpiece)
                     {{-- gearpiece --}}
-                    <option value="{{ $gearpiece['ModelName'] }}">{{ $gearpiece['ModelName'] }}</option>
+                    <option value="{{ $gearpiece['ModelName'] }}" @if($gearpiece['ModelName'] === $gpName) selected @endif>{{ $gearpiece['ModelName'] }}</option>
                 @endforeach
 
             </optgroup>

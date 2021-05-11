@@ -16,7 +16,7 @@ class GearPieceController extends GearAbstractController
     {
         // user must be a guest to view, otherwise redirect
         $this->middleware(['auth'])
-            ->only(['create', 'store', 'destroy']);
+            ->except(['index', 'show']);
     }
 
     public function index(User $user)
@@ -109,6 +109,88 @@ class GearPieceController extends GearAbstractController
         ]);
 
         return back();
+    }
+
+    public function edit(User $user, GearPiece $gearpiece)
+    {
+        // get according splatdata
+        $headData = GearAbstractController::getSplatdata('Head');
+        $clothesData = GearAbstractController::getSplatdata('Clothes');
+        $shoesData = GearAbstractController::getSplatdata('Shoes');
+        $skillsData = GearAbstractController::getSplatdata('Skills');
+
+        // combine gearpieces into 1 array
+        $gearpieces = [
+            $headData, 
+            $clothesData, 
+            $shoesData
+        ];
+
+
+        // get this gearpiece's skill names
+        $gearpieceSkills = $this->getGearPieceSkills($gearpiece);
+
+
+
+        return view('users.gear-pieces.edit', [
+            'user' => $user,
+            'gearpiece' => $gearpiece,
+            'gearpieces' => $gearpieces,
+            'gearpieceSkills' => $gearpieceSkills,
+            'skillsData' => $skillsData,
+        ]);
+    }
+
+    public function update(Request $request, User $user, GearPiece $gearpiece)
+    {
+        // validate vals
+        $this->validate($request, [
+            'gear-piece-name' => 'max:255',
+            'gear-piece-desc' => 'max:512',
+            'gear-piece-id' => 'required|max:64',
+            'gear-piece-main' => 'numeric|nullable',
+            'gear-piece-sub-1' => 'numeric|nullable',
+            'gear-piece-sub-2' => 'numeric|nullable',
+            'gear-piece-sub-3' => 'numeric|nullable',
+        ]);
+
+        // get gear type
+        $baseId = explode('_', $request->get('gear-piece-id'))[0];
+        $gearpieceType = '';
+        if ($baseId == 'Hed') {
+            // head gearpiece
+            $gearpieceType = 'h';
+        }
+        else if ($baseId == 'Clt') {
+            // clothing gearpiece
+            $gearpieceType = 'c';
+        }
+        else {
+            // shoes gearpiece
+            $gearpieceType = 's';
+        }
+
+
+
+        // update local gearpiece var
+        $gearpiece->gear_piece_name = $request->get('gear-piece-name');
+        $gearpiece->gear_piece_desc = $request->get('gear-piece-desc');
+        $gearpiece->gear_piece_id = $request->get('gear-piece-id');
+        $gearpiece->gear_piece_type = $gearpieceType;
+        $gearpiece->gear_piece_main = $request->get('gear-piece-main');
+        $gearpiece->gear_piece_sub_1 = $request->get('gear-piece-sub-1');
+        $gearpiece->gear_piece_sub_2 = $request->get('gear-piece-sub-2');
+        $gearpiece->gear_piece_sub_3 = $request->get('gear-piece-sub-3');
+        
+        
+        // update model in db if it has new values (is dirty)
+        if ($gearpiece->isDirty()) {
+            $gearpiece->save();
+        }
+
+
+        
+        return redirect(route('gearpieces', [$user]));
     }
 
     public function destroy(User $user, GearPiece $gearpiece)

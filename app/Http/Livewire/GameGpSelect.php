@@ -10,14 +10,17 @@ class GameGpSelect extends Component
     public array $gearpieces;
     public array $skills;
     public array $gearpieceTypes = ['Head gearpieces', 'Clothes gearpieces', 'Shoes gearpieces'];
-    public string $gpName = 'Hed_FST000';
-    public string $mainSkill = 'unknown';
-    public int $mainSkillId = 26;
+    public string $gpName;
+    public string $mainSkill;
+    public int $mainSkillId;
 
-    public function mount($gearpieces, $skills)
+    public function mount($gearpieces = [], $skills, $gpName = 'Hed_FST000', $mainSkill = 'unknown' , $mainSkillId = 26)
     {
         $this->gearpieces = $gearpieces;
         $this->skills = $skills;
+        $this->gpName = $gpName;
+        $this->mainSkill = $mainSkill;
+        $this->mainSkillId = $mainSkillId;
     }
 
     public function render()

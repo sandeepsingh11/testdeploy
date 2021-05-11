@@ -37,7 +37,7 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 // dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/{user:username}', [DashboardController::class, 'index'])->name('dashboard');
 
 // gearpieces
 Route::get('/{user:username}/gearpieces', [GearPieceController::class, 'index'])->name('gearpieces');

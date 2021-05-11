@@ -26,7 +26,7 @@
 
             @auth
                 <li>
-                    <a href="{{ route('dashboard') }}" class="p-3">Dashboard</a>
+                    <a href="{{ route('dashboard', Request::user()) }}" class="p-3">Dashboard</a>
                 </li>
                 
                 <li>

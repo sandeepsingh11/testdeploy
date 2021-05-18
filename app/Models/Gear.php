@@ -17,15 +17,16 @@ class Gear extends Model
     protected $fillable = [
         'gear_name',
         'gear_desc',
-        'gear_mode_rm',
-        'gear_mode_cb',
-        'gear_mode_sz',
-        'gear_mode_tc',
-        'gear_weapon_id',
+        'gear_id',
+        'gear_main',
+        'gear_sub_1',
+        'gear_sub_2',
+        'gear_sub_3',
+        'gear_type',
     ];
 
-    public function gearpieces()
+    public function gearsets()
     {
-        return $this->belongsToMany(GearPiece::class, 'gear_gearpiece');
+        return $this->belongsToMany(Gearset::class, 'gear_gearset');
     }
 }

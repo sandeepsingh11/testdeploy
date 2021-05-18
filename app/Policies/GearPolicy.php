@@ -11,7 +11,7 @@ class GearPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine if the current user can delete the specified gear.
+     * Determine if the current user can delete the specified gear piece.
      * 
      * @param \App\Models\User $user
      * @param \App\Models\Gear $gear

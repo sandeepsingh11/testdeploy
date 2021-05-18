@@ -67,14 +67,14 @@ abstract class GearAbstractController extends Controller
     }
 
     /**
-     * Get each skill from a gear piece (main, sub 1, sub 2, sub 3)
+     * Get each skill from a gear (main, sub 1, sub 2, sub 3)
      * 
-     * @param GearPiece $gearpiece
+     * @param Gear $gear
      * @return array 4 skill names
      */
-    public function getGearPieceSkills($gearpiece)
+    public function getGearSkills($gear)
     {
-        if ($gearpiece === null) {
+        if ($gear === null) {
             return null;
         }
 
@@ -84,10 +84,10 @@ abstract class GearAbstractController extends Controller
 
 
         // get each skill
-        $skillNames[] = $this->getSkillName($gearpiece, $skills, 'gear_piece_main');
-        $skillNames[] = $this->getSkillName($gearpiece, $skills, 'gear_piece_sub_1');
-        $skillNames[] = $this->getSkillName($gearpiece, $skills, 'gear_piece_sub_2');
-        $skillNames[] = $this->getSkillName($gearpiece, $skills, 'gear_piece_sub_3');
+        $skillNames[] = $this->getSkillName($gear, $skills, 'gear_main');
+        $skillNames[] = $this->getSkillName($gear, $skills, 'gear_sub_1');
+        $skillNames[] = $this->getSkillName($gear, $skills, 'gear_sub_2');
+        $skillNames[] = $this->getSkillName($gear, $skills, 'gear_sub_3');
         
 
 
@@ -95,19 +95,19 @@ abstract class GearAbstractController extends Controller
     }
 
     /**
-     * Get a skill name from a gear piece
+     * Get a skill name from a gear
      * 
-     * @param GearPiece $gearpiece
+     * @param Gear $gear
      * @param array $skills from the Splatdata skill file
      * @param string $col name of the column
      * 
      * @return string the skill name, or 'unknown' name
      */
-    private function getSkillName($gearpiece, $skills, $col)
+    private function getSkillName($gear, $skills, $col)
     {
-        if ($gearpiece->$col !== null) {
+        if ($gear->$col !== null) {
             foreach ($skills as $skill) {
-                if ($skill['id'] == $gearpiece->$col) {
+                if ($skill['id'] == $gear->$col) {
                     return $skill['skill'];
                 }
             }

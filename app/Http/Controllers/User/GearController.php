@@ -7,148 +7,138 @@ use App\Http\Controllers\GearAbstractController;
 use App\Models\Gear;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 
-class GearController extends Controller
+class GearController extends GearAbstractController
 {
     public function __construct()
     {
-        // user must be logged in to view, otherwise redirect
+        // user must be a guest to view, otherwise redirect
         $this->middleware(['auth'])
             ->except(['index', 'show']);
     }
 
     public function index(User $user)
     {
-        // get user's gears
-        $userGears = $user->gears;
+        // get user's gear pieces
+        $gears = $user->gears;
 
-        // get gears' gearpieces
-        $userGearpieces = [];
-        foreach ($userGears as $gear) {
-            $userGearpieces[$gear->id] = $gear->gearpieces;
-        }
-
-        // get splatdata
-        $splatdata = GearAbstractController::getSplatdata();
+        // $gears = $user->gears()->with(['user'])->paginate(20);
 
 
-        // get view
-        return view('users.gear.index', [
+        return view('users.gears.index', [
             'user' => $user,
-            'gears' => $userGears,
-            'gearpieces' => $userGearpieces,
-            'splatdata' => $splatdata,
+            'gears' => $gears,
         ]);
     }
 
     public function show(User $user, Gear $gear)
     {
-        // get gears' gearpieces
-        $gearpieces[$gear->id] = $gear->gearpieces;
+        // get specified gear passed from uri
+        $gear = $user->gears->where('id', $gear->id)->first();
         
-        // get splatdata
-        $weapons = GearAbstractController::getSplatdata('Weapons');
-
-
-        return view('users.gear.show', [
+        return view('users.gears.show', [
             'user' => $user,
-            'gear' => $gear,
-            'gearpieces' => $gearpieces,
-            'weapons' => $weapons,
+            'gear' => $gear
         ]);
     }
 
     public function create(User $user)
     {
-        // get user's gear pieces
-        $userGearPieces = $user->gearpieces;
+        // get according splatdata
+        $headData = GearAbstractController::getSplatdata('Head');
+        $clothesData = GearAbstractController::getSplatdata('Clothes');
+        $shoesData = GearAbstractController::getSplatdata('Shoes');
+        $skillsData = GearAbstractController::getSplatdata('Skills');
 
-        // get splatdata
-        $splatdata = GearAbstractController::getSplatdata();
+        // combine gears into 1 array
+        $gears = [
+            $headData, 
+            $clothesData, 
+            $shoesData
+        ];
 
 
-        return view('users.gear.create', [
+        return view('users.gears.create', [
             'user' => $user,
-            'gearpieces' => $userGearPieces,
-            'splatdata' => $splatdata,
+            'gears' => $gears,
+            'skillsData' => $skillsData,
         ]);
     }
 
     public function store(Request $request, User $user)
     {
-        // validate vals
+        // validate input
         $this->validate($request, [
-            'gear-name' => 'max:256|string|nullable',
-            'gear-desc' => 'max:512|string|nullable',
-            'gear-mode-rm' => 'boolean',
-            'gear-mode-cb' => 'boolean',
-            'gear-mode-sz' => 'boolean',
-            'gear-mode-tc' => 'boolean',
-            'gear-weapon-id' => 'numeric|nullable',
-            'gear-piece-h-id' => 'numeric|nullable',
-            'gear-piece-c-id' => 'numeric|nullable',
-            'gear-piece-s-id' => 'numeric|nullable',
+            'gear-name' => 'max:255',
+            'gear-desc' => 'max:512',
+            'gear-id' => 'required|max:64',
+            'gear-main' => 'numeric|nullable',
+            'gear-sub-1' => 'numeric|nullable',
+            'gear-sub-2' => 'numeric|nullable',
+            'gear-sub-3' => 'numeric|nullable',
         ]);
 
-        // if pre-existing gp was not selected, set to null
-        ($request->input('gear-head-id') == -1) 
-            ? $headId = NULL 
-            : $headId = $request->input('gear-head-id');
+        // get gear type
+        $baseId = explode('_', $request->get('gear-id'))[0];
+        $gearType = '';
+        if ($baseId == 'Hed') {
+            // head gear
+            $gearType = 'h';
+        }
+        else if ($baseId == 'Clt') {
+            // clothing gear
+            $gearType = 'c';
+        }
+        else {
+            // shoes gear
+            $gearType = 's';
+        }
 
-        ($request->input('gear-clothes-id') == -1) 
-            ? $clothesId = NULL 
-            : $clothesId = $request->input('gear-clothes-id');
-
-        ($request->input('gear-shoes-id') == -1) 
-            ? $shoesId = NULL 
-            : $shoesId = $request->input('gear-shoes-id');
-
-
-
-        // create gear record
-        $newGear = $request->user()->gears()->create([
-            'gear_name' => $request->input('gear-name'),
-            'gear_desc' => $request->input('gear-desc'),
-            'gear_mode_rm' => $request->boolean('gear-mode-rm'),
-            'gear_mode_cb' => $request->boolean('gear-mode-cb'),
-            'gear_mode_sz' => $request->boolean('gear-mode-sz'),
-            'gear_mode_tc' => $request->boolean('gear-mode-tc'),
-            'gear_weapon_id' => $request->input('gear-weapon-id'),
+        // create a gear piece THROUGH a user
+        $request->user()->gears()->create([
+            'gear_name' => $request->get('gear-name'),
+            'gear_desc' => $request->get('gear-desc'),
+            'gear_id' => $request->get('gear-id'),
+            'gear_type' => $gearType,
+            'gear_main' => $request->get('gear-main'),
+            'gear_sub_1' => $request->get('gear-sub-1'),
+            'gear_sub_2' => $request->get('gear-sub-2'),
+            'gear_sub_3' => $request->get('gear-sub-3'),
         ]);
 
-        // associate the head, clothing, and shoes gearpiece to the new gear in the pivot table
-        $newGear->gearpieces()->attach($headId);
-        $newGear->gearpieces()->attach($clothesId);
-        $newGear->gearpieces()->attach($shoesId);
-        
-
-        
-        return back();
+        return Redirect::route('gears', [$user]);
     }
 
     public function edit(User $user, Gear $gear)
     {
-        // get all of user's gearpieces
-        $userGearPieces = $user->gearpieces;
+        // get according splatdata
+        $headData = GearAbstractController::getSplatdata('Head');
+        $clothesData = GearAbstractController::getSplatdata('Clothes');
+        $shoesData = GearAbstractController::getSplatdata('Shoes');
+        $skillsData = GearAbstractController::getSplatdata('Skills');
 
-        // get current gear's gearpieces
-        $currentGearpieces = $gear->gearpieces;
-        
-        // create index to each type of gearpiece
-        foreach ($currentGearpieces as $gp) {
-            $currentGearpieces[$gp->gear_piece_type] = $gp;
-        }
-
-        // get splatdata
-        $splatdata = GearAbstractController::getSplatdata();
+        // combine gears into 1 array
+        $gears = [
+            $headData, 
+            $clothesData, 
+            $shoesData
+        ];
 
 
-        return view('users.gear.edit', [
+        // get this gear's skill names
+        $gearSkills = $this->getGearSkills($gear);
+
+
+
+        return view('users.gears.edit', [
             'user' => $user,
             'gear' => $gear,
-            'gearpieces' => $userGearPieces,
-            'currentGearpieces' => $currentGearpieces,
-            'splatdata' => $splatdata,
+            'gears' => $gears,
+            'gearSkills' => $gearSkills,
+            'skillsData' => $skillsData,
         ]);
     }
 
@@ -156,64 +146,52 @@ class GearController extends Controller
     {
         // validate vals
         $this->validate($request, [
-            'gear-name' => 'max:256|string|nullable',
-            'gear-desc' => 'max:512|string|nullable',
-            'gear-mode-rm' => 'boolean',
-            'gear-mode-cb' => 'boolean',
-            'gear-mode-sz' => 'boolean',
-            'gear-mode-tc' => 'boolean',
-            'gear-weapon-id' => 'numeric|nullable',
-            'gear-piece-h-id' => 'numeric|nullable',
-            'gear-piece-c-id' => 'numeric|nullable',
-            'gear-piece-s-id' => 'numeric|nullable',
+            'gear-name' => 'max:255',
+            'gear-desc' => 'max:512',
+            'gear-id' => 'required|max:64',
+            'gear-main' => 'numeric|nullable',
+            'gear-sub-1' => 'numeric|nullable',
+            'gear-sub-2' => 'numeric|nullable',
+            'gear-sub-3' => 'numeric|nullable',
         ]);
 
-        // if pre-existing gp was not selected, set to null
-        ($request->input('gear-head-id') == -1) 
-            ? $headId = NULL 
-            : $headId = $request->input('gear-head-id');
+        // get gear type
+        $baseId = explode('_', $request->get('gear-id'))[0];
+        $gearType = '';
+        if ($baseId == 'Hed') {
+            // head gear
+            $gearType = 'h';
+        }
+        else if ($baseId == 'Clt') {
+            // clothing gear
+            $gearType = 'c';
+        }
+        else {
+            // shoes gear
+            $gearType = 's';
+        }
 
-        ($request->input('gear-clothes-id') == -1) 
-            ? $clothesId = NULL 
-            : $clothesId = $request->input('gear-clothes-id');
-
-        ($request->input('gear-shoes-id') == -1) 
-            ? $shoesId = NULL 
-            : $shoesId = $request->input('gear-shoes-id');
 
 
-
-        // update gear record
-        $gear->gear_name = $request->input('gear-name');
-        $gear->gear_desc = $request->input('gear-desc');
-        $gear->gear_mode_rm = $request->boolean('gear-mode-rm');
-        $gear->gear_mode_cb = $request->boolean('gear-mode-cb');
-        $gear->gear_mode_sz = $request->boolean('gear-mode-sz');
-        $gear->gear_mode_tc = $request->boolean('gear-mode-tc');
-        $gear->gear_weapon_id = $request->input('gear-weapon-id');
-
-        // update if the model has new values
+        // update local gear var
+        $gear->gear_name = $request->get('gear-name');
+        $gear->gear_desc = $request->get('gear-desc');
+        $gear->gear_id = $request->get('gear-id');
+        $gear->gear_type = $gearType;
+        $gear->gear_main = $request->get('gear-main');
+        $gear->gear_sub_1 = $request->get('gear-sub-1');
+        $gear->gear_sub_2 = $request->get('gear-sub-2');
+        $gear->gear_sub_3 = $request->get('gear-sub-3');
+        
+        
+        // update model in db if it has new values (is dirty)
         if ($gear->isDirty()) {
             $gear->save();
         }
 
 
-
-        // get old gearpieces
-        $oldGps = $gear->gearpieces;
-
-        // create index to each type of gearpiece
-        foreach ($oldGps as $gp) {
-            $oldGps[$gp->gear_piece_type] = $gp;
-        }
-
-        // update pivot table
-        $gear->gearpieces()->updateExistingPivot($oldGps['h'], ['gear_piece_id' => $headId]);
-        $gear->gearpieces()->updateExistingPivot($oldGps['c'], ['gear_piece_id' => $clothesId]);
-        $gear->gearpieces()->updateExistingPivot($oldGps['s'], ['gear_piece_id' => $shoesId]);
-
         
-        return back();
+        return redirect(route('gears', [$user]));
     }
 
     public function destroy(User $user, Gear $gear)

@@ -14,11 +14,11 @@ class Base extends Component
     public $gear;
 
     /**
-     * The gearpieces array.
+     * An array of the 4 skill names.
      *
      * @var array
      */
-    public $gearpieces;
+    public $skills;
 
     /**
      * The user object.
@@ -28,27 +28,18 @@ class Base extends Component
     public $user;
 
     /**
-     * The weapons array.
-     *
-     * @var array
-     */
-    public $weapons;
-
-    /**
      * Create a new component instance.
      *
      * @param  Gear  $gear
-     * @param  array  $gearpieces
+     * @param  array  $skills
      * @param  User  $user
-     * @param  array  $weapons
      * @return void
      */
-    public function __construct($gear, $gearpieces, $user, $weapons)
+    public function __construct($gear, $skills, $user)
     {
         $this->gear = $gear;
-        $this->gearpieces = $gearpieces;
+        $this->skills = $skills;
         $this->user = $user;
-        $this->weapons = $weapons;
     }
 
     /**

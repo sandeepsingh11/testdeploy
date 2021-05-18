@@ -1,21 +1,21 @@
 <div class="w-full">
-    <label for="gear-{{ $gearpieceType }}-id" class="block text-center">{{ ucfirst($gearpieceType) }} gear piece</label>
+    <label for="gear-{{ $gearType }}-id" class="block text-center">{{ ucfirst($gearType) }} gear</label>
     <select 
-        wire:change="updateGearpiece($event.target.value)" 
-        name="gear-{{ $gearpieceType }}-id" 
-        id="gear-{{ $gearpieceType }}-id"
+        wire:change="updateGear($event.target.value)" 
+        name="gear-{{ $gearType }}-id" 
+        id="gear-{{ $gearType }}-id"
         class="w-full"
         >
-        <option value="-1">===== {{ $gearpieceType }} =====</option>
+        <option value="-1">===== {{ $gearType }} =====</option>
 
-        @foreach ($gearpieces as $gearpiece)
-            @if ($gearpiece->gear_piece_type == lcfirst($gearpieceType[0]))
-                <option value="{{ $gearpiece->id }}" @if($oldGearpiece == $gearpiece->id) selected  @endif>{{ $gearpiece->gear_piece_name }}</option>
+        @foreach ($gears as $gear)
+            @if ($gear->gear_type == lcfirst($gearType[0]))
+                <option value="{{ $gear->id }}" @if($oldGear == $gear->id) selected  @endif>{{ $gear->gear_name }}</option>
             @endif
         @endforeach
     </select>
 
-    <div id="gp-{{ $gearpieceType }}">
+    <div id="gear-{{ $gearType }}">
         <img class="mx-auto" src="{{ asset('storage/gear/' . $modelName . '.png') }}" alt="{{ $modelName }}">
         <div>
             <img class="mx-auto" src="{{ asset('storage/skills/' . $skillMain . '.png') }}" alt="{{ $skillMain }}">

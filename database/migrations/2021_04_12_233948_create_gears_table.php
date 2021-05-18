@@ -18,11 +18,12 @@ class CreateGearsTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('gear_name')->nullable();
             $table->text('gear_desc')->nullable();
-            $table->boolean('gear_mode_rm')->nullable();
-            $table->boolean('gear_mode_cb')->nullable();
-            $table->boolean('gear_mode_sz')->nullable();
-            $table->boolean('gear_mode_tc')->nullable();
-            $table->integer('gear_weapon_id')->nullable();
+            $table->text('gear_id');
+            $table->char('gear_type', 1);
+            $table->smallInteger('gear_main')->nullable();
+            $table->smallInteger('gear_sub_1')->nullable();
+            $table->smallInteger('gear_sub_2')->nullable();
+            $table->smallInteger('gear_sub_3')->nullable();
             $table->timestamps();
         });
     }

@@ -5,17 +5,17 @@
     
     <ul>
         <li>
-            <a href="{{ route('gearpieces.create', $user) }}">New Gearpiece</a>
-        </li>
-        <li>
-            <a href="{{ route('gearpieces', $user) }}">All Gearpieces</a>
-        </li>
-
-        <li>
             <a href="{{ route('gears.create', $user) }}">New Gear</a>
         </li>
         <li>
             <a href="{{ route('gears', $user) }}">All Gears</a>
+        </li>
+
+        <li>
+            <a href="{{ route('gearsets.create', $user) }}">New Gearset</a>
+        </li>
+        <li>
+            <a href="{{ route('gearsets', $user) }}">All Gearsets</a>
         </li>
     </ul>
 @endsection

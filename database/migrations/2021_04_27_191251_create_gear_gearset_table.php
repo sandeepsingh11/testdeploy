@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGearGearpieceTable extends Migration
+class CreateGearGearsetTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateGearGearpieceTable extends Migration
      */
     public function up()
     {
-        Schema::create('gear_gearpiece', function (Blueprint $table) {
+        Schema::create('gear_gearset', function (Blueprint $table) {
             $table->id();
             $table->foreignId('gear_id')->constrained()->onDelete('cascade');
-            $table->foreignId('gear_piece_id')->constrained()->onDelete('cascade');
+            $table->foreignId('gearset_id')->constrained()->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ class CreateGearGearpieceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gear_gearpiece');
+        Schema::dropIfExists('gear_gearset');
     }
 }

@@ -1,50 +1,25 @@
-<div class="bg-gray-700 rounded-md shadow-lg mb-6">
-    
-    {{-- gear's title --}}
-    <x-gear-piece.title :title="$gear->gear_name" />
+<div class="bg-gray-700 rounded-md shadow-lg w-1/4 h-full mx-2 mb-6">
+    <x-gear.title :title="$gear->gear_name" />
+    <x-gear.gear :modelName="$gear->gear_id" />
 
-    {{-- gear's modes --}}
-    <x-gear.mode :gear="$gear" />
-
-    {{-- body --}}
     <div class="flex justify-evenly">
-        
-        {{-- gear's weapon --}}
-        <x-gear.weapon :gear="$gear" :weapons="$weapons" />
-    
-        {{-- gear's gearpieces --}}
-        @foreach ($gearpieces[$gear->id] as $gearpiece)
-            <div>
-                {{-- gear --}}
-                <x-gear-piece.gear :modelName="$gearpiece->gear_piece_id" />
-    
-                {{-- get this gearpiece's skills --}}
-                @php
-                    $gpc = new App\Http\Controllers\User\GearPieceController;
-                    $skills = $gpc->getGearPieceSkills($gearpiece);
-                @endphp
-    
-                {{-- gearpiece's skills --}}
-                <x-gear-piece.skill :skill="$skills[0]" />
-                <div class="flex justify-evenly">
-                    <x-gear-piece.skill :skill="$skills[1]" />
-                    <x-gear-piece.skill :skill="$skills[2]" />
-                    <x-gear-piece.skill :skill="$skills[3]" />
-                </div>
-            </div>
-        @endforeach
+        <x-gear.skill :skill="$skills[0]" />
+        <x-gear.skill :skill="$skills[1]" />
+        <x-gear.skill :skill="$skills[2]" />
+        <x-gear.skill :skill="$skills[3]" />
     </div>
 
-    {{-- gear's description --}}
-    <x-gear-piece.desc :desc="$gear->gear_desc" />
+    <x-gear.desc :desc="$gear->gear_desc" />
 
-    {{-- delete gear --}}
+
     @auth
         @can('delete', $gear)
             <div class="flex justify-evenly">
-                <a href="{{ route('gears.edit', [$user, $gear]) }}" class="block w-full">
-                    <div class="bg-indigo-400 w-full py-2 rounded-bl-md text-center">Edit</div>
-                </a>
+                <div class="w-full">
+                    <a href="{{ route('gears.edit', [$user, $gear]) }}" class="block">
+                        <div class="bg-indigo-400 w-full py-2 rounded-bl-md text-center">Edit</div>
+                    </a>
+                </div>
 
                 <form action="{{ route('gears.delete', [$user, $gear]) }}" method="post" class="w-full">
                     @csrf
@@ -54,5 +29,4 @@
             </div>
         @endcan
     @endauth
-
 </div>

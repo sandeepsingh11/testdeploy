@@ -1,9 +1,9 @@
 <div class="w-full">
-    <label for="gear-weapon-id" class="block">Weapon</label>
+    <label for="gearset-weapon-id" class="block">Weapon</label>
     <select 
         wire:change="updateWeapon($event.target.value)" 
-        name="gear-weapon-id" 
-        id="gear-weapon"
+        name="gearset-weapon-id" 
+        id="gearset-weapon"
         class="w-full"
         >
         @foreach ($weapons as $weapon)

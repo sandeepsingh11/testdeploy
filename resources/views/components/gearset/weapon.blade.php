@@ -1,9 +1,9 @@
-@props(['gear', 'weapons'])
+@props(['gearset', 'weapons'])
 
 <div>
     {{-- weapon info --}}
     @foreach ($weapons as $weapon)
-        @if ($weapon['Id'] == $gear->gear_weapon_id)
+        @if ($weapon['Id'] == $gearset->gearset_weapon_id)
             {{-- weapon --}}
             <img src="{{ asset('storage/weapons/Wst_' . $weapon['Name'] . '.png') }}" alt="{{ $weapon['Name'] }}" class="mx-auto">
     

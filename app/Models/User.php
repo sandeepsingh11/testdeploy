@@ -42,13 +42,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function gearpieces()
-    {
-        return $this->hasMany(GearPiece::class);
-    }
-
     public function gears()
     {
         return $this->hasMany(Gear::class);
+    }
+
+    public function gearsets()
+    {
+        return $this->hasMany(Gearset::class);
     }
 }

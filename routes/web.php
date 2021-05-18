@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\GearController;
-use App\Http\Controllers\User\GearPieceController;
+use App\Http\Controllers\User\GearsetController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
@@ -39,15 +39,6 @@ Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 // dashboard
 Route::get('/{user:username}', [DashboardController::class, 'index'])->name('dashboard');
 
-// gearpieces
-Route::get('/{user:username}/gearpieces', [GearPieceController::class, 'index'])->name('gearpieces');
-Route::get('/{user:username}/gearpieces/create', [GearPieceController::class, 'create'])->name('gearpieces.create');
-Route::post('/{user:username}/gearpieces/create', [GearPieceController::class, 'store'])->name('gearpieces.store');
-Route::get('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'show'])->name('gearpieces.show');
-Route::get('/{user:username}/gearpieces/{gearpiece:id}/edit', [GearPieceController::class, 'edit'])->name('gearpieces.edit');
-Route::put('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'update'])->name('gearpieces.update');
-Route::delete('/{user:username}/gearpieces/{gearpiece:id}', [GearPieceController::class, 'destroy'])->name('gearpieces.delete');
-
 // gears
 Route::get('/{user:username}/gears', [GearController::class, 'index'])->name('gears');
 Route::get('/{user:username}/gears/create', [GearController::class, 'create'])->name('gears.create');
@@ -56,3 +47,12 @@ Route::get('/{user:username}/gears/{gear:id}', [GearController::class, 'show'])-
 Route::get('/{user:username}/gears/{gear:id}/edit', [GearController::class, 'edit'])->name('gears.edit');
 Route::put('/{user:username}/gears/{gear:id}', [GearController::class, 'update'])->name('gears.update');
 Route::delete('/{user:username}/gears/{gear:id}', [GearController::class, 'destroy'])->name('gears.delete');
+
+// gearsets
+Route::get('/{user:username}/gearsets', [GearsetController::class, 'index'])->name('gearsets');
+Route::get('/{user:username}/gearsets/create', [GearsetController::class, 'create'])->name('gearsets.create');
+Route::post('/{user:username}/gearsets/create', [GearsetController::class, 'store'])->name('gearsets.store');
+Route::get('/{user:username}/gearsets/{gearset:id}', [GearsetController::class, 'show'])->name('gearsets.show');
+Route::get('/{user:username}/gearsets/{gearset:id}/edit', [GearsetController::class, 'edit'])->name('gearsets.edit');
+Route::put('/{user:username}/gearsets/{gearset:id}', [GearsetController::class, 'update'])->name('gearsets.update');
+Route::delete('/{user:username}/gearsets/{gearset:id}', [GearsetController::class, 'destroy'])->name('gearsets.delete');

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Gearset;
 use App\Models\Gear;
-use App\Models\GearPiece;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
@@ -20,18 +20,18 @@ class DatabaseSeeder extends Seeder
         User::factory()
             ->count(10)
             ->has(
-                Gear::factory()
+                Gearset::factory()
                     ->count(5)
                     ->hasAttached(
-                        GearPiece::factory()
+                        Gear::factory()
                             ->count(3)
                             ->state(new Sequence(
-                                ['gear_piece_type' => 'h'],
-                                ['gear_piece_type' => 'c'],
-                                ['gear_piece_type' => 's'],
+                                ['gear_type' => 'h'],
+                                ['gear_type' => 'c'],
+                                ['gear_type' => 's'],
                             ))
-                            ->state(function (array $attributes, Gear $gear) {
-                                return ['user_id' => $gear->user_id];
+                            ->state(function (array $attributes, Gearset $gearset) {
+                                return ['user_id' => $gearset->user_id];
                             })
                     )
             )

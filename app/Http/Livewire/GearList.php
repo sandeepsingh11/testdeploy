@@ -5,13 +5,13 @@ namespace App\Http\Livewire;
 use App\Http\Controllers\GearAbstractController;
 use Livewire\Component;
 
-class GearpieceList extends Component
+class GearList extends Component
 {
 
     public array $headData;
     public array $clothesData;
     public array $shoesData;
-    public array $gpList = [];
+    public array $gearList = [];
 
     public function mount()
     {
@@ -19,24 +19,24 @@ class GearpieceList extends Component
         $this->clothesData = GearAbstractController::getSplatdata('Clothes');
         $this->shoesData = GearAbstractController::getSplatdata('Shoes');
 
-        $this->gpList = $this->headData;
+        $this->gearList = $this->headData;
     }
 
     public function render()
     {
-        return view('livewire.gearpiece-list');
+        return view('livewire.gear-list');
     }
 
-    public function updateGpList($gpType)
+    public function updateGearList($gearType)
     {
-        if ($gpType == 'h') {
-            $this->gpList = $this->headData;
+        if ($gearType == 'h') {
+            $this->gearList = $this->headData;
         }
-        else if ($gpType === 'c') {
-            $this->gpList = $this->clothesData;
+        else if ($gearType === 'c') {
+            $this->gearList = $this->clothesData;
         }
-        else if ($gpType === 's') {
-            $this->gpList = $this->shoesData;
+        else if ($gearType === 's') {
+            $this->gearList = $this->shoesData;
         }
     }
 }

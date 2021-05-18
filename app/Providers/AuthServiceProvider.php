@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Gear;
+use App\Models\Gearset;
 use App\Policies\GearPolicy;
+use App\Policies\GearsetPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -15,8 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        GearPiece::class => GearPiecePolicy::class,
         Gear::class => GearPolicy::class,
+        Gearset::class => GearsetPolicy::class,
     ];
 
     /**

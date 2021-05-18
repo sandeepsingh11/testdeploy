@@ -14,24 +14,24 @@
     @endforeach
 
     {{-- form --}}
-    <form action="{{ route('gearpieces.store', $user) }}" method="post">
+    <form action="{{ route('gears.store', $user) }}" method="post">
         @csrf
 
         {{-- gear name --}}
         <div>
-            <label for="gear-piece-name" class="block">Gear name:</label>
-            <input type="text" name="gear-piece-name" id="gear-piece-name">
+            <label for="gear-name" class="block">Gear name:</label>
+            <input type="text" name="gear-name" id="gear-name">
         </div>
 
         {{-- gear desc --}}
         <div>
-            <label for="gear-piece-desc" class="block">Gear description:</label>
-            <textarea name="gear-piece-desc" id="gear-piece-desc" cols="30" rows="3"></textarea>
+            <label for="gear-desc" class="block">Gear description:</label>
+            <textarea name="gear-desc" id="gear-desc" cols="30" rows="3"></textarea>
         </div>
 
-        {{-- gearpiece and skills selector --}}
+        {{-- gear and skills selector --}}
         <div class="w-1/3 mx-auto bg-indigo-500">
-            <x-gear-piece.gp-skills-builder :gearpieces="$gearpieces" :skills="$skillsData" />
+            <x-gear.gear-skills-builder :gears="$gears" :skills="$skillsData" />
         </div>
 
         {{-- submit --}}

@@ -1,24 +1,24 @@
 <?php
 
-namespace App\View\Components\GearPiece;
+namespace App\View\Components\Gearset;
 
 use Illuminate\View\Component;
 
 class Base extends Component
 {
     /**
-     * The gearpiece object.
+     * The gearset object.
      *
-     * @var GearPiece
+     * @var Gearset
      */
-    public $gearpiece;
+    public $gearset;
 
     /**
-     * An array of the 4 skill names.
+     * The gears array.
      *
      * @var array
      */
-    public $skills;
+    public $gears;
 
     /**
      * The user object.
@@ -28,18 +28,27 @@ class Base extends Component
     public $user;
 
     /**
+     * The weapons array.
+     *
+     * @var array
+     */
+    public $weapons;
+
+    /**
      * Create a new component instance.
      *
-     * @param  GearPiece  $gearpiece
-     * @param  array  $skills
+     * @param  Gearset  $gearset
+     * @param  array  $gears
      * @param  User  $user
+     * @param  array  $weapons
      * @return void
      */
-    public function __construct($gearpiece, $skills, $user)
+    public function __construct($gearset, $gears, $user, $weapons)
     {
-        $this->gearpiece = $gearpiece;
-        $this->skills = $skills;
+        $this->gearset = $gearset;
+        $this->gears = $gears;
         $this->user = $user;
+        $this->weapons = $weapons;
     }
 
     /**
@@ -49,6 +58,6 @@ class Base extends Component
      */
     public function render()
     {
-        return view('components.gear-piece.base');
+        return view('components.gearset.base');
     }
 }

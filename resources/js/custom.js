@@ -46,7 +46,7 @@ function dropHandler(e) {
     // skill types of 'Main' must be dropped in the 'Main' skill slot
     if (draggedSkillType === 'Main') {
         
-        if (e.target.parentNode.id !== 'gear-piece-main') {
+        if (e.target.parentNode.id !== 'gear-main') {
 
             // illegal drop
             return;

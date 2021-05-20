@@ -48,13 +48,13 @@
                 <livewire:weapon :weapons="$splatdata[4]" :oldWeapon="$gearset->gearset_weapon_id" />
         
                 {{-- gear (head) --}}
-                <livewire:gear :gears="$gears" gearType="head" :skills="$splatdata[3]" :oldGear="$currentGears['h']->id" />
+                <livewire:gear :gears="$gears" gearType="head" :skills="$splatdata[3]" :oldGears="$currentGears" />
         
                 {{-- gear (clothes) --}}
-                <livewire:gear :gears="$gears" gearType="clothes" :skills="$splatdata[3]" :oldGear="$currentGears['c']->id" />
+                <livewire:gear :gears="$gears" gearType="clothes" :skills="$splatdata[3]" :oldGears="$currentGears" />
                 
                 {{-- gear (shoes) --}}
-                <livewire:gear :gears="$gears" gearType="shoes" :skills="$splatdata[3]" :oldGear="$currentGears['s']->id" />
+                <livewire:gear :gears="$gears" gearType="shoes" :skills="$splatdata[3]" :oldGears="$currentGears" />
             </div>
 
 

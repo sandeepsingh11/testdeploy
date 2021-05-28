@@ -10,10 +10,11 @@ use PDO;
 class Gear extends Component
 {
 
+    public array $defaultGearIds = ['h' => 'Hed_FST000', 'c' => 'Clt_FST001', 's' => 'Shs_FST000'];
     public Collection $gears;
     public array $skills;
     public string $gearType;
-    public string $modelName = 'Hed_CAP000';
+    public string $modelName = '';
     public string $skillMain = 'unknown';
     public string $skillSub1 = 'unknown';
     public string $skillSub2 = 'unknown';
@@ -25,6 +26,7 @@ class Gear extends Component
         $this->gears = $gears;
         $this->gearType = $gearType;
         $this->skills = $skills;
+        $this->modelName = $this->defaultGearIds[$gearType[0]];
 
 
         // get old gear if passed

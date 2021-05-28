@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\GearAbstractController;
+use App\Models\Gear;
 use App\Models\Gearset;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -25,11 +26,61 @@ class GearsetController extends Controller
         // get user's gearsets
         $userGearsets = $user->gearsets;
 
+
+
+
+
         // get gearsets' gears
+        // - fill in missing (unselected) gears
+        // - display gears in proper gear-type order
         $userGears = [];
+        $gearTypes = ['h', 'c', 's'];
+        $defaultGearIds = ['h' => 'Hed_FST000', 'c' => 'Clt_FST001', 's' => 'Shs_FST000'];
+
+        // each gearset
         foreach ($userGearsets as $gearset) {
             $userGears[$gearset->id] = $gearset->gears;
+
+            // if 3 gears total are not set, fill in with default gear
+            if (sizeof($userGears[$gearset->id]) < 3) {
+                $gearTypesPresent = [];
+                $defaultGear = new Gear([
+                    'gear_name' => '',
+                    'gear_desc' => '',
+                    'gear_id' => '',
+                    'gear_type' => '',
+                    'gear_main' => 26,
+                    'gear_sub_1' => 26,
+                    'gear_sub_2' => 26,
+                    'gear_sub_3' => 26,
+                ]);
+
+                // get gearset's gear types
+                foreach ($userGears[$gearset->id] as $gear) {
+                    array_push($gearTypesPresent, $gear->gear_type);
+                }
+
+                // compare to see which gear type(s) are missing to fill default values
+                $missingGearTypes = array_diff($gearTypes, $gearTypesPresent);
+
+                // fill in each missing gear type
+                foreach ($missingGearTypes as $missingGearType) {
+                    $defaultGear->gear_type = $missingGearType;
+                    $defaultGear->gear_id = $defaultGearIds[$missingGearType];
+
+                    $userGears[$gearset->id][] = $defaultGear;
+                }
+            }
+
+            // order gears in head-clothing-shoes order
+            $orderedGears = collect([]);
+            $orderedGears->push($userGears[$gearset->id]->where('gear_type', "h")->first());
+            $orderedGears->push($userGears[$gearset->id]->where('gear_type', 'c')->first());
+            $orderedGears->push($userGears[$gearset->id]->where('gear_type', 's')->first());
+            
+            $userGears[$gearset->id] = $orderedGears;
         }
+        
 
 
         // get splatdata

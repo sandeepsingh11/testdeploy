@@ -1,10 +1,10 @@
 <div>
     {{-- gear list --}}
-    <label for="gear-id" class="block text-white text-center">Gear</label>
+    <label for="gear-id" class="block">Select gear:</label>
     <select 
         name="gear-id" 
         id="gear-id"
-        class="block w-full"
+        class="block w-full rounded focus:ring-primary-400 focus:border-primary-400"
         wire:change="updateGear($event.target.value)"
     >
 
@@ -32,8 +32,7 @@
         <img src="{{ asset('storage/gear/' . $gearName . '.png') }}" alt="{{ $gearName }}" class="mx-auto">
     </div>
 
-    
-    <div id="gear-main" class="drag-into border-solid border border-gray-900 rounded-full mx-auto mb-4" style="width: 64px; height: 64px" data-source="slot">
+    <div id="gear-main" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900 mx-auto mb-4" style="width: 64px; height: 64px; box-shadow: 0 0 0 1px #000" data-source="slot">
         <img 
             src="{{ asset('storage/skills/' . $mainSkill . '.png') }}" 
             alt="{{ $mainSkill }}"

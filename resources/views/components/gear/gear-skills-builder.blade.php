@@ -14,13 +14,13 @@
 <div> 
     {{-- gear skill slots --}}
     <div>
-        <div class="mx-auto">
+        <div>
             {{-- select game gear (and main skill) --}}
             @livewire('game-gear-select', ['gears' => $gears, 'skills' => $skills, 'gearName' => $gearName, 'mainSkill' => $gearSkills[0], 'mainSkillId' => $mainSkillId])
 
             {{-- sub skills --}}
             <div class="flex justify-evenly mb-4">
-                <div id="gear-sub-1" class="drag-into border-solid border border-gray-900 rounded-full" style="width: 32px; height: 32px" data-source="slot">
+                <div id="gear-sub-1" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
                     <img 
                         src="{{ asset('storage/skills/' . $gearSkills[1] . '.png') }}" 
                         alt="{{ $gearSkills[1] }}"
@@ -31,7 +31,7 @@
                         draggable="true"
                     >
                 </div>
-                <div id="gear-sub-2" class="drag-into border-solid border border-gray-900 rounded-full" style="width: 32px; height: 32px" data-source="slot">
+                <div id="gear-sub-2" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
                     <img 
                         src="{{ asset('storage/skills/' . $gearSkills[2] . '.png') }}" 
                         alt="{{ $gearSkills[2] }}"
@@ -42,7 +42,7 @@
                         draggable="true"
                     >
                 </div>
-                <div id="gear-sub-3" class="drag-into border-solid border border-gray-900 rounded-full" style="width: 32px; height: 32px" data-source="slot">
+                <div id="gear-sub-3" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
                     <img 
                         src="{{ asset('storage/skills/' . $gearSkills[3] . '.png') }}" 
                         alt="{{ $gearSkills[3] }}"
@@ -63,7 +63,7 @@
 
     {{-- skills bank --}}
     {{-- main skill exclusives --}}
-    <div class="flex flex-wrap mb-8">
+    <div class="grid grid-cols-6 mb-6">
         @for ($i = 0; $i < sizeof($skills); $i++)
             @if ($skills[$i]['allowed'] === 'Main')
                 <div data-source="bank">
@@ -80,9 +80,12 @@
             @endif
         @endfor
     </div>
+
+    <hr class="w-4/5 mx-auto border-primary-400 border-t-2">
+    
     {{-- all other skills --}}
-    <div class="flex flex-wrap">
-        @for ($i = 0; $i < sizeof($skills); $i++)
+    <div class="grid grid-cols-7 mt-6">
+        @for ($i = 0; $i < sizeof($skills) - 1; $i++) {{-- -1 to exclude skill #26, or 'unknown' --}}
             @if ($skills[$i]['allowed'] === 'All')
                 <div data-source="bank">
                     <img 

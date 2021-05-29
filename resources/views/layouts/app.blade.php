@@ -12,41 +12,7 @@
     @yield('styles')
 </head>
 <body class="bg-gray-200">
-    <nav class="p-2 bg-purple-600 text-white flex justify-between mb-6">
-        <ul class="flex items-center">
-            <li>
-                <a href="{{ route('home') }}" class="p-3 pl-0">Splat Build</a>
-            </li>
-        </ul>
-
-        <ul class="flex items-center">
-            <li>
-                <a href="{{ route('home') }}" class="p-3">Home</a>
-            </li>
-
-            @auth
-                <li>
-                    <a href="{{ route('dashboard', Request::user()) }}" class="p-3">Dashboard</a>
-                </li>
-                
-                <li>
-                    <form action="{{ route('logout') }}" method="post" class="inline">
-                        @csrf
-                        <button type="submit">Logout</button>
-                    </form>
-                </li>
-            @endauth
-
-            @guest
-                <li>
-                    <a href="{{ route('login') }}" class="p-3">Login</a>
-                </li>
-                <li>
-                    <a href="{{ route('register') }}" class="p-3">Register</a>
-                </li>
-            @endguest
-        </ul>
-    </nav>
+    <x-nav />
 
     @yield('content')
 

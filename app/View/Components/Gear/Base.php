@@ -28,18 +28,49 @@ class Base extends Component
     public $user;
 
     /**
+     * Boolean of whether a single gear is being displayed.
+     *
+     * @var bool
+     */
+    public $single;
+
+    /**
+     * Boolean of whether a the gear should be linked.
+     *
+     * @var bool
+     */
+    public $link;
+
+    /**
+     * Boolean of whether a the gear should have a hover effect.
+     *
+     * @var bool
+     */
+    public $hover;
+
+    /**
      * Create a new component instance.
      *
      * @param  Gear  $gear
      * @param  array  $skills
      * @param  User  $user
+     * @param  bool  $single
      * @return void
      */
-    public function __construct($gear, $skills, $user)
+    public function __construct($gear, $skills, $user, $single = false)
     {
         $this->gear = $gear;
         $this->skills = $skills;
         $this->user = $user;
+
+        if ($single) {
+            $this->link = false;
+            $this->hover = false;
+        }
+        else {
+            $this->link = true;
+            $this->hover = true;
+        }
     }
 
     /**

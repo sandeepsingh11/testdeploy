@@ -4,7 +4,7 @@
         wire:change="updateGear($event.target.value)" 
         name="gear-{{ $gearType }}-id" 
         id="gear-{{ $gearType }}-id"
-        class="w-full"
+        class="w-full rounded focus:ring-primary-400 focus:border-primary-400"
         >
         <option value="-1">===== {{ $gearType }} =====</option>
 

@@ -1,10 +1,10 @@
 <div class="w-full">
-    <label for="gearset-weapon-id" class="block">Weapon</label>
+    <label for="gearset-weapon-id" class="block text-center">Weapon</label>
     <select 
         wire:change="updateWeapon($event.target.value)" 
         name="gearset-weapon-id" 
         id="gearset-weapon"
-        class="w-full"
+        class="w-full rounded focus:ring-primary-400 focus:border-primary-400"
         >
         @foreach ($weapons as $weapon)
             <option value="{{ $weapon['Id'] }}" @if($oldWeapon == $weapon['Id']) selected  @endif>{{ $weapon['Name'] }}</option>

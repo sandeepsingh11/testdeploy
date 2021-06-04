@@ -40,20 +40,10 @@ class GearsetController extends Controller
         // each gearset
         foreach ($userGearsets as $gearset) {
             $userGears[$gearset->id] = $gearset->gears;
-
+            
             // if 3 gears total are not set, fill in with default gear
             if (sizeof($userGears[$gearset->id]) < 3) {
                 $gearTypesPresent = [];
-                $defaultGear = new Gear([
-                    'gear_name' => '',
-                    'gear_desc' => '',
-                    'gear_id' => '',
-                    'gear_type' => '',
-                    'gear_main' => 26,
-                    'gear_sub_1' => 26,
-                    'gear_sub_2' => 26,
-                    'gear_sub_3' => 26,
-                ]);
 
                 // get gearset's gear types
                 foreach ($userGears[$gearset->id] as $gear) {
@@ -65,6 +55,17 @@ class GearsetController extends Controller
 
                 // fill in each missing gear type
                 foreach ($missingGearTypes as $missingGearType) {
+                    $defaultGear = new Gear([
+                        'gear_name' => '',
+                        'gear_desc' => '',
+                        'gear_id' => '',
+                        'gear_type' => '',
+                        'gear_main' => 26,
+                        'gear_sub_1' => 26,
+                        'gear_sub_2' => 26,
+                        'gear_sub_3' => 26,
+                    ]);
+
                     $defaultGear->gear_type = $missingGearType;
                     $defaultGear->gear_id = $defaultGearIds[$missingGearType];
 

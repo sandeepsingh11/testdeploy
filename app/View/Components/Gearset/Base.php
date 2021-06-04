@@ -35,20 +35,51 @@ class Base extends Component
     public $weapons;
 
     /**
+     * Boolean of whether a single gear is being displayed.
+     *
+     * @var bool
+     */
+    public $single;
+
+    /**
+     * Boolean of whether a the gear should be linked.
+     *
+     * @var bool
+     */
+    public $link;
+
+    /**
+     * Boolean of whether a the gear should have a hover effect.
+     *
+     * @var bool
+     */
+    public $hover;
+
+    /**
      * Create a new component instance.
      *
      * @param  Gearset  $gearset
      * @param  array  $gears
      * @param  User  $user
      * @param  array  $weapons
+     * @param  bool  $single
      * @return void
      */
-    public function __construct($gearset, $gears, $user, $weapons)
+    public function __construct($gearset, $gears, $user, $weapons, $single = false)
     {
         $this->gearset = $gearset;
         $this->gears = $gears;
         $this->user = $user;
         $this->weapons = $weapons;
+
+        if ($single) {
+            $this->link = false;
+            $this->hover = false;
+        }
+        else {
+            $this->link = true;
+            $this->hover = true;
+        }
     }
 
     /**

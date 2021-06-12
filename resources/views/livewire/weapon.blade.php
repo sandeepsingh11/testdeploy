@@ -7,12 +7,12 @@
         class="w-full rounded focus:ring-primary-400 focus:border-primary-400"
         >
         @foreach ($weapons as $weapon)
-            <option value="{{ $weapon['Id'] }}" @if($oldWeapon == $weapon['Id']) selected  @endif>{{ $weapon['Name'] }}</option>
+            <option value="{{ $weapon['Id'] }}" @if($oldWeapon == $weapon['Id']) selected  @endif>{{ __($weapon['Name']) }}</option>
         @endforeach
     </select>
 
     <div id="weapon-container">
-        <img class="mx-auto" src="{{ asset('storage/weapons/Wst_' . $weaponName . '.png') }}" alt="{{ $weaponName }}">
+        <img class="mx-auto" src="{{ asset('storage/weapons/Wst_' . $weaponName . '.png') }}" alt="{{ __($weaponName) }}">
         <div class="flex justify-evenly">
             <img src="{{ asset('storage/subspe/Wsp_' . $specialName . '.png') }}" alt="{{ $specialName }}">
             <img src="{{ asset('storage/subspe/Wsb_' . $subName . '.png') }}" alt="{{ $subName }}">

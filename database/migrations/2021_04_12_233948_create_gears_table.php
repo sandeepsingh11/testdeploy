@@ -16,14 +16,13 @@ class CreateGearsTable extends Migration
         Schema::create('gears', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('gear_name')->nullable();
+            $table->text('gear_title')->nullable();
             $table->text('gear_desc')->nullable();
-            $table->text('gear_id');
-            $table->char('gear_type', 1);
-            $table->smallInteger('gear_main')->nullable();
-            $table->smallInteger('gear_sub_1')->nullable();
-            $table->smallInteger('gear_sub_2')->nullable();
-            $table->smallInteger('gear_sub_3')->nullable();
+            $table->foreignId('base_gear_id')->constrained('base_gears')->onDelete('cascade');
+            $table->foreignId('main_skill_id')->nullable()->constrained('skills')->onDelete('cascade');
+            $table->foreignId('sub_1_skill_id')->nullable()->constrained('skills')->onDelete('cascade');
+            $table->foreignId('sub_2_skill_id')->nullable()->constrained('skills')->onDelete('cascade');
+            $table->foreignId('sub_3_skill_id')->nullable()->constrained('skills')->onDelete('cascade');
             $table->timestamps();
         });
     }

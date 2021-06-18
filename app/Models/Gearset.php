@@ -15,7 +15,7 @@ class Gearset extends Model
      * @var array
      */
     protected $fillable = [
-        'gearset_name',
+        'gearset_title',
         'gearset_desc',
         'gearset_mode_rm',
         'gearset_mode_cb',

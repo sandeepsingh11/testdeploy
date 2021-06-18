@@ -16,13 +16,13 @@ class CreateGearsetsTable extends Migration
         Schema::create('gearsets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('gearset_name')->nullable();
+            $table->text('gearset_title')->nullable();
             $table->text('gearset_desc')->nullable();
             $table->boolean('gearset_mode_rm')->nullable();
             $table->boolean('gearset_mode_cb')->nullable();
             $table->boolean('gearset_mode_sz')->nullable();
             $table->boolean('gearset_mode_tc')->nullable();
-            $table->integer('gearset_weapon_id')->nullable();
+            $table->foreignId('weapon_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

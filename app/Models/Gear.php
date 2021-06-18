@@ -15,15 +15,14 @@ class Gear extends Model
      * @var array
      */
     protected $fillable = [
-        'gear_name',
+        'gear_title',
         'gear_desc',
-        'gear_id',
-        'gear_main',
-        'gear_sub_1',
-        'gear_sub_2',
-        'gear_sub_3',
-        'gear_type',
     ];
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
+    }
 
     public function gearsets()
     {

@@ -8,22 +8,18 @@
         wire:change="updateGear($event.target.value)"
     >
 
-        @php $i = 0; @endphp
-        @foreach ($gears as $gearType)
-            
+        
+        @for ($i = 0; $i < sizeof($gearTypes); $i++)
             {{-- head, clothing, or shoes group --}}
-            <optgroup label="{{ $gearTypes[$i] }}">
+            <optgroup label="{{ $gearTypesDisplay[$i] }}">
                 
-                @foreach ($gearType as $gear)
+                @foreach ($gears->where('base_gear_type', '=', $gearTypes[$i]) as $gear)
                     {{-- gear --}}
-                    <option value="{{ $gear['ModelName'] }}" @if($gear['ModelName'] === $gearName) selected @endif>{{ __($gear['ModelName']) }}</option>
+                    <option value="{{ $gear->id }}" @if($gear->base_gear_name === $gearName) selected @endif>{{ __($gear->base_gear_name) }}</option>
                 @endforeach
 
             </optgroup>
-            
-            @php $i++; @endphp
-
-        @endforeach
+        @endfor
     </select>
 
 
@@ -44,5 +40,5 @@
         >
     </div>
 
-    <input type="hidden" name="gear-main" id="hidden-gear-main" value="{{ $mainSkillId }}">
+    <input type="hidden" name="skill-main" id="hidden-skill-main" value="{{ $mainSkillId }}">
 </div>

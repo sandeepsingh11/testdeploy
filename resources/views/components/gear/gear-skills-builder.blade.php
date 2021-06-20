@@ -3,10 +3,10 @@
     'skills',
     'gearSkills' => ['unknown', 'unknown', 'unknown', 'unknown'],
     'gearName' => 'Hed_FST000',
-    'mainSkillId' => 26,
-    'subSkill1Id' => 26,
-    'subSkill2Id' => 26,
-    'subSkill3Id' => 26,
+    'mainSkillId' => 27,
+    'subSkill1Id' => 27,
+    'subSkill2Id' => 27,
+    'subSkill3Id' => 27,
 ])
 
 
@@ -16,7 +16,7 @@
     <div>
         <div>
             {{-- select game gear (and main skill) --}}
-            @livewire('game-gear-select', ['gears' => $gears, 'skills' => $skills, 'gearName' => $gearName, 'mainSkill' => $gearSkills[0], 'mainSkillId' => $mainSkillId])
+            @livewire('base-gear-select', ['gears' => $gears, 'skills' => $skills, 'gearName' => $gearName, 'mainSkill' => $gearSkills[0], 'mainSkillId' => $mainSkillId])
 
             {{-- sub skills --}}
             <div class="flex justify-evenly mb-4">
@@ -55,50 +55,48 @@
                 </div>
             </div>
 
-            <input type="hidden" name="gear-sub-1" id="hidden-gear-sub-1" value="{{ $subSkill1Id }}">
-            <input type="hidden" name="gear-sub-2" id="hidden-gear-sub-2" value="{{ $subSkill2Id }}">
-            <input type="hidden" name="gear-sub-3" id="hidden-gear-sub-3" value="{{ $subSkill3Id }}">
+            <input type="hidden" name="skill-sub-1" id="hidden-skill-sub-1" value="{{ $subSkill1Id }}">
+            <input type="hidden" name="skill-sub-2" id="hidden-skill-sub-2" value="{{ $subSkill2Id }}">
+            <input type="hidden" name="skill-sub-3" id="hidden-skill-sub-3" value="{{ $subSkill3Id }}">
         </div>
     </div>
 
     {{-- skills bank --}}
     {{-- main skill exclusives --}}
     <div class="grid grid-cols-6 mb-6">
-        @for ($i = 0; $i < sizeof($skills); $i++)
-            @if ($skills[$i]['allowed'] === 'Main')
-                <div data-source="bank">
-                    <img 
-                        src="{{ asset('storage/skills/' . $skills[$i]['skill'] . '.png') }}" 
-                        alt="{{ $skills[$i]['skill'] }}"
-                        class="draggable"
-                        data-skill-id="{{ $skills[$i]['id'] }}"
-                        data-skill-name="{{ $skills[$i]['skill'] }}"
-                        data-skill-type="{{ $skills[$i]['allowed'] }}"
-                        draggable="true"
-                    >
-                </div>
-            @endif
-        @endfor
+        @foreach ($skills->where('is_main', true) as $skill)
+            <div data-source="bank">
+                <img 
+                    src="{{ asset('storage/skills/' . $skill->skill_name . '.png') }}" 
+                    alt="{{ $skill->skill_name }}"
+                    class="draggable"
+                    data-skill-id="{{ $skill->id }}"
+                    data-skill-name="{{ $skill->skill_name }}"
+                    data-skill-type="Main"
+                    draggable="true"
+                >
+            </div>
+        @endforeach
     </div>
 
     <hr class="w-4/5 mx-auto border-primary-400 border-t-2">
     
     {{-- all other skills --}}
     <div class="grid grid-cols-7 mt-6">
-        @for ($i = 0; $i < sizeof($skills) - 1; $i++) {{-- -1 to exclude skill #26, or 'unknown' --}}
-            @if ($skills[$i]['allowed'] === 'All')
-                <div data-source="bank">
+        @foreach ($skills->where('is_main', false) as $skill)
+            <div data-source="bank">
+                @if ($skill->id != 27) {{-- exclude skill 27 ('unknown') --}}
                     <img 
-                        src="{{ asset('storage/skills/' . $skills[$i]['skill'] . '.png') }}" 
-                        alt="{{ $skills[$i]['skill'] }}"
+                        src="{{ asset('storage/skills/' . $skill->skill_name . '.png') }}" 
+                        alt="{{ $skill->skill_name }}"
                         class="draggable"
-                        data-skill-id="{{ $skills[$i]['id'] }}"
-                        data-skill-name="{{ $skills[$i]['skill'] }}"
-                        data-skill-type="{{ $skills[$i]['allowed'] }}"
+                        data-skill-id="{{ $skill->id }}"
+                        data-skill-name="{{ $skill->skill_name }}"
+                        data-skill-type="All"
                         draggable="true"
                     >
-                </div>
-            @endif
-        @endfor
+                @endif
+            </div>
+        @endforeach
     </div>
 </div>

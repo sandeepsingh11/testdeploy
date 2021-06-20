@@ -17,6 +17,11 @@ class Gear extends Model
     protected $fillable = [
         'gear_title',
         'gear_desc',
+        'base_gear_id',
+        'main_skill_id',
+        'sub_1_skill_id',
+        'sub_2_skill_id',
+        'sub_3_skill_id',
     ];
 
     public function skills()

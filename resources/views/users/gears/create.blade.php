@@ -23,8 +23,8 @@
 
         {{-- gear name --}}
         <div class="mb-4">
-            <label for="gear-name" class="block">Gear name:</label>
-            <input type="text" name="gear-name" id="gear-name" class="w-full rounded focus:ring-primary-400 focus:border-primary-400">
+            <label for="gear-title" class="block">Gear name:</label>
+            <input type="text" name="gear-title" id="gear-name" class="w-full rounded focus:ring-primary-400 focus:border-primary-400">
         </div>
 
         {{-- gear desc --}}
@@ -35,7 +35,7 @@
 
         {{-- gear and skills selector --}}
         <div class="mb-6">
-            <x-gear.gear-skills-builder :gears="$gears" :skills="$skillsData" />
+            <x-gear.gear-skills-builder :gears="$gears" :skills="$skills" />
         </div>
 
         {{-- submit --}}

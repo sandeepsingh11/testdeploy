@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\GearAbstractController;
+use App\Models\BaseGear;
 use App\Models\Gear;
+use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -22,7 +24,7 @@ class GearController extends GearAbstractController
 
     public function index(User $user)
     {
-        // get user's gear pieces
+        // get user's gear
         $gears = $user->gears;
 
         // $gears = $user->gears()->with(['user'])->paginate(20);
@@ -48,23 +50,15 @@ class GearController extends GearAbstractController
     public function create(User $user)
     {
         // get according splatdata
-        $headData = GearAbstractController::getSplatdata('Head');
-        $clothesData = GearAbstractController::getSplatdata('Clothes');
-        $shoesData = GearAbstractController::getSplatdata('Shoes');
-        $skillsData = GearAbstractController::getSplatdata('Skills');
+        $skills = new Skill();
+        $baseGears = new BaseGear();
 
-        // combine gears into 1 array
-        $gears = [
-            $headData, 
-            $clothesData, 
-            $shoesData
-        ];
 
 
         return view('users.gears.create', [
             'user' => $user,
-            'gears' => $gears,
-            'skillsData' => $skillsData,
+            'gears' => $baseGears->all(),
+            'skills' => $skills->all(),
         ]);
     }
 
@@ -72,41 +66,25 @@ class GearController extends GearAbstractController
     {
         // validate input
         $this->validate($request, [
-            'gear-name' => 'max:255',
+            'gear-title' => 'max:255',
             'gear-desc' => 'max:512',
-            'gear-id' => 'required|max:64',
-            'gear-main' => 'numeric|nullable',
-            'gear-sub-1' => 'numeric|nullable',
-            'gear-sub-2' => 'numeric|nullable',
-            'gear-sub-3' => 'numeric|nullable',
+            'gear-id' => 'numeric|required',
+            'skill-main' => 'numeric|nullable',
+            'skill-sub-1' => 'numeric|nullable',
+            'skill-sub-2' => 'numeric|nullable',
+            'skill-sub-3' => 'numeric|nullable',
         ]);
 
-        // get gear type
-        $baseId = explode('_', $request->get('gear-id'))[0];
-        $gearType = '';
-        if ($baseId == 'Hed') {
-            // head gear
-            $gearType = 'h';
-        }
-        else if ($baseId == 'Clt') {
-            // clothing gear
-            $gearType = 'c';
-        }
-        else {
-            // shoes gear
-            $gearType = 's';
-        }
 
         // create a gear piece THROUGH a user
         $request->user()->gears()->create([
-            'gear_name' => $request->get('gear-name'),
+            'gear_title' => $request->get('gear-title'),
             'gear_desc' => $request->get('gear-desc'),
-            'gear_id' => $request->get('gear-id'),
-            'gear_type' => $gearType,
-            'gear_main' => $request->get('gear-main'),
-            'gear_sub_1' => $request->get('gear-sub-1'),
-            'gear_sub_2' => $request->get('gear-sub-2'),
-            'gear_sub_3' => $request->get('gear-sub-3'),
+            'base_gear_id' => $request->get('gear-id'),
+            'main_skill_id' => $request->get('skill-main'),
+            'sub_1_skill_id' => $request->get('skill-sub-1'),
+            'sub_2_skill_id' => $request->get('skill-sub-2'),
+            'sub_3_skill_id' => $request->get('skill-sub-3'),
         ]);
 
         return Redirect::route('gears', [$user]);

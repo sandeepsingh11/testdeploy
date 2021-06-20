@@ -22,6 +22,7 @@ class CreateGearsetsTable extends Migration
             $table->boolean('gearset_mode_cb')->nullable();
             $table->boolean('gearset_mode_sz')->nullable();
             $table->boolean('gearset_mode_tc')->nullable();
+            $table->foreignId('weapon_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

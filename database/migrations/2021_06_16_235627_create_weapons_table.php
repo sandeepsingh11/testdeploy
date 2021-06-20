@@ -16,6 +16,7 @@ class CreateWeaponsTable extends Migration
         Schema::create('weapons', function (Blueprint $table) {
             $table->id();
             $table->text('weapon_name');
+            $table->text('weapon_class');
             $table->foreignId('special_id')->constrained()->onDelete('cascade');
             $table->foreignId('sub_id')->constrained()->onDelete('cascade');
             $table->timestamps();

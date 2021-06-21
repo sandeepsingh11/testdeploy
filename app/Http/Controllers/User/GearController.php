@@ -43,10 +43,19 @@ class GearController extends GearAbstractController
     {
         // get specified gear passed from uri
         $gear = $user->gears->where('id', $gear->id)->first();
+
+        // get base gear
+        $baseGear = new BaseGear();
+        $baseGear = $baseGear->where('id', $gear->base_gear_id)->first();
+
+        // get skills
+        $skills = new Skill();
         
         return view('users.gears.show', [
             'user' => $user,
-            'gear' => $gear
+            'gear' => $gear,
+            'baseGear' => $baseGear,
+            'skills' => $skills->all()
         ]);
     }
 

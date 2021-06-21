@@ -20,7 +20,7 @@
 
             {{-- sub skills --}}
             <div class="flex justify-evenly mb-4">
-                <div id="gear-sub-1" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
+                <div id="skill-sub-1" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
                     <img 
                         src="{{ asset('storage/skills/' . $gearSkills[1] . '.png') }}" 
                         alt="{{ $gearSkills[1] }}"
@@ -31,7 +31,7 @@
                         draggable="true"
                     >
                 </div>
-                <div id="gear-sub-2" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
+                <div id="skill-sub-2" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
                     <img 
                         src="{{ asset('storage/skills/' . $gearSkills[2] . '.png') }}" 
                         alt="{{ $gearSkills[2] }}"
@@ -42,7 +42,7 @@
                         draggable="true"
                     >
                 </div>
-                <div id="gear-sub-3" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
+                <div id="skill-sub-3" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
                     <img 
                         src="{{ asset('storage/skills/' . $gearSkills[3] . '.png') }}" 
                         alt="{{ $gearSkills[3] }}"

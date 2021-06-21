@@ -8,15 +8,12 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start w-full lg:w-10/12 xl:w-11/12 mx-auto mb-8 px-4 md:px-8">
             @foreach ($gears as $gear)
     
-                {{-- get this gear's skills --}}
-                @php
-                    $gearController = new App\Http\Controllers\User\GearController;
-                    $skills = $gearController->getGearSkills($gear);
-                @endphp
+                {{-- get base gear --}}
+                @php $baseGear = $baseGears->where('id', $gear->base_gear_id)->first(); @endphp
     
     
                 {{-- gear component --}}
-                <x-gear.base :gear="$gear" :skills="$skills" :user="$user" />
+                <x-gear.base :gear="$gear" :skills="$skills" :baseGear="$baseGear" :user="$user" />
                 
             @endforeach
         </div>

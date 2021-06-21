@@ -1,13 +1,13 @@
 <div class="bg-gray-700 rounded-md shadow-lg @if ($hover) transform hover:-translate-y-2 transition-transform @endif">
     @if ($link) <a href="{{ route('gears.show', [$user, $gear]) }}"> @endif
-        <x-gear.title :title="$gear->gear_name" />
-        <x-gear.gear :modelName="$gear->gear_id" />
+        <x-gear.title :title="$gear->gear_title" />
+        <x-gear.gear :gearName="$baseGear->base_gear_name" />
     
         <div class="grid grid-cols-4 items-end">
-            <x-gear.skill :skill="$skills[0]" :imgSize=64 />
-            <x-gear.skill :skill="$skills[1]" />
-            <x-gear.skill :skill="$skills[2]" />
-            <x-gear.skill :skill="$skills[3]" />
+            <x-gear.skill :skillName="$skills[0]->skill_name" :imgSize=64 />
+            <x-gear.skill :skillName="$skills[1]->skill_name" />
+            <x-gear.skill :skillName="$skills[2]->skill_name" />
+            <x-gear.skill :skillName="$skills[3]->skill_name" />
         </div>
     
         <x-gear.desc :desc="$gear->gear_desc" />

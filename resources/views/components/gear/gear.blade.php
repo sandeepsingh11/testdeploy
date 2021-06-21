@@ -1,5 +1,5 @@
-@props(['modelName' => null])
+@props(['gearName' => null])
 
 <div class="p-4">
-    <img src="{{ asset('storage/gear/' . $modelName . '.png') }}" alt="{{ $modelName }}" class="mx-auto">
+    <img src="{{ asset('storage/gear/' . $gearName . '.png') }}" alt="{{ __($gearName) }}" class="mx-auto">
 </div>

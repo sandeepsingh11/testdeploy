@@ -26,13 +26,16 @@ class GearController extends GearAbstractController
     {
         // get user's gear
         $gears = $user->gears;
+        $baseGears = new BaseGear();
+        $skills = new Skill();
 
         // $gears = $user->gears()->with(['user'])->paginate(20);
-
 
         return view('users.gears.index', [
             'user' => $user,
             'gears' => $gears,
+            'baseGears' => $baseGears->all(),
+            'skills' => $skills->all()
         ]);
     }
 
@@ -76,15 +79,22 @@ class GearController extends GearAbstractController
         ]);
 
 
+        // prepare sub id's (if null, set skill id to 27 ('unknown'))
+        $mainSkillId = ($request->get('skill-main') === null) ? 27 : $request->get('skill-main');
+        $subSkill1Id = ($request->get('skill-sub-1') === null) ? 27 : $request->get('skill-sub-1');
+        $subSkill2Id = ($request->get('skill-sub-2') === null) ? 27 : $request->get('skill-sub-2');
+        $subSkill3Id = ($request->get('skill-sub-3') === null) ? 27 : $request->get('skill-sub-3');
+
+
         // create a gear piece THROUGH a user
         $request->user()->gears()->create([
             'gear_title' => $request->get('gear-title'),
             'gear_desc' => $request->get('gear-desc'),
             'base_gear_id' => $request->get('gear-id'),
-            'main_skill_id' => $request->get('skill-main'),
-            'sub_1_skill_id' => $request->get('skill-sub-1'),
-            'sub_2_skill_id' => $request->get('skill-sub-2'),
-            'sub_3_skill_id' => $request->get('skill-sub-3'),
+            'main_skill_id' => $mainSkillId,
+            'sub_1_skill_id' => $subSkill1Id,
+            'sub_2_skill_id' => $subSkill2Id,
+            'sub_3_skill_id' => $subSkill3Id,
         ]);
 
         return Redirect::route('gears', [$user]);

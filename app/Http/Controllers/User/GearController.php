@@ -112,30 +112,29 @@ class GearController extends GearAbstractController
     public function edit(User $user, Gear $gear)
     {
         // get according splatdata
-        $headData = GearAbstractController::getSplatdata('Head');
-        $clothesData = GearAbstractController::getSplatdata('Clothes');
-        $shoesData = GearAbstractController::getSplatdata('Shoes');
-        $skillsData = GearAbstractController::getSplatdata('Skills');
+        $baseGears = new BaseGear();
+        $skills = new Skill();
 
-        // combine gears into 1 array
-        $gears = [
-            $headData, 
-            $clothesData, 
-            $shoesData
-        ];
+        // get base gear name
+        $baseGearName = $baseGears->where('id', $gear->base_gear_id)->first()->base_gear_name;
 
 
-        // get this gear's skill names
-        $gearSkills = $this->getGearSkills($gear);
+        // get this gear's skills
+        $gearSkillNames = [];
+        $gearSkillNames[] = $skills->where('id', $gear->main_skill_id)->first()->skill_name;
+        $gearSkillNames[] = $skills->where('id', $gear->sub_1_skill_id)->first()->skill_name;
+        $gearSkillNames[] = $skills->where('id', $gear->sub_2_skill_id)->first()->skill_name;
+        $gearSkillNames[] = $skills->where('id', $gear->sub_3_skill_id)->first()->skill_name;
 
 
 
         return view('users.gears.edit', [
             'user' => $user,
             'gear' => $gear,
-            'gears' => $gears,
-            'gearSkills' => $gearSkills,
-            'skillsData' => $skillsData,
+            'baseGears' => $baseGears->all(),
+            'baseGearName' => $baseGearName,
+            'gearSkillNames' => $gearSkillNames,
+            'skillsData' => $skills->all(),
         ]);
     }
 
@@ -143,42 +142,31 @@ class GearController extends GearAbstractController
     {
         // validate vals
         $this->validate($request, [
-            'gear-name' => 'max:255',
+            'gear-title' => 'max:255',
             'gear-desc' => 'max:512',
-            'gear-id' => 'required|max:64',
-            'gear-main' => 'numeric|nullable',
-            'gear-sub-1' => 'numeric|nullable',
-            'gear-sub-2' => 'numeric|nullable',
-            'gear-sub-3' => 'numeric|nullable',
+            'gear-id' => 'numeric|required',
+            'skill-main' => 'numeric|nullable',
+            'skill-sub-1' => 'numeric|nullable',
+            'skill-sub-2' => 'numeric|nullable',
+            'skill-sub-3' => 'numeric|nullable',
         ]);
 
-        // get gear type
-        $baseId = explode('_', $request->get('gear-id'))[0];
-        $gearType = '';
-        if ($baseId == 'Hed') {
-            // head gear
-            $gearType = 'h';
-        }
-        else if ($baseId == 'Clt') {
-            // clothing gear
-            $gearType = 'c';
-        }
-        else {
-            // shoes gear
-            $gearType = 's';
-        }
 
+        // prepare sub id's (if null, set skill id to 27 ('unknown'))
+        $mainSkillId = ($request->get('skill-main') === null) ? 27 : $request->get('skill-main');
+        $subSkill1Id = ($request->get('skill-sub-1') === null) ? 27 : $request->get('skill-sub-1');
+        $subSkill2Id = ($request->get('skill-sub-2') === null) ? 27 : $request->get('skill-sub-2');
+        $subSkill3Id = ($request->get('skill-sub-3') === null) ? 27 : $request->get('skill-sub-3');
 
 
         // update local gear var
-        $gear->gear_name = $request->get('gear-name');
+        $gear->gear_title = $request->get('gear-title');
         $gear->gear_desc = $request->get('gear-desc');
-        $gear->gear_id = $request->get('gear-id');
-        $gear->gear_type = $gearType;
-        $gear->gear_main = $request->get('gear-main');
-        $gear->gear_sub_1 = $request->get('gear-sub-1');
-        $gear->gear_sub_2 = $request->get('gear-sub-2');
-        $gear->gear_sub_3 = $request->get('gear-sub-3');
+        $gear->base_gear_id = $request->get('gear-id');
+        $gear->main_skill_id = $mainSkillId;
+        $gear->sub_1_skill_id = $subSkill1Id;
+        $gear->sub_2_skill_id = $subSkill2Id;
+        $gear->sub_3_skill_id = $subSkill3Id;
         
         
         // update model in db if it has new values (is dirty)

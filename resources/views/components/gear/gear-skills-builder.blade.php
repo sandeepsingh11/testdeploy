@@ -1,7 +1,7 @@
 @props([
     'gears', 
     'skills',
-    'gearSkills' => ['unknown', 'unknown', 'unknown', 'unknown'],
+    'gearSkillNames' => ['unknown', 'unknown', 'unknown', 'unknown'],
     'gearName' => 'Hed_FST000',
     'mainSkillId' => 27,
     'subSkill1Id' => 27,
@@ -16,39 +16,39 @@
     <div>
         <div>
             {{-- select game gear (and main skill) --}}
-            @livewire('base-gear-select', ['gears' => $gears, 'skills' => $skills, 'gearName' => $gearName, 'mainSkill' => $gearSkills[0], 'mainSkillId' => $mainSkillId])
+            @livewire('base-gear-select', ['gears' => $gears, 'skills' => $skills, 'gearName' => $gearName, 'mainSkill' => $gearSkillNames[0], 'mainSkillId' => $mainSkillId])
 
             {{-- sub skills --}}
             <div class="flex justify-evenly mb-4">
                 <div id="skill-sub-1" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
                     <img 
-                        src="{{ asset('storage/skills/' . $gearSkills[1] . '.png') }}" 
-                        alt="{{ $gearSkills[1] }}"
+                        src="{{ asset('storage/skills/' . $gearSkillNames[1] . '.png') }}" 
+                        alt="{{ $gearSkillNames[1] }}"
                         class="draggable"
                         data-skill-id="{{ $subSkill1Id }}"
-                        data-skill-name="{{ $gearSkills[1] }}"
+                        data-skill-name="{{ $gearSkillNames[1] }}"
                         data-skill-type="All"
                         draggable="true"
                     >
                 </div>
                 <div id="skill-sub-2" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
                     <img 
-                        src="{{ asset('storage/skills/' . $gearSkills[2] . '.png') }}" 
-                        alt="{{ $gearSkills[2] }}"
+                        src="{{ asset('storage/skills/' . $gearSkillNames[2] . '.png') }}" 
+                        alt="{{ $gearSkillNames[2] }}"
                         class="draggable"
                         data-skill-id="{{ $subSkill2Id }}"
-                        data-skill-name="{{ $gearSkills[2] }}"
+                        data-skill-name="{{ $gearSkillNames[2] }}"
                         data-skill-type="All"
                         draggable="true"
                     >
                 </div>
                 <div id="skill-sub-3" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900" style="width: 50px; height: 50px; box-shadow: 0 0 0 1px #000" data-source="slot">
                     <img 
-                        src="{{ asset('storage/skills/' . $gearSkills[3] . '.png') }}" 
-                        alt="{{ $gearSkills[3] }}"
+                        src="{{ asset('storage/skills/' . $gearSkillNames[3] . '.png') }}" 
+                        alt="{{ $gearSkillNames[3] }}"
                         class="draggable"
                         data-skill-id="{{ $subSkill3Id }}"
-                        data-skill-name="{{ $gearSkills[3] }}"
+                        data-skill-name="{{ $gearSkillNames[3] }}"
                         data-skill-type="All"
                         draggable="true"
                     >

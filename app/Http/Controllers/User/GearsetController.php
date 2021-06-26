@@ -113,8 +113,8 @@ class GearsetController extends Controller
         // get gearset's gears
         $gears[$gearset->id] = $gearset->gears;
         
-        // get splatdata
-        $weapons = GearAbstractController::getSplatdata('Weapons');
+        // get weapons
+        $weapons = new Weapon();
 
 
         return view('users.gearsets.show', [

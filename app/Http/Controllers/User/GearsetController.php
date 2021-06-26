@@ -204,11 +204,14 @@ class GearsetController extends Controller
         
         // create index to each type of gear
         foreach ($currentGears as $gear) {
-            $currentGears[$gear->gear_type] = $gear;
+            $currentGears[$gear->baseGear->base_gear_type] = $gear;
         }
 
         // get splatdata
-        $splatdata = GearAbstractController::getSplatdata();
+        $weapons = new Weapon();
+        $specials = new Special();
+        $subs = new Sub();
+        $skills = new Skill();
 
 
         return view('users.gearsets.edit', [
@@ -216,7 +219,10 @@ class GearsetController extends Controller
             'gearset' => $gearset,
             'gears' => $userGears,
             'currentGears' => $currentGears,
-            'splatdata' => $splatdata,
+            'weapons' => $weapons->all(),
+            'specials' => $specials->all(),
+            'subs' => $subs->all(),
+            'skills' => $skills->all(),
         ]);
     }
 
@@ -224,41 +230,34 @@ class GearsetController extends Controller
     {
         // validate vals
         $this->validate($request, [
-            'gearset-name' => 'max:256|string|nullable',
+            'gearset-title' => 'max:256|string|nullable',
             'gearset-desc' => 'max:512|string|nullable',
             'gearset-mode-rm' => 'boolean',
             'gearset-mode-cb' => 'boolean',
             'gearset-mode-sz' => 'boolean',
             'gearset-mode-tc' => 'boolean',
-            'gearset-weapon-id' => 'numeric|nullable',
+            'gearset-weapon-id' => 'numeric',
             'gear-head-id' => 'numeric|nullable',
             'gear-clothes-id' => 'numeric|nullable',
             'gear-shoes-id' => 'numeric|nullable',
         ]);
+        
 
-        // if pre-existing gear was not selected, set to null
-        ($request->input('gear-head-id') == -1) 
-            ? $headId = NULL 
-            : $headId = $request->input('gear-head-id');
-
-        ($request->input('gear-clothes-id') == -1) 
-            ? $clothesId = NULL 
-            : $clothesId = $request->input('gear-clothes-id');
-
-        ($request->input('gear-shoes-id') == -1) 
-            ? $shoesId = NULL 
-            : $shoesId = $request->input('gear-shoes-id');
+        // prepare selected gears (if pre-existing gear was not selected, set to default gear)
+        $headId = ($request->get('gear-head-id') == -1) ? null : $request->get('gear-head-id');
+        $clothesId = ($request->get('gear-clothes-id') == -1) ? null : $request->get('gear-clothes-id');
+        $shoesId = ($request->get('gear-shoes-id') == -1) ? null : $request->get('gear-shoes-id');
 
 
 
         // update gearset record
-        $gearset->gearset_name = $request->input('gearset-name');
+        $gearset->gearset_title = $request->input('gearset-title');
         $gearset->gearset_desc = $request->input('gearset-desc');
         $gearset->gearset_mode_rm = $request->boolean('gearset-mode-rm');
         $gearset->gearset_mode_cb = $request->boolean('gearset-mode-cb');
         $gearset->gearset_mode_sz = $request->boolean('gearset-mode-sz');
         $gearset->gearset_mode_tc = $request->boolean('gearset-mode-tc');
-        $gearset->gearset_weapon_id = $request->input('gearset-weapon-id');
+        $gearset->weapon_id = $request->input('gearset-weapon-id');
 
         // update if the model has new values
         if ($gearset->isDirty()) {

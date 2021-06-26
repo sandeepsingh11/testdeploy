@@ -10,7 +10,7 @@
 
         @foreach ($gears as $gear)
             @if ( $gear->baseGear->base_gear_type == Str::upper(lcfirst($gearType[0])) )
-                <option value="{{ $gear->id }}" @if($oldGear == $gear->id) selected  @endif>{{ $gear->gear_title }}</option>
+                <option value="{{ $gear->id }}" @if($oldGearId == $gear->id) selected @endif>{{ $gear->gear_title }}</option>
             @endif
         @endforeach
     </select>

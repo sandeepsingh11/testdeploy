@@ -18,10 +18,10 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 mb-4">
-            {{-- gearset name --}}
+            {{-- gearset title --}}
             <div class="mb-4">
-                <label for="gearset-name" class="block">Gearset name:</label>
-                <input type="text" name="gearset-name" id="gearset-name" value="{{ $gearset->gearset_name }}" class="w-full rounded focus:ring-primary-400 focus:border-primary-400">
+                <label for="gearset-title" class="block">Gearset title:</label>
+                <input type="text" name="gearset-title" id="gearset-title" value="{{ $gearset->gearset_title }}" class="w-full rounded focus:ring-primary-400 focus:border-primary-400">
             </div>
 
             {{-- gearset desc --}}
@@ -58,16 +58,16 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
             {{-- weapons --}}
-            <livewire:weapon :weapons="$splatdata[4]" :oldWeapon="$gearset->gearset_weapon_id" />
+            <livewire:weapon :weapons="$weapons" :oldWeapon="$gearset->weapon_id" :specials="$specials" :subs="$subs" />
     
             {{-- gear (head) --}}
-            <livewire:gear :gears="$gears" gearType="head" :skills="$splatdata[3]" :oldGears="$currentGears" />
+            <livewire:gear :gears="$gears" gearType="head" :skills="$skills" :oldGears="$currentGears" />
     
             {{-- gear (clothes) --}}
-            <livewire:gear :gears="$gears" gearType="clothes" :skills="$splatdata[3]" :oldGears="$currentGears" />
+            <livewire:gear :gears="$gears" gearType="clothes" :skills="$skills" :oldGears="$currentGears" />
             
             {{-- gear (shoes) --}}
-            <livewire:gear :gears="$gears" gearType="shoes" :skills="$splatdata[3]" :oldGears="$currentGears" />
+            <livewire:gear :gears="$gears" gearType="shoes" :skills="$skills" :oldGears="$currentGears" />
         </div>
 
 

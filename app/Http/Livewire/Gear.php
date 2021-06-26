@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use PDO;
 
@@ -19,7 +20,7 @@ class Gear extends Component
     public string $skillSub1 = 'unknown';
     public string $skillSub2 = 'unknown';
     public string $skillSub3 = 'unknown';
-    public int $oldGear = -1;
+    public int $oldGearId = -1;
 
     public function mount(Collection $gears, string $gearType, Collection $skills, Collection $oldGears = null)
     {
@@ -31,10 +32,12 @@ class Gear extends Component
 
         // get old gear if passed
         if ($oldGears !== null) {
-            if (Arr::has($oldGears, $gearType[0])) {
-                $this->oldGear = $oldGears[$gearType[0]]->id;
 
-                $this->updateGear($this->oldGear);
+            // if old gear of type passed exists, update gear id and change on front end
+            if (Arr::has($oldGears, Str::upper($gearType[0]))) {
+                $this->oldGearId = $oldGears[Str::upper($gearType[0])]->id;
+
+                $this->updateGear($this->oldGearId);
             }   
         }
     }

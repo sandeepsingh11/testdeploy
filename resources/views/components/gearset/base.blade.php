@@ -1,7 +1,7 @@
 <div class="bg-gray-700 rounded-md shadow-lg @if ($hover) transform hover:-translate-y-2 transition-transform @endif">
     @if ($link) <a href="{{ route('gearsets.show', [$user, $gearset]) }}"> @endif
         {{-- gearset's title --}}
-        <x-gear.title :title="$gearset->gearset_name" />
+        <x-gear.title :title="$gearset->gearset_title" />
 
         {{-- gearset's modes --}}
         <x-gearset.mode :gearset="$gearset" />
@@ -10,26 +10,20 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4">
             
             {{-- gearset's weapon --}}
-            <x-gearset.weapon :gearset="$gearset" :weapons="$weapons" />
+            <x-gearset.weapon :gearset="$gearset" :weapon="$gearset->weapon" />
         
             {{-- gearset's gears --}}
             @foreach ($gears[$gearset->id] as $gear)
                 <div>
                     {{-- gear --}}
-                    <x-gear.gear :modelName="$gear->gear_id" />
-        
-                    {{-- get this gear's skills --}}
-                    @php
-                        $gearController = new App\Http\Controllers\User\GearController;
-                        $skills = $gearController->getGearSkills($gear);
-                    @endphp
+                    <x-gear.gear :gearName="$gear->baseGear->base_gear_name" />
         
                     {{-- gear's skills --}}
-                    <x-gear.skill :skill="$skills[0]" />
+                    <x-gear.skill :skillName="$gear->mainSkill->skill_name" />
                     <div class="flex justify-evenly">
-                        <x-gear.skill :skill="$skills[1]" />
-                        <x-gear.skill :skill="$skills[2]" />
-                        <x-gear.skill :skill="$skills[3]" />
+                        <x-gear.skill :skillName="$gear->subSkill1->skill_name" />
+                        <x-gear.skill :skillName="$gear->subSkill2->skill_name" />
+                        <x-gear.skill :skillName="$gear->subSkill3->skill_name" />
                     </div>
                 </div>
             @endforeach

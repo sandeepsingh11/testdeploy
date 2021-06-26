@@ -28,4 +28,9 @@ class Gearset extends Model
     {
         return $this->belongsToMany(Gear::class, 'gear_gearset');
     }
+
+    public function weapon()
+    {
+        return $this->belongsTo(Weapon::class);
+    }
 }

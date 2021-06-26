@@ -10,7 +10,7 @@
 
                 <a href="{{ route('gearsets.show', [$user, $gearset]) }}" class="h-full mb-6">
                     {{-- gearset component --}}
-                    <x-gearset.base :gearset="$gearset" :gears="$gears" :weapons="$splatdata[4]" :user="$user" />
+                    <x-gearset.base :gearset="$gearset" :gears="$gears" :weapons="$weapons" :user="$user" />
                 </a>
                 
             @endforeach

@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Weapon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Redirect;
 use Prophecy\Argument\Token\InArrayToken;
 
@@ -31,15 +32,13 @@ class GearsetController extends Controller
         $userGearsets = $user->gearsets;
 
 
-
-
-
         // get gearsets' gears
         // - fill in missing (unselected) gears
         // - display gears in proper gear-type order
         $userGears = [];
-        $gearTypes = ['h', 'c', 's'];
-        $defaultGearIds = ['h' => 'Hed_FST000', 'c' => 'Clt_FST001', 's' => 'Shs_FST000'];
+        $gearTypes = ['H', 'C', 'S'];
+        $defaultGearIds = ['H' => 1, 'C' => 162, 'S' => 418];
+        $defaultGearSkills = ['H' => 3, 'C' => 10, 'S' => 7];
 
         // each gearset
         foreach ($userGearsets as $gearset) {
@@ -51,7 +50,7 @@ class GearsetController extends Controller
 
                 // get gearset's gear types
                 foreach ($userGears[$gearset->id] as $gear) {
-                    array_push($gearTypesPresent, $gear->gear_type);
+                    array_push($gearTypesPresent, $gear->baseGear->base_gear_type);
                 }
 
                 // compare to see which gear type(s) are missing to fill default values
@@ -60,18 +59,18 @@ class GearsetController extends Controller
                 // fill in each missing gear type
                 foreach ($missingGearTypes as $missingGearType) {
                     $defaultGear = new Gear([
-                        'gear_name' => '',
+                        'gear_title' => '',
                         'gear_desc' => '',
-                        'gear_id' => '',
-                        'gear_type' => '',
-                        'gear_main' => 26,
-                        'gear_sub_1' => 26,
-                        'gear_sub_2' => 26,
-                        'gear_sub_3' => 26,
+                        'base_gear_id' => '',
+                        'main_skill_id' => $defaultGearSkills[$missingGearType],
+                        'sub_1_skill_id' => 27,
+                        'sub_2_skill_id' => 27,
+                        'sub_3_skill_id' => 27,
+                        'gear_type' => ''
                     ]);
 
                     $defaultGear->gear_type = $missingGearType;
-                    $defaultGear->gear_id = $defaultGearIds[$missingGearType];
+                    $defaultGear->base_gear_id = $defaultGearIds[$missingGearType];
 
                     $userGears[$gearset->id][] = $defaultGear;
                 }
@@ -79,25 +78,33 @@ class GearsetController extends Controller
 
             // order gears in head-clothing-shoes order
             $orderedGears = collect([]);
-            $orderedGears->push($userGears[$gearset->id]->where('gear_type', "h")->first());
-            $orderedGears->push($userGears[$gearset->id]->where('gear_type', 'c')->first());
-            $orderedGears->push($userGears[$gearset->id]->where('gear_type', 's')->first());
+
+            foreach ($gearTypes as $type) {
+                foreach ($userGears[$gearset->id] as $gear) {
+                    if ($gear->baseGear->base_gear_type === $type) {
+                        $orderedGears->push($gear);
+    
+                        break;
+                    }
+                }
+            }
             
             $userGears[$gearset->id] = $orderedGears;
         }
+
+
+
+        // get weapons
+        $weapons = new Weapon();
         
-
-
-        // get splatdata
-        $splatdata = GearAbstractController::getSplatdata();
-
+        
 
         // get view
         return view('users.gearsets.index', [
             'user' => $user,
             'gearsets' => $userGearsets,
             'gears' => $userGears,
-            'splatdata' => $splatdata,
+            'weapons' => $weapons,
         ]);
     }
 
@@ -158,7 +165,7 @@ class GearsetController extends Controller
 
         
 
-        // prepare selected gears (if pre-existing gear was not selected, set to null)
+        // prepare selected gears (if pre-existing gear was not selected, set to default gear)
         $headId = ($request->get('gear-head-id') == -1) ? null : $request->get('gear-head-id');
         $clothesId = ($request->get('gear-clothes-id') == -1) ? null : $request->get('gear-clothes-id');
         $shoesId = ($request->get('gear-shoes-id') == -1) ? null : $request->get('gear-shoes-id');
@@ -176,10 +183,11 @@ class GearsetController extends Controller
             'weapon_id' => $request->input('gearset-weapon-id'),
         ]);
 
-        // associate the head, clothing, and shoes gear to the new gearset in the pivot table
-        $newGearset->gears()->attach($headId);
-        $newGearset->gears()->attach($clothesId);
-        $newGearset->gears()->attach($shoesId);
+
+        // associate the head, clothing, and shoes gear to the new gearset in the pivot table (if not null)
+        if ($headId !== null) $newGearset->gears()->attach($headId);
+        if ($clothesId !== null) $newGearset->gears()->attach($clothesId);
+        if ($shoesId !== null) $newGearset->gears()->attach($shoesId);
         
 
         

@@ -24,9 +24,24 @@ class Gear extends Model
         'sub_3_skill_id',
     ];
 
-    public function skills()
+    public function mainSkill()
     {
-        return $this->hasMany(Skill::class);
+        return $this->belongsTo(Skill::class, 'main_skill_id');
+    }
+
+    public function subSkill1()
+    {
+        return $this->belongsTo(Skill::class, 'sub_1_skill_id');
+    }
+
+    public function subSkill2()
+    {
+        return $this->belongsTo(Skill::class, 'sub_2_skill_id');
+    }
+
+    public function subSkill3()
+    {
+        return $this->belongsTo(Skill::class, 'sub_3_skill_id');
     }
 
     public function baseGear()

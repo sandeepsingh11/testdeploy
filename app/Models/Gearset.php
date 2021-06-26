@@ -21,7 +21,7 @@ class Gearset extends Model
         'gearset_mode_cb',
         'gearset_mode_sz',
         'gearset_mode_tc',
-        'gearset_weapon_id',
+        'weapon_id',
     ];
 
     public function gears()

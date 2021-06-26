@@ -9,14 +9,14 @@
         <option value="-1">===== {{ $gearType }} =====</option>
 
         @foreach ($gears as $gear)
-            @if ($gear->gear_type == lcfirst($gearType[0]))
-                <option value="{{ $gear->id }}" @if($oldGear == $gear->id) selected  @endif>{{ $gear->gear_name }}</option>
+            @if ( $gear->baseGear->base_gear_type == Str::upper(lcfirst($gearType[0])) )
+                <option value="{{ $gear->id }}" @if($oldGear == $gear->id) selected  @endif>{{ $gear->gear_title }}</option>
             @endif
         @endforeach
     </select>
 
     <div id="gear-{{ $gearType }}">
-        <img class="mx-auto" src="{{ asset('storage/gear/' . $modelName . '.png') }}" alt="{{ $modelName }}">
+        <img class="mx-auto" src="{{ asset('storage/gear/' . $gearName . '.png') }}" alt="{{ $gearName }}">
         <div>
             <img class="mx-auto" src="{{ asset('storage/skills/' . $skillMain . '.png') }}" alt="{{ $skillMain }}">
         </div>

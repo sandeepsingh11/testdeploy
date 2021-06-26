@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\GearAbstractController;
 use App\Models\Gear;
 use App\Models\Gearset;
+use App\Models\Skill;
+use App\Models\Special;
+use App\Models\Sub;
 use App\Models\User;
+use App\Models\Weapon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redirect;
@@ -120,13 +124,19 @@ class GearsetController extends Controller
         $userGears = $user->gears;
 
         // get splatdata
-        $splatdata = GearAbstractController::getSplatdata();
+        $weapons = new Weapon();
+        $specials = new Special();
+        $subs = new Sub();
+        $skills = new Skill();
 
 
         return view('users.gearsets.create', [
             'user' => $user,
             'gears' => $userGears,
-            'splatdata' => $splatdata,
+            'weapons' => $weapons->all(),
+            'specials' => $specials->all(),
+            'subs' => $subs->all(),
+            'skills' => $skills->all(),
         ]);
     }
 
@@ -134,42 +144,36 @@ class GearsetController extends Controller
     {
         // validate vals
         $this->validate($request, [
-            'gearset-name' => 'max:256|string|nullable',
+            'gearset-title' => 'max:256|string|nullable',
             'gearset-desc' => 'max:512|string|nullable',
             'gearset-mode-rm' => 'boolean',
             'gearset-mode-cb' => 'boolean',
             'gearset-mode-sz' => 'boolean',
             'gearset-mode-tc' => 'boolean',
-            'gearset-weapon-id' => 'numeric|nullable',
+            'gearset-weapon-id' => 'numeric',
             'gear-head-id' => 'numeric|nullable',
             'gear-clothes-id' => 'numeric|nullable',
             'gear-shoes-id' => 'numeric|nullable',
         ]);
 
-        // if pre-existing gear was not selected, set to null
-        ($request->input('gear-head-id') == -1) 
-            ? $headId = NULL 
-            : $headId = $request->input('gear-head-id');
+        
 
-        ($request->input('gear-clothes-id') == -1) 
-            ? $clothesId = NULL 
-            : $clothesId = $request->input('gear-clothes-id');
-
-        ($request->input('gear-shoes-id') == -1) 
-            ? $shoesId = NULL 
-            : $shoesId = $request->input('gear-shoes-id');
+        // prepare selected gears (if pre-existing gear was not selected, set to null)
+        $headId = ($request->get('gear-head-id') == -1) ? null : $request->get('gear-head-id');
+        $clothesId = ($request->get('gear-clothes-id') == -1) ? null : $request->get('gear-clothes-id');
+        $shoesId = ($request->get('gear-shoes-id') == -1) ? null : $request->get('gear-shoes-id');
 
 
 
         // create gearset record
         $newGearset = $request->user()->gearsets()->create([
-            'gearset_name' => $request->input('gearset-name'),
+            'gearset_title' => $request->input('gearset-title'),
             'gearset_desc' => $request->input('gearset-desc'),
             'gearset_mode_rm' => $request->boolean('gearset-mode-rm'),
             'gearset_mode_cb' => $request->boolean('gearset-mode-cb'),
             'gearset_mode_sz' => $request->boolean('gearset-mode-sz'),
             'gearset_mode_tc' => $request->boolean('gearset-mode-tc'),
-            'gearset_weapon_id' => $request->input('gearset-weapon-id'),
+            'weapon_id' => $request->input('gearset-weapon-id'),
         ]);
 
         // associate the head, clothing, and shoes gear to the new gearset in the pivot table

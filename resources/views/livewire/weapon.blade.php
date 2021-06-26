@@ -7,7 +7,7 @@
         class="w-full rounded focus:ring-primary-400 focus:border-primary-400"
         >
         @foreach ($weapons as $weapon)
-            <option value="{{ $weapon['Id'] }}" @if($oldWeapon == $weapon['Id']) selected  @endif>{{ __($weapon['Name']) }}</option>
+            <option value="{{ $weapon->id }}" @if($oldWeapon == $weapon->id) selected  @endif>{{ __($weapon->weapon_name) }}</option>
         @endforeach
     </select>
 

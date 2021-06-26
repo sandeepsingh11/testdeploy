@@ -12,21 +12,21 @@ class Gear extends Component
 
     public array $defaultGearIds = ['h' => 'Hed_FST000', 'c' => 'Clt_FST001', 's' => 'Shs_FST000'];
     public Collection $gears;
-    public array $skills;
+    public Collection $skills;
     public string $gearType;
-    public string $modelName = '';
+    public string $gearName = '';
     public string $skillMain = 'unknown';
     public string $skillSub1 = 'unknown';
     public string $skillSub2 = 'unknown';
     public string $skillSub3 = 'unknown';
     public int $oldGear = -1;
 
-    public function mount(Collection $gears, string $gearType, array $skills, Collection $oldGears = null)
+    public function mount(Collection $gears, string $gearType, Collection $skills, Collection $oldGears = null)
     {
         $this->gears = $gears;
         $this->gearType = $gearType;
         $this->skills = $skills;
-        $this->modelName = $this->defaultGearIds[$gearType[0]];
+        $this->gearName = $this->defaultGearIds[$gearType[0]];
 
 
         // get old gear if passed
@@ -49,7 +49,7 @@ class Gear extends Component
         // if no pre-existing gear is selected, use default
         if ($gearId == -1) {
             $this->fill([
-                'modelName' => 'Hed_CAP000',
+                'gearName' => 'Hed_FST000',
                 'skillMain' => 'unknown',
                 'skillSub1' => 'unknown',
                 'skillSub2' => 'unknown',
@@ -60,18 +60,13 @@ class Gear extends Component
         }
 
         // find the gear which matches what the user selected in the select html element
-        foreach ($this->gears as $gear) {
-            if ($gear->id == $gearId) {
-                $this->fill([
-                    'modelName' => $gear->gear_id,
-                    'skillMain' => $this->skills[$gear->gear_main]['skill'],
-                    'skillSub1' => $this->skills[$gear->gear_sub_1]['skill'],
-                    'skillSub2' => $this->skills[$gear->gear_sub_2]['skill'],
-                    'skillSub3' => $this->skills[$gear->gear_sub_3]['skill'],
-                ]);
-
-                return;
-            }
-        }
+        $selectedGear = $this->gears->where('id', $gearId)->first();
+        $this->fill([
+            'gearName' => $selectedGear->baseGear->base_gear_name,
+            'skillMain' => $this->skills->where('id', $selectedGear->main_skill_id)->first()->skill_name,
+            'skillSub1' => $this->skills->where('id', $selectedGear->sub_1_skill_id)->first()->skill_name,
+            'skillSub2' => $this->skills->where('id', $selectedGear->sub_2_skill_id)->first()->skill_name,
+            'skillSub3' => $this->skills->where('id', $selectedGear->sub_3_skill_id)->first()->skill_name,
+        ]);
     }
 }

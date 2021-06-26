@@ -29,6 +29,11 @@ class Gear extends Model
         return $this->hasMany(Skill::class);
     }
 
+    public function baseGear()
+    {
+        return $this->belongsTo(BaseGear::class, 'base_gear_id');
+    }
+
     public function gearsets()
     {
         return $this->belongsToMany(Gearset::class, 'gear_gearset');

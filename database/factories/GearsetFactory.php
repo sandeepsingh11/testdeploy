@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Http\Controllers\GearAbstractController;
 use App\Models\Gearset;
+use App\Models\Weapon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GearsetFactory extends Factory
@@ -22,17 +23,18 @@ class GearsetFactory extends Factory
      */
     public function definition()
     {
-        $weaponsData = GearAbstractController::getSplatdata('Weapons');
-        $wLen = sizeof($weaponsData) - 1;
+        $weapon = new Weapon();
+        $weapons = $weapon->all();
+        $wLen = sizeof($weapons) - 1;
 
         return [
-            'gearset_name' => $this->faker->words(5, true),
+            'gearset_title' => $this->faker->words(5, true),
             'gearset_desc' => $this->faker->sentence(10),
             'gearset_mode_rm' => $this->faker->boolean(),
             'gearset_mode_cb' => $this->faker->boolean(),
             'gearset_mode_sz' => $this->faker->boolean(),
             'gearset_mode_tc' => $this->faker->boolean(),
-            'gearset_weapon_id' => $weaponsData[$this->faker->numberBetween(0, $wLen)]['Id'],
+            'weapon_id' => $weapons[$this->faker->numberBetween(0, $wLen)]->id,
             'created_at' => now(),
             'updated_at' => now(),
         ];

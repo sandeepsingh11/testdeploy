@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\BaseGear;
 use App\Models\Gearset;
 use App\Models\Gear;
+use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
@@ -33,7 +34,7 @@ class DummySeeder extends Seeder
     public function run()
     {
         User::factory()
-            ->count(5)
+            ->count(3)
             ->has(
                 Gearset::factory()
                     ->count(3)
@@ -61,6 +62,34 @@ class DummySeeder extends Seeder
                                     return ['base_gear_id' => $baseGears[0]->id];
                                 }
                             ))
+                            ->hasAttached(
+                                Skill::factory()
+                                    ->count(1)
+                                    ->state(fn() => ['skill_type' => 'Main'])
+                                    ->make()
+                                , ['skill_type' => 'Main'] // pivot attribute
+                            )
+                            ->hasAttached(
+                                Skill::factory()
+                                    ->count(1)
+                                    ->state(fn() => ['skill_type' => 'Sub1'])
+                                    ->make()
+                                , ['skill_type' => 'Sub1'] // pivot attribute
+                            )
+                            ->hasAttached(
+                                Skill::factory()
+                                    ->count(1)
+                                    ->state(fn() => ['skill_type' => 'Sub2'])
+                                    ->make()
+                                , ['skill_type' => 'Sub2'] // pivot attribute
+                            )
+                            ->hasAttached(
+                                Skill::factory()
+                                    ->count(1)
+                                    ->state(fn() => ['skill_type' => 'Sub3'])
+                                    ->make()
+                                , ['skill_type' => 'Sub3'] // pivot attribute
+                            )
                             ->state(function (array $attributes, Gearset $gearset) {
                                 return ['user_id' => $gearset->user_id];
                             }),

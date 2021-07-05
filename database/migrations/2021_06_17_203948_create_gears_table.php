@@ -19,10 +19,6 @@ class CreateGearsTable extends Migration
             $table->text('gear_title')->nullable();
             $table->text('gear_desc')->nullable();
             $table->foreignId('base_gear_id')->constrained('base_gears')->onDelete('cascade');
-            $table->foreignId('main_skill_id')->nullable()->constrained('skills')->onDelete('cascade');
-            $table->foreignId('sub_1_skill_id')->nullable()->constrained('skills')->onDelete('cascade');
-            $table->foreignId('sub_2_skill_id')->nullable()->constrained('skills')->onDelete('cascade');
-            $table->foreignId('sub_3_skill_id')->nullable()->constrained('skills')->onDelete('cascade');
             $table->timestamps();
         });
     }

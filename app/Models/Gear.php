@@ -18,30 +18,11 @@ class Gear extends Model
         'gear_title',
         'gear_desc',
         'base_gear_id',
-        'main_skill_id',
-        'sub_1_skill_id',
-        'sub_2_skill_id',
-        'sub_3_skill_id',
     ];
 
-    public function mainSkill()
+    public function skills()
     {
-        return $this->belongsTo(Skill::class, 'main_skill_id');
-    }
-
-    public function subSkill1()
-    {
-        return $this->belongsTo(Skill::class, 'sub_1_skill_id');
-    }
-
-    public function subSkill2()
-    {
-        return $this->belongsTo(Skill::class, 'sub_2_skill_id');
-    }
-
-    public function subSkill3()
-    {
-        return $this->belongsTo(Skill::class, 'sub_3_skill_id');
+        return $this->belongsToMany(Skill::class, 'gear_skill')->withPivot('skill_type');
     }
 
     public function baseGear()

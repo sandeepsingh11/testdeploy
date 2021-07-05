@@ -17,7 +17,7 @@ class CreateGearSkillTable extends Migration
             $table->id();
             $table->foreignId('gear_id')->constrained()->onDelete('cascade');
             $table->foreignId('skill_id')->constrained();
-            $table->char('skill_type');
+            $table->char('skill_type', 4);
         });
     }
 

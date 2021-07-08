@@ -34,4 +34,23 @@ class Gear extends Model
     {
         return $this->belongsToMany(Gearset::class, 'gear_gearset');
     }
+
+    /**
+     * Get the specified skill name.
+     * 
+     * @param string $skillType Name of the skill type ('Main', 'Sub1', 'Sub2', 'Sub3')
+     * 
+     * @return string Name of the skill. If no skill of the specified type exists, return the 'unknown' skill
+     */
+    public function getSkillName($skillType)
+    {
+        $currentGear = $this;
+
+        foreach ($currentGear->skills as $skill) {
+            if ($skill->pivot->skill_type === $skillType) return $skill->skill_name;
+        }
+
+        // if no skill found, return 'unknown'
+        return 'unknown';
+    }
 }

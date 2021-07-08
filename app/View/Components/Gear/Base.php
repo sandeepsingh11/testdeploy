@@ -14,25 +14,11 @@ class Base extends Component
     public $gear;
 
     /**
-     * An array of the 4 gear skills.
-     *
-     * @var array
-     */
-    public $skills;
-
-    /**
      * The user object.
      *
      * @var User
      */
     public $user;
-
-    /**
-     * The Base Gear.
-     *
-     * @var BaseGear
-     */
-    public $baseGear;
 
     /**
      * Boolean of whether a single gear is being displayed.
@@ -59,25 +45,15 @@ class Base extends Component
      * Create a new component instance.
      *
      * @param  Gear  $gear
-     * @param  Collection  $skills
-     * @param  BaseGear  $baseGear
      * @param  User  $user
      * @param  bool  $single
+     * 
      * @return void
      */
-    public function __construct($gear, $skills, $baseGear, $user, $single = false)
+    public function __construct($gear, $user, $single = false)
     {
         $this->gear = $gear;
-        $this->baseGear = $baseGear;
         $this->user = $user;
-
-        // prep skills array
-        $currentSkills = [];
-        $currentSkills[] = $skills->where('id', $gear->main_skill_id)->first();
-        $currentSkills[] = $skills->where('id', $gear->sub_1_skill_id)->first();
-        $currentSkills[] = $skills->where('id', $gear->sub_2_skill_id)->first();
-        $currentSkills[] = $skills->where('id', $gear->sub_3_skill_id)->first();
-        $this->skills = $currentSkills;
 
         if ($single) {
             $this->link = false;

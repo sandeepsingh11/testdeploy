@@ -25,17 +25,14 @@ class GearController extends GearAbstractController
     public function index(User $user)
     {
         // get user's gear
-        $gears = $user->gears;
-        $baseGears = new BaseGear();
-        $skills = new Skill();
-
         // $gears = $user->gears()->with(['user'])->paginate(20);
+        $gears = $user->gears->load(['baseGear', 'skills']);
+        // dd($gears[0]->skills[0]->skill_name);
+
 
         return view('users.gears.index', [
             'user' => $user,
             'gears' => $gears,
-            'baseGears' => $baseGears->all(),
-            'skills' => $skills->all()
         ]);
     }
 

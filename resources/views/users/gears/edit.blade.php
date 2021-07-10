@@ -37,14 +37,11 @@
         {{-- gear and skills selector --}}
         <div class="mb-6">
             <x-gear.gear-skills-builder 
-                :gears="$baseGears" 
-                :skills="$skillsData" 
+                :gearName="$gear->baseGears->base_gear_name"
+                :gearSkillIds="$gearSkillIds" 
                 :gearSkillNames="$gearSkillNames" 
-                :gearName="$baseGearName"
-                :mainSkillId="$gear->main_skill_id"
-                :subSkill1Id="$gear->sub_1_skill_id"
-                :subSkill2Id="$gear->sub_2_skill_id"
-                :subSkill3Id="$gear->sub_3_skill_id"
+                :gears="$baseGears" 
+                :skills="$skills" 
             />
         </div>
 

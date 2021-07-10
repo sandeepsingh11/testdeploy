@@ -1,12 +1,9 @@
 @props([
     'gears', 
     'skills',
-    'gearSkillNames' => ['unknown', 'unknown', 'unknown', 'unknown'],
     'gearName' => 'Hed_FST000',
-    'mainSkillId' => 27,
-    'subSkill1Id' => 27,
-    'subSkill2Id' => 27,
-    'subSkill3Id' => 27,
+    'gearSkillIds' => [27, 27, 27, 27],
+    'gearSkillNames' => ['unknown', 'unknown', 'unknown', 'unknown'],
 ])
 
 
@@ -16,7 +13,7 @@
     <div>
         <div>
             {{-- select game gear (and main skill) --}}
-            @livewire('base-gear-select', ['gears' => $gears, 'skills' => $skills, 'gearName' => $gearName, 'mainSkill' => $gearSkillNames[0], 'mainSkillId' => $mainSkillId])
+            @livewire('base-gear-select', ['gears' => $gears, 'skills' => $skills, 'gearName' => $gearName, 'mainSkill' => $gearSkillNames[0], 'mainSkillId' => $gearSkillIds[0]])
 
             {{-- sub skills --}}
             <div class="flex justify-evenly mb-4">
@@ -25,7 +22,7 @@
                         src="{{ asset('storage/skills/' . $gearSkillNames[1] . '.png') }}" 
                         alt="{{ $gearSkillNames[1] }}"
                         class="draggable"
-                        data-skill-id="{{ $subSkill1Id }}"
+                        data-skill-id="{{ $gearSkillIds[1] }}"
                         data-skill-name="{{ $gearSkillNames[1] }}"
                         data-skill-type="All"
                         draggable="true"
@@ -36,7 +33,7 @@
                         src="{{ asset('storage/skills/' . $gearSkillNames[2] . '.png') }}" 
                         alt="{{ $gearSkillNames[2] }}"
                         class="draggable"
-                        data-skill-id="{{ $subSkill2Id }}"
+                        data-skill-id="{{ $gearSkillIds[2] }}"
                         data-skill-name="{{ $gearSkillNames[2] }}"
                         data-skill-type="All"
                         draggable="true"
@@ -47,7 +44,7 @@
                         src="{{ asset('storage/skills/' . $gearSkillNames[3] . '.png') }}" 
                         alt="{{ $gearSkillNames[3] }}"
                         class="draggable"
-                        data-skill-id="{{ $subSkill3Id }}"
+                        data-skill-id="{{ $gearSkillIds[3] }}"
                         data-skill-name="{{ $gearSkillNames[3] }}"
                         data-skill-type="All"
                         draggable="true"
@@ -55,9 +52,9 @@
                 </div>
             </div>
 
-            <input type="hidden" name="skill-sub-1" id="hidden-skill-sub-1" value="{{ $subSkill1Id }}">
-            <input type="hidden" name="skill-sub-2" id="hidden-skill-sub-2" value="{{ $subSkill2Id }}">
-            <input type="hidden" name="skill-sub-3" id="hidden-skill-sub-3" value="{{ $subSkill3Id }}">
+            <input type="hidden" name="skill-sub-1" id="hidden-skill-sub-1" value="{{ $gearSkillIds[1] }}">
+            <input type="hidden" name="skill-sub-2" id="hidden-skill-sub-2" value="{{ $gearSkillIds[2] }}">
+            <input type="hidden" name="skill-sub-3" id="hidden-skill-sub-3" value="{{ $gearSkillIds[3] }}">
         </div>
     </div>
 

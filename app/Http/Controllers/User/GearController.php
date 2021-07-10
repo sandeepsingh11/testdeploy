@@ -26,7 +26,7 @@ class GearController extends GearAbstractController
     {
         // get user's gear
         // $gears = $user->gears()->with(['user'])->paginate(20);
-        $gears = $user->gears->load(['baseGear', 'skills']);
+        $gears = $user->gears->load(['baseGears', 'skills']);
         // dd($gears[0]->skills[0]->skill_name);
 
 
@@ -39,7 +39,7 @@ class GearController extends GearAbstractController
     public function show(User $user, Gear $gear)
     {
         // eager load gear's relationships
-        $gear->load(['baseGear', 'skills']);
+        $gear->load(['baseGears', 'skills']);
         
         return view('users.gears.show', [
             'user' => $user,
@@ -99,30 +99,35 @@ class GearController extends GearAbstractController
 
     public function edit(User $user, Gear $gear)
     {
+        // eager load gear's relationships
+        $gear->load(['baseGears', 'skills']);
+
         // get according splatdata
         $baseGears = new BaseGear();
         $skills = new Skill();
 
-        // get base gear name
-        $baseGearName = $baseGears->where('id', $gear->base_gear_id)->first()->base_gear_name;
-
-
-        // get this gear's skills
-        $gearSkillNames = [];
-        $gearSkillNames[] = $skills->where('id', $gear->main_skill_id)->first()->skill_name;
-        $gearSkillNames[] = $skills->where('id', $gear->sub_1_skill_id)->first()->skill_name;
-        $gearSkillNames[] = $skills->where('id', $gear->sub_2_skill_id)->first()->skill_name;
-        $gearSkillNames[] = $skills->where('id', $gear->sub_3_skill_id)->first()->skill_name;
-
+        // prep data
+        $gearSkillIds = [
+            $gear->getSkillId('Main'),
+            $gear->getSkillId('Sub1'),
+            $gear->getSkillId('Sub2'),
+            $gear->getSkillId('Sub3'),
+        ];
+        $gearSkillNames = [
+            $gear->getSkillName('Main'),
+            $gear->getSkillName('Sub1'),
+            $gear->getSkillName('Sub2'),
+            $gear->getSkillName('Sub3'),
+        ];
 
 
         return view('users.gears.edit', [
             'user' => $user,
             'gear' => $gear,
-            'baseGears' => $baseGears->all(),
-            'baseGearName' => $baseGearName,
+            'gearSkillIds' => $gearSkillIds,
             'gearSkillNames' => $gearSkillNames,
-            'skillsData' => $skills->all(),
+            'baseGears' => $baseGears->all(),
+            'skills' => $skills->all(),
         ]);
     }
 

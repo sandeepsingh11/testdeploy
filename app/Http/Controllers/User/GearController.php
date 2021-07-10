@@ -38,21 +38,12 @@ class GearController extends GearAbstractController
 
     public function show(User $user, Gear $gear)
     {
-        // get specified gear passed from uri
-        $gear = $user->gears->where('id', $gear->id)->first();
-
-        // get base gear
-        $baseGear = new BaseGear();
-        $baseGear = $baseGear->where('id', $gear->base_gear_id)->first();
-
-        // get skills
-        $skills = new Skill();
+        // eager load gear's relationships
+        $gear->load(['baseGear', 'skills']);
         
         return view('users.gears.show', [
             'user' => $user,
             'gear' => $gear,
-            'baseGear' => $baseGear,
-            'skills' => $skills->all()
         ]);
     }
 

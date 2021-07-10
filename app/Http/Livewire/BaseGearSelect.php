@@ -16,7 +16,7 @@ class BaseGearSelect extends Component
     public string $mainSkill;
     public int $mainSkillId;
 
-    public function mount($gears, $skills, $gearName = 'Hed_FST000', $mainSkill = 'InkRecovery_Up' , $mainSkillId = 26)
+    public function mount($gears, $skills, $gearName = 'Hed_FST000', $mainSkill = 'InkRecovery_Up' , $mainSkillId = 27)
     {
         $this->gears = $gears;
         $this->skills = $skills;
@@ -32,16 +32,10 @@ class BaseGearSelect extends Component
 
     public function updateGear(int $gearId)
     {
-        foreach ($this->gears as $gear) {
-            if ($gear->id === $gearId) {
-                $this->gearName = $gear->base_gear_name;
-                
-                $this->mainSkillId = $gear->main_skill_id;
-                $thisSkill = $this->skills->find($this->mainSkillId);
-                $this->mainSkill = $thisSkill->skill_name;
+        $selectedGear = $this->gears->where('id', $gearId)->first();
 
-                return;
-            }
-        }
+        $this->gearName = $selectedGear->base_gear_name;
+        $this->mainSkillId = $selectedGear->main_skill_id;
+        $this->mainSkill = $this->skills->where('id', $this->mainSkillId)->first()->skill_name;
     }
 }

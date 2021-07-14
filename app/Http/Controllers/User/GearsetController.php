@@ -52,18 +52,13 @@ class GearsetController extends Controller
 
     public function show(User $user, Gearset $gearset)
     {
-        // get gearset's gears
-        $gears[$gearset->id] = $gearset->gears;
-        
-        // get weapons
-        $weapons = new Weapon();
+        // get user's gearsets
+        $gearset = $gearset->load(['gears.baseGears', 'gears.skills', 'weapon']);
 
 
         return view('users.gearsets.show', [
             'user' => $user,
             'gearset' => $gearset,
-            'gears' => $gears,
-            'weapons' => $weapons,
         ]);
     }
 

@@ -33,4 +33,60 @@ class Gearset extends Model
     {
         return $this->belongsTo(Weapon::class);
     }
+
+    /**
+     * If a gearset has a missing gear(s), fill it in with a temporary gear to display on the front-end.
+     * 
+     * @return GearSet A prepared gearset with all 3 gear types.
+     */
+    public function prepareGearset()
+    {
+        $gearTypes = ['H', 'C', 'S'];
+        $gearset = $this;
+
+        if (sizeof($gearset->gears) < 3) {
+            $gearTypesPresent = [];
+
+            foreach($gearset->gears as $gear) {
+                $gearTypesPresent[] = $gear->baseGears->base_gear_type;
+            }
+
+            $missingGearTypes = array_diff($gearTypes, $gearTypesPresent);
+            foreach($missingGearTypes as $missingGearType) {
+                $Gear = new Gear();
+                $newGear = $Gear->makeDefaultGear($missingGearType);
+
+                $gearset->gears->push($newGear);
+            }
+        }
+
+        return $gearset;
+    }
+
+    /**
+     * Order gears in head-clothing-shoes order.
+     * 
+     * @return GearSet A gearset with the gears in correct order.
+     */
+    public function orderGears()
+    {
+        $gearTypes = ['H', 'C', 'S'];
+        $gearset = $this;
+        $orderedGears = collect([]);
+
+        foreach ($gearTypes as $gearType) {
+            foreach ($gearset->gears as $gear) {
+                if ($gear->baseGears->base_gear_type === $gearType) {
+                    $orderedGears->push($gear);
+
+                    break;
+                }
+            }
+        }
+
+        $gearset->gears = $orderedGears;
+
+        
+        return $gearset;
+    }
 }

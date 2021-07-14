@@ -29,82 +29,24 @@ class GearsetController extends Controller
     public function index(User $user)
     {
         // get user's gearsets
-        $userGearsets = $user->gearsets;
+        $gearsets = $user->gearsets->load(['gears.baseGears', 'gears.skills', 'weapon']);
+        
 
+        // prep gearsets to display them properly
+        foreach($gearsets as $gearset) {
+            // fill in a gearset with temp gears if it does not have all 3 gears
+            $gearset = $gearset->prepareGearset();
 
-        // get gearsets' gears
-        // - fill in missing (unselected) gears
-        // - display gears in proper gear-type order
-        $userGears = [];
-        $gearTypes = ['H', 'C', 'S'];
-        $defaultGearIds = ['H' => 1, 'C' => 162, 'S' => 418];
-        $defaultGearSkills = ['H' => 3, 'C' => 10, 'S' => 7];
-
-        // each gearset
-        foreach ($userGearsets as $gearset) {
-            $userGears[$gearset->id] = $gearset->gears;
-            
-            // if 3 gears total are not set, fill in with default gear
-            if (sizeof($userGears[$gearset->id]) < 3) {
-                $gearTypesPresent = [];
-
-                // get gearset's gear types
-                foreach ($userGears[$gearset->id] as $gear) {
-                    array_push($gearTypesPresent, $gear->baseGear->base_gear_type);
-                }
-
-                // compare to see which gear type(s) are missing to fill default values
-                $missingGearTypes = array_diff($gearTypes, $gearTypesPresent);
-
-                // fill in each missing gear type
-                foreach ($missingGearTypes as $missingGearType) {
-                    $defaultGear = new Gear([
-                        'gear_title' => '',
-                        'gear_desc' => '',
-                        'base_gear_id' => '',
-                        'main_skill_id' => $defaultGearSkills[$missingGearType],
-                        'sub_1_skill_id' => 27,
-                        'sub_2_skill_id' => 27,
-                        'sub_3_skill_id' => 27,
-                        'gear_type' => ''
-                    ]);
-
-                    $defaultGear->gear_type = $missingGearType;
-                    $defaultGear->base_gear_id = $defaultGearIds[$missingGearType];
-
-                    $userGears[$gearset->id][] = $defaultGear;
-                }
-            }
-
-            // order gears in head-clothing-shoes order
-            $orderedGears = collect([]);
-
-            foreach ($gearTypes as $type) {
-                foreach ($userGears[$gearset->id] as $gear) {
-                    if ($gear->baseGear->base_gear_type === $type) {
-                        $orderedGears->push($gear);
-    
-                        break;
-                    }
-                }
-            }
-            
-            $userGears[$gearset->id] = $orderedGears;
+            // order the gears from h->c->s
+            $gearset = $gearset->orderGears();
         }
-
-
-
-        // get weapons
-        $weapons = new Weapon();
         
         
 
         // get view
         return view('users.gearsets.index', [
             'user' => $user,
-            'gearsets' => $userGearsets,
-            'gears' => $userGears,
-            'weapons' => $weapons,
+            'gearsets' => $gearsets,
         ]);
     }
 

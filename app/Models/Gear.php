@@ -9,6 +9,9 @@ class Gear extends Model
 {
     use HasFactory;
 
+    public $defaultBaseGearIds = ['H' => 1, 'C' => 162, 'S' => 418];
+    public $defaultBaseGearNames = ['H' => 'Hed_FST000', 'C' => 'Clt_FST001', 'S' => 'Shs_FST000'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -66,10 +69,36 @@ class Gear extends Model
         $currentGear = $this;
 
         foreach ($currentGear->skills as $skill) {
-            if ($skill->pivot->skill_type === $skillType) return $skill->skill_name;
+            if ($skill->created_at) {
+                if ($skill->pivot->skill_type === $skillType) return $skill->skill_name;
+            }
         }
 
         // if no skill found, return 'unknown'
         return 'unknown';
+    }
+
+    /**
+     * Make a default gear model of the specified type.
+     * 
+     * @param string $gearType The type of gear to make ('H', 'C', 'S')
+     * 
+     * @return Gear A Gear instance of the created gear
+     */
+    public function makeDefaultGear($gearType)
+    {
+        $newGear = new Gear([
+            'gear_title' => '',
+            'gear_desc' => '',
+            'base_gear_id' => $this->defaultBaseGearIds[$gearType],
+        ]);
+        $newGear->baseGears->base_gear_name = $this->defaultBaseGearNames[$gearType];
+
+
+        $newSkill = new Skill();
+        $newSkill = $newSkill->makeDefaultSkill();
+        $newGear->skills = collect([$newSkill, $newSkill, $newSkill, $newSkill]);
+
+        return $newGear;
     }
 }

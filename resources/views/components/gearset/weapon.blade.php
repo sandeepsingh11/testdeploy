@@ -1,4 +1,4 @@
-@props(['gearset', 'weapon'])
+@props(['weapon'])
 
 <div class="mx-auto">
     {{-- weapon --}}

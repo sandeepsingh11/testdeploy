@@ -14,25 +14,11 @@ class Base extends Component
     public $gearset;
 
     /**
-     * The gears array.
-     *
-     * @var array
-     */
-    public $gears;
-
-    /**
      * The user object.
      *
      * @var User
      */
     public $user;
-
-    /**
-     * The weapons array.
-     *
-     * @var array
-     */
-    public $weapons;
 
     /**
      * Boolean of whether a single gear is being displayed.
@@ -59,18 +45,15 @@ class Base extends Component
      * Create a new component instance.
      *
      * @param  Gearset  $gearset
-     * @param  array  $gears
      * @param  User  $user
-     * @param  array  $weapons
      * @param  bool  $single
+     * 
      * @return void
      */
-    public function __construct($gearset, $gears, $user, $weapons, $single = false)
+    public function __construct($gearset, $user, $single = false)
     {
         $this->gearset = $gearset;
-        $this->gears = $gears;
         $this->user = $user;
-        $this->weapons = $weapons;
 
         if ($single) {
             $this->link = false;

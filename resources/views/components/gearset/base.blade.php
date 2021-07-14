@@ -10,20 +10,20 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-2 md:gap-4">
             
             {{-- gearset's weapon --}}
-            <x-gearset.weapon :gearset="$gearset" :weapon="$gearset->weapon" />
+            <x-gearset.weapon :weapon="$gearset->weapon" />
         
             {{-- gearset's gears --}}
-            @foreach ($gears[$gearset->id] as $gear)
+            @foreach ($gearset->gears as $gear)
                 <div>
                     {{-- gear --}}
-                    <x-gear.gear :gearName="$gear->baseGear->base_gear_name" />
+                    <x-gear.gear :gearName="$gear->baseGears->base_gear_name" />
         
                     {{-- gear's skills --}}
-                    <x-gear.skill :skillName="$gear->mainSkill->skill_name" />
+                    <x-gear.skill :skillName="$gear->getSkillName('Main')" />
                     <div class="flex justify-evenly">
-                        <x-gear.skill :skillName="$gear->subSkill1->skill_name" />
-                        <x-gear.skill :skillName="$gear->subSkill2->skill_name" />
-                        <x-gear.skill :skillName="$gear->subSkill3->skill_name" />
+                        <x-gear.skill :skillName="$gear->getSkillName('Sub1')" />
+                        <x-gear.skill :skillName="$gear->getSkillName('Sub2')" />
+                        <x-gear.skill :skillName="$gear->getSkillName('Sub3')" />
                     </div>
                 </div>
             @endforeach

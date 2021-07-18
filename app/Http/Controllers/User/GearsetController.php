@@ -55,6 +55,12 @@ class GearsetController extends Controller
         // get user's gearsets
         $gearset = $gearset->load(['gears.baseGears', 'gears.skills', 'weapon']);
 
+        // fill in gearset with temp gears if it does not have all 3 gears
+        $gearset = $gearset->prepareGearset();
+
+        // order the gears from h->c->s
+        $gearset = $gearset->orderGears();
+
 
         return view('users.gearsets.show', [
             'user' => $user,

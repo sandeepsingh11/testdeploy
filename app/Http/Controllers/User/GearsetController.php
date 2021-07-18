@@ -133,33 +133,18 @@ class GearsetController extends Controller
 
     public function edit(User $user, Gearset $gearset)
     {
-        // get all of user's gears
-        $userGears = $user->gears;
+        // get user's gears
+        $userGears = $user->gears->load(['baseGears', 'skills']);
 
-        // get current gearset's gears
-        $currentGears = $gearset->gears;
-        
-        // create index to each type of gear
-        foreach ($currentGears as $gear) {
-            $currentGears[$gear->baseGear->base_gear_type] = $gear;
-        }
-
-        // get splatdata
-        $weapons = new Weapon();
-        $specials = new Special();
-        $subs = new Sub();
-        $skills = new Skill();
+        // get all weapons
+        $weapons = Weapon::all();
 
 
         return view('users.gearsets.edit', [
             'user' => $user,
-            'gearset' => $gearset,
             'gears' => $userGears,
-            'currentGears' => $currentGears,
-            'weapons' => $weapons->all(),
-            'specials' => $specials->all(),
-            'subs' => $subs->all(),
-            'skills' => $skills->all(),
+            'gearset' => $gearset,
+            'weapons' => $weapons,
         ]);
     }
 
@@ -203,40 +188,9 @@ class GearsetController extends Controller
 
 
 
-
-
-        // UPDATE PIVOT TABLE
+        // update the gears in the pivot table
+        $gearset->updatePivot($headId, $clothesId, $shoesId);
         
-        // get existing / old gears
-        $oldGears = $gearset->gears;
-        $oldGearIds = Arr::pluck($oldGears, 'id');
-
-        // get submitted / "new" gears
-        $submittedGearIds = [$headId, $clothesId, $shoesId];
-
-        // compare submitted gears to the existing gears to add
-        foreach ($submittedGearIds as $newGearId) {
-            if ($newGearId !== null) {
-                if (in_array($newGearId, $oldGearIds)) {
-                    // gear submitted is the same as the old gear; do nothing
-                }
-                else {
-                    // gear submitted is new; add to the gearset
-                    $gearset->gears()->attach($newGearId);
-                }
-            }
-        }
-
-        // compare old gears to the new gears to remove
-        foreach ($oldGearIds as $oldGearId) {
-            if (in_array($oldGearId, $submittedGearIds)) {
-                // old gear is a submitted gear; do nothing
-            }
-            else {
-                // old gear was not submitted; remove from the gearset
-                $gearset->gears()->detach($oldGearId);
-            }
-        }
 
         
         return Redirect::route('gearsets', [$user]);

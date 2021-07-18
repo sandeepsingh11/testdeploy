@@ -58,16 +58,16 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
             {{-- weapons --}}
-            <livewire:weapon :weapons="$weapons" :oldWeapon="$gearset->weapon_id" :specials="$specials" :subs="$subs" />
+            <livewire:weapon :weapons="$weapons" :oldWeaponId="$gearset->weapon_id" />
     
             {{-- gear (head) --}}
-            <livewire:gear :gears="$gears" gearType="head" :skills="$skills" :oldGears="$currentGears" />
+            <livewire:gear :gears="$gears" gearType="Head" :oldGears="$gearset->gears->load(['baseGears'])" />
     
             {{-- gear (clothes) --}}
-            <livewire:gear :gears="$gears" gearType="clothes" :skills="$skills" :oldGears="$currentGears" />
+            <livewire:gear :gears="$gears" gearType="Clothes" :oldGears="$gearset->gears->load(['baseGears'])" />
             
             {{-- gear (shoes) --}}
-            <livewire:gear :gears="$gears" gearType="shoes" :skills="$skills" :oldGears="$currentGears" />
+            <livewire:gear :gears="$gears" gearType="Shoes" :oldGears="$gearset->gears->load(['baseGears'])" />
         </div>
 
 

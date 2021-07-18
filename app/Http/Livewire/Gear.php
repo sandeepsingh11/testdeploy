@@ -33,13 +33,15 @@ class Gear extends Component
 
         // get old gear if passed
         if ($oldGears !== null) {
+            foreach ($oldGears as $oldGear) {
+                // get the old gear for the passed gear type
+                if ($oldGear->baseGears->base_gear_type === $this->gearType[0]) {
+                    $this->oldGearId = $oldGear->id;
+                    $this->updateGear($this->oldGearId);
 
-            // if old gear of type passed exists, update gear id and change on front end
-            if (Arr::has($oldGears, $gearType[0])) {
-                $this->oldGearId = $oldGears[$gearType[0]]->id;
-
-                $this->updateGear($this->oldGearId);
-            }   
+                    break;
+                }
+            }
         }
     }
 

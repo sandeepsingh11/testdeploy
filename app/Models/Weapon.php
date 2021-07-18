@@ -9,6 +9,13 @@ class Weapon extends Model
 {
     use HasFactory;
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['special', 'sub'];
+
     public function special()
     {
         return $this->belongsTo(Special::class);

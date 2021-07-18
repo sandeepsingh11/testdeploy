@@ -64,23 +64,17 @@ class GearsetController extends Controller
 
     public function create(User $user)
     {
-        // get user's gearsets
-        $userGears = $user->gears;
+        // get user's gears
+        $userGears = $user->gears->load(['baseGears', 'skills']);
 
-        // get splatdata
-        $weapons = new Weapon();
-        $specials = new Special();
-        $subs = new Sub();
-        $skills = new Skill();
+        // get all weapons
+        $weapons = Weapon::all();
 
 
         return view('users.gearsets.create', [
             'user' => $user,
             'gears' => $userGears,
-            'weapons' => $weapons->all(),
-            'specials' => $specials->all(),
-            'subs' => $subs->all(),
-            'skills' => $skills->all(),
+            'weapons' => $weapons,
         ]);
     }
 

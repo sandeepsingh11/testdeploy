@@ -1,15 +1,15 @@
 <div class="w-full">
-    <label for="gear-{{ $gearType }}-id" class="block text-center">{{ ucfirst($gearType) }} gear</label>
+    <label for="gear-{{ Str::lower($gearType) }}-id" class="block text-center">{{ $gearType }} gear</label>
     <select 
         wire:change="updateGear($event.target.value)" 
-        name="gear-{{ $gearType }}-id" 
-        id="gear-{{ $gearType }}-id"
+        name="gear-{{ Str::lower($gearType) }}-id" 
+        id="gear-{{ Str::lower($gearType) }}-id"
         class="w-full rounded focus:ring-primary-400 focus:border-primary-400"
         >
         <option value="-1">===== {{ $gearType }} =====</option>
 
         @foreach ($gears as $gear)
-            @if ( $gear->baseGear->base_gear_type == Str::upper(lcfirst($gearType[0])) )
+            @if ( $gear->baseGears->base_gear_type == $gearType[0] )
                 <option value="{{ $gear->id }}" @if($oldGearId == $gear->id) selected @endif>{{ $gear->gear_title }}</option>
             @endif
         @endforeach

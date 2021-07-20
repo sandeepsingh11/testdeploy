@@ -22,7 +22,8 @@ class SkillFactory extends Factory
     public function definition()
     {
         return [
-            'id' => fn(array $attributes) => $this->getSkillId($attributes)
+            // 'id' => fn(array $attributes) => $this->getSkillId($attributes)
+            'id' => 0 // placeholder for DummySeeder
         ];
     }
 

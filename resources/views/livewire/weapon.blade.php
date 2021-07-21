@@ -12,10 +12,10 @@
     </select>
 
     <div id="weapon-container">
-        <img class="mx-auto" src="{{ asset('storage/weapons/Wst_' . $weaponName . '.png') }}" alt="{{ __($weaponName) }}">
+        <img class="mx-auto" src="{{ asset('storage/weapons/Wst_' . $weaponName . '.png') }}" alt="{{ __($weaponName) }}" loading="lazy">
         <div class="flex justify-evenly">
-            <img src="{{ asset('storage/subspe/Wsp_' . $specialName . '.png') }}" alt="{{ $specialName }}">
-            <img src="{{ asset('storage/subspe/Wsb_' . $subName . '.png') }}" alt="{{ $subName }}">
+            <img src="{{ asset('storage/subspe/Wsp_' . $specialName . '.png') }}" alt="{{ $specialName }}" loading="lazy">
+            <img src="{{ asset('storage/subspe/Wsb_' . $subName . '.png') }}" alt="{{ $subName }}" loading="lazy">
         </div>
     </div>
 </div>

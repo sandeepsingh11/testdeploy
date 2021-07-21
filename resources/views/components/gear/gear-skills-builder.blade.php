@@ -71,6 +71,7 @@
                     data-skill-name="{{ $skill->skill_name }}"
                     data-skill-type="Main"
                     draggable="true"
+                    loading="lazy"
                 >
             </div>
         @endforeach
@@ -91,6 +92,7 @@
                         data-skill-name="{{ $skill->skill_name }}"
                         data-skill-type="All"
                         draggable="true"
+                        loading="lazy"
                     >
                 @endif
             </div>

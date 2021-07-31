@@ -1,5 +1,5 @@
-*
-!public/
-!splatdata/
-!translations/
-!.gitignore
+# *
+# !public/
+/splatdata
+/translations
+# !.gitignore

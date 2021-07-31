@@ -84,15 +84,18 @@ class GearController extends GearAbstractController
 
 
         // create a gear piece THROUGH a user
-        $request->user()->gears()->create([
+        $newGear = $request->user()->gears()->create([
             'gear_title' => $request->get('gear-title'),
             'gear_desc' => $request->get('gear-desc'),
             'base_gear_id' => $request->get('gear-id'),
-            'main_skill_id' => $mainSkillId,
-            'sub_1_skill_id' => $subSkill1Id,
-            'sub_2_skill_id' => $subSkill2Id,
-            'sub_3_skill_id' => $subSkill3Id,
         ]);
+
+        // attach gear's skills to the pivot table
+        $newGear->skills()->attach($mainSkillId, ['skill_type' => 'Main']);
+        $newGear->skills()->attach($subSkill1Id, ['skill_type' => 'Sub1']);
+        $newGear->skills()->attach($subSkill2Id, ['skill_type' => 'Sub2']);
+        $newGear->skills()->attach($subSkill3Id, ['skill_type' => 'Sub3']);
+
 
         return Redirect::route('gears', [$user]);
     }
@@ -156,16 +159,18 @@ class GearController extends GearAbstractController
         $gear->gear_title = $request->get('gear-title');
         $gear->gear_desc = $request->get('gear-desc');
         $gear->base_gear_id = $request->get('gear-id');
-        $gear->main_skill_id = $mainSkillId;
-        $gear->sub_1_skill_id = $subSkill1Id;
-        $gear->sub_2_skill_id = $subSkill2Id;
-        $gear->sub_3_skill_id = $subSkill3Id;
-        
-        
+
         // update model in db if it has new values (is dirty)
         if ($gear->isDirty()) {
             $gear->save();
         }
+        
+        
+        // update gear_skill pivot table
+        $gear->updatePivotTable('Main', $mainSkillId);
+        $gear->updatePivotTable('Sub1', $subSkill1Id);
+        $gear->updatePivotTable('Sub2', $subSkill2Id);
+        $gear->updatePivotTable('Sub3', $subSkill3Id);
 
 
         

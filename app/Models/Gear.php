@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Gear extends Model
 {
@@ -25,7 +26,7 @@ class Gear extends Model
 
     public function skills()
     {
-        return $this->belongsToMany(Skill::class, 'gear_skill')->withPivot('skill_type');
+        return $this->belongsToMany(Skill::class, 'gear_skill')->withPivot('id', 'skill_type');
     }
 
     public function baseGears()
@@ -36,6 +37,24 @@ class Gear extends Model
     public function gearsets()
     {
         return $this->belongsToMany(Gearset::class, 'gear_gearset');
+    }
+
+    /**
+     * Update the skill id in the gear_skill pivot table
+     * 
+     * @param string $skillType ['Main', 'Sub1', 'Sub2', 'Sub3']
+     * @param int $skillId
+     * 
+     * @return void
+     */
+    public function updatePivotTable($skillType, $skillId)
+    {
+        $gear = $this;
+
+        DB::table('gear_skill')
+            ->where('gear_id', $gear->id)
+            ->where('skill_type', $skillType)
+            ->update(['skill_id' => $skillId]);
     }
 
     /**

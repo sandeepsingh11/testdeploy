@@ -1,6 +1,11 @@
-# Splat Build
-## How to test locally
-1. Clone the repo: `git clone ???`
+# Splat Build (Beta)
+## A Gear Planner Tool
+- Create Head, Clothing, and Shoes gears from Splatoon 2
+- Assemble gearsets with the existing gears you've created
+- See gear stats in real-time (future release)
+- Search through your gears and gearsets (future release)
+### How to test locally
+1. Clone the repo: `git clone https://github.com/sandeepsingh11/splat-build.git`
 2. Switch into the clone's directory
 3. Run `composer install`
 4. Copy **.env.dev** to create **.env** (`cp .env.dev .env`)

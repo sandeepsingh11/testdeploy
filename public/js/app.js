@@ -1940,20 +1940,101 @@ function dropHandler(e) {
       if (this.readyState == 4 && this.status == 200) {
         // console.log(this);
         var res = JSON.parse(this.response); // console.log(res[draggedSkillName]);
-
-        var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart'); // get all inputted skill names
+        // get all inputted skill names
 
         var inputtedSkillNames = getInputtedSkillNames(); // map number of main and subs to each inputted skill
 
         var mainAndSubs = getMainAndSubs(inputtedSkillNames); // calculate ability effect for each inputted skill
 
         mainAndSubs.forEach(function (skillObj) {
-          var val = calculateAbilityEffect(skillObj.main, skillObj.subs, hml[0], hml[1], hml[2], skillObj.skillName); // console.log(val);
+          console.log(skillObj.skillName);
+
+          if (skillObj.skillName == 'RespawnTime_Save') {
+            var aroudHML = getHML(res[draggedSkillName], 'Dying_AroudFrm');
+            var chaseHML = getHML(res[draggedSkillName], 'Dying_ChaseFrm');
+            var aroudVal = calculateAbilityEffect(skillObj.main, skillObj.subs, aroudHML[0], aroudHML[1], aroudHML[2], skillObj.skillName);
+            var chaseVal = calculateAbilityEffect(skillObj.main, skillObj.subs, chaseHML[0], chaseHML[1], chaseHML[2], skillObj.skillName);
+            var deathCamObj = {
+              Frames: Math.ceil(aroudVal),
+              Seconds: (Math.ceil(aroudVal) / 60).toFixed(2)
+            };
+            var dyingObj = {
+              Frames: Math.ceil(chaseVal),
+              Seconds: (Math.ceil(chaseVal) / 60).toFixed(2)
+            };
+            console.log(deathCamObj);
+            console.log(dyingObj);
+          } else if (skillObj.skillName == 'OpInkEffect_Reduction') {
+            var jumpHML = getHML(res[draggedSkillName], 'OpInk_JumpGnd');
+            var velShotHML = getHML(res[draggedSkillName], 'OpInk_VelGnd_Shot');
+            var velHML = getHML(res[draggedSkillName], 'OpInk_VelGnd');
+            var damageLimitHML = getHML(res[draggedSkillName], 'OpInk_Damage_Lmt');
+            var damageHML = getHML(res[draggedSkillName], 'OpInk_Damage');
+            var armorHML = getHML(res[draggedSkillName], 'OpInk_Armor_HP');
+            var jumpVal = calculateAbilityEffect(skillObj.main, skillObj.subs, jumpHML[0], jumpHML[1], jumpHML[2], skillObj.skillName);
+            var velShotVal = calculateAbilityEffect(skillObj.main, skillObj.subs, velShotHML[0], velShotHML[1], velShotHML[2], skillObj.skillName);
+            var velVal = calculateAbilityEffect(skillObj.main, skillObj.subs, velHML[0], velHML[1], velHML[2], skillObj.skillName);
+            var damageLimitVal = calculateAbilityEffect(skillObj.main, skillObj.subs, damageLimitHML[0], damageLimitHML[1], damageLimitHML[2], skillObj.skillName);
+            var damageVal = calculateAbilityEffect(skillObj.main, skillObj.subs, damageHML[0], damageHML[1], damageHML[2], skillObj.skillName);
+            var armorVal = calculateAbilityEffect(skillObj.main, skillObj.subs, armorHML[0], armorHML[1], armorHML[2], skillObj.skillName);
+            var jumpObj = {
+              Effect: jumpVal.toFixed(4)
+            };
+            var velShotObj = {
+              Effect: velShotVal.toFixed(4)
+            };
+            var velObj = {
+              Effect: velVal.toFixed(4)
+            };
+            var damageLimitObj = {
+              Effect: damageLimitVal.toFixed(4)
+            };
+            var damageObj = {
+              Effect: damageVal.toFixed(4)
+            };
+            var armorObj = {
+              Effect: Math.ceil(armorVal)
+            };
+            console.log(jumpObj);
+            console.log(velShotObj);
+            console.log(velObj);
+            console.log(damageLimitObj);
+            console.log(damageObj);
+            console.log(armorObj);
+          } else if (skillObj.skillName == 'MarkingTime_Reduction') {
+            var pointSensorHML = getHML(res[draggedSkillName], 'MarkingTime_ShortRt');
+            var inkMineHML = getHML(res[draggedSkillName], 'MarkingTime_ShortRt_Trap');
+            var silFarHML = getHML(res[draggedSkillName], 'Silhouette_DistFar');
+            var silNearHML = getHML(res[draggedSkillName], 'Silhouette_DistNear');
+            var pointSensorVal = calculateAbilityEffect(skillObj.main, skillObj.subs, pointSensorHML[0], pointSensorHML[1], pointSensorHML[2], skillObj.skillName);
+            var inkMineVal = calculateAbilityEffect(skillObj.main, skillObj.subs, inkMineHML[0], inkMineHML[1], inkMineHML[2], skillObj.skillName);
+            var silFarVal = calculateAbilityEffect(skillObj.main, skillObj.subs, silFarHML[0], silFarHML[1], silFarHML[2], skillObj.skillName);
+            var silNearVal = calculateAbilityEffect(skillObj.main, skillObj.subs, silNearHML[0], silNearHML[1], silNearHML[2], skillObj.skillName);
+            var pointSensorObj = {
+              Effect: pointSensorVal.toFixed(4)
+            };
+            var inkMineObj = {
+              Effect: inkMineVal.toFixed(4)
+            };
+            var silFarObj = {
+              Effect: silFarVal.toFixed(4)
+            };
+            var silNearObj = {
+              Effect: silNearVal.toFixed(4)
+            };
+            console.log(pointSensorObj);
+            console.log(inkMineObj);
+            console.log(silFarObj);
+            console.log(silNearObj);
+          } else {
+            var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
+            var val = calculateAbilityEffect(skillObj.main, skillObj.subs, hml[0], hml[1], hml[2], skillObj.skillName); // console.log(val);
+          }
         });
       }
     };
 
-    xhttp.open("GET", "/storage/Player/Player_Spec_" + draggedSkillName + ".json", true);
+    xhttp.open("GET", "/storage/540/Player/Player_Spec_" + draggedSkillName + ".json", true);
     xhttp.send(); // $.getJSON("/storage/Player/Player_Spec_RespawnSpecialGauge_Save.json", function(data) {
     //     console.log(data);
     // });
@@ -2101,7 +2182,7 @@ function getLerpN(percentage, slope) {
   }
 
   if (slope != 0.5) {
-    return Math.pow(Math.E, -1 * (Math.log(percentage / 100) * Math.log(slope) / Math.log(2)));
+    return Math.pow(Math.E, -1 * (Math.log(percentage) * Math.log(slope) / Math.log(2)));
   }
 } // result
 
@@ -2115,9 +2196,9 @@ function calculateAbilityEffect(numOfMains, numOfSubs, high, mid, low, abilityNa
   var APs = getAPs(numOfMains, numOfSubs);
   var percentage = getPercentage(APs);
   var slope = getSlope(high, mid, low);
-  var lerpN = getLerpN(percentage, slope);
+  var lerpN = getLerpN(percentage / 100, slope);
   var result = getResult(high, low, lerpN);
-  console.log("AP: ".concat(APs, ", p: ").concat(percentage, ", s: ").concat(slope, ", lerpN: ").concat(lerpN));
+  console.log("AP: ".concat(APs, ", p: ").concat(percentage, ", s: ").concat(slope, ", lerpN: ").concat(lerpN, " h:").concat(high, " m:").concat(mid, " l:").concat(low));
   return result;
 }
 

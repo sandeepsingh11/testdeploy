@@ -28,7 +28,7 @@
         <img src="{{ asset('storage/gear/' . $gearName . '.png') }}" alt="{{ __($gearName) }}" class="mx-auto">
     </div>
 
-    <div id="gear-main" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900 mx-auto mb-4" style="width: 64px; height: 64px; box-shadow: 0 0 0 1px #000" data-source="slot">
+    <div id="skill-main" class="drag-into border-2 border-r-0 border-b-0 border-solid border-gray-400 rounded-full bg-gray-900 mx-auto mb-4" style="width: 64px; height: 64px; box-shadow: 0 0 0 1px #000" data-source="slot">
         <img 
             src="{{ asset('storage/skills/' . $mainSkill . '.png') }}" 
             alt="{{ $mainSkill }}"

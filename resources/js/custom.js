@@ -192,6 +192,64 @@ function dropHandler(e) {
                         console.log(silFarObj);
                         console.log(silNearObj);
                     }
+                    else if (skillObj.skillName == 'JumpTime_Save') {
+                        var prepareHML = getHML(res[draggedSkillName], 'DokanWarp_TameFrm');
+                        var superJumpHML = getHML(res[draggedSkillName], 'DokanWarp_MoveFrm');
+
+                        var prepareVal = calculateAbilityEffect(skillObj.main, skillObj.subs, prepareHML[0], prepareHML[1], prepareHML[2], skillObj.skillName);
+                        var superJumpVal = calculateAbilityEffect(skillObj.main, skillObj.subs, superJumpHML[0], superJumpHML[1], superJumpHML[2], skillObj.skillName);
+
+                        var prepareObj = {
+                            Frames: Math.ceil(prepareVal),
+                            Seconds: (Math.ceil(prepareVal) / 60).toFixed(2)
+                        };
+                        var superJumpObj = {
+                            Frames: Math.ceil(superJumpVal),
+                            Seconds: (Math.ceil(superJumpVal) / 60).toFixed(2)
+                        };
+                        console.log(prepareObj);
+                        console.log(superJumpObj);
+                    }
+                    else if (skillObj.skillName == 'InkRecovery_Up') {
+                        var squidFormHML = getHML(res[draggedSkillName], 'RecoverFullFrm_Ink');
+                        var humanFormHML = getHML(res[draggedSkillName], 'RecoverNrmlFrm_Ink');
+
+                        var squidFormVal = calculateAbilityEffect(skillObj.main, skillObj.subs, squidFormHML[0], squidFormHML[1], squidFormHML[2], skillObj.skillName);
+                        var humanFormVal = calculateAbilityEffect(skillObj.main, skillObj.subs, humanFormHML[0], humanFormHML[1], humanFormHML[2], skillObj.skillName);
+
+                        var squidFormObj = {
+                            Frames: Math.ceil(squidFormVal),
+                            Seconds: (Math.ceil(squidFormVal) / 60).toFixed(2)
+                        };
+                        var humanFormObj = {
+                            Frames: Math.ceil(humanFormVal),
+                            Seconds: (Math.ceil(humanFormVal) / 60).toFixed(2)
+                        };
+                        console.log(squidFormObj);
+                        console.log(humanFormObj);
+                    }
+                    else if (skillObj.skillName == 'BombDamage_Reduction') {
+                        var specialDamageHML = getHML(res[draggedSkillName], 'BurstDamageRt_Special');
+                        var subNearHML = getHML(res[draggedSkillName], 'BurstDamageRt_SubH');
+                        var subFarHML = getHML(res[draggedSkillName], 'BurstDamageRt_SubL');
+
+                        var specialDamageVal = calculateAbilityEffect(skillObj.main, skillObj.subs, specialDamageHML[0], specialDamageHML[1], specialDamageHML[2], skillObj.skillName);
+                        var subNearVal = calculateAbilityEffect(skillObj.main, skillObj.subs, subNearHML[0], subNearHML[1], subNearHML[2], skillObj.skillName);
+                        var subFarVal = calculateAbilityEffect(skillObj.main, skillObj.subs, subFarHML[0], subFarHML[1], subFarHML[2], skillObj.skillName);
+
+                        var specialDamageObj = {
+                            Effect: specialDamageVal.toFixed(4)
+                        };
+                        var subNearObj = {
+                            Effect: subNearVal.toFixed(4)
+                        };
+                        var subFarObj = {
+                            Effect: subFarVal.toFixed(4)
+                        };
+                        console.log(specialDamageObj);
+                        console.log(subNearObj);
+                        console.log(subFarObj);
+                    }
                     else {
                         var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
 

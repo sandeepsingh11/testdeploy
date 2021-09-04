@@ -2082,9 +2082,37 @@ function dropHandler(e) {
             console.log(subNearObj);
             console.log(subFarObj);
           } else if (skillObj.skillName == 'MainInk_Save') {
-            var mainInkSaveCalc = function mainInkSaveCalc(weapon, res, skillObj, weaponData, inkConsume) {
+            // weapon info
+            $.getJSON("/storage/540/WeaponInfo_Main.json", function (mainInfoJson) {
+              // console.log(mainInfoJson);
+              var weapon = mainInfoJson[116]; // 0, 33, 56, 116
+              // get weapon name
+
+              var weaponName = weapon["Name"].substring(0, weapon["Name"].length - 3).replace("_", "");
+
+              if (weaponName.includes("Blaster")) {
+                weaponName = weaponName.substring(7);
+              } // console.log(weaponName);
+              // get weapon info
+
+
+              var weaponData = getWeaponStats(weaponName);
+              var inkConsume = 0; // get ink consume val
+
+              if (weaponName.includes('Roller')) {
+                inkConsume = weaponData.Stand_mInkConsumeSplash;
+              } else {
+                if (weaponName.includes('Charger')) {
+                  inkConsume = weaponData.mFullChargeInkConsume || weaponData.mInkConsume;
+                } else {
+                  inkConsume = weaponData.mInkConsume;
+                }
+              } // prep values to calc
+
+
               var key = '';
-              if (weapon.InkSaverLv == 'Low') key = 'ConsumeRt_Main_Low';else if (weapon.InkSaverLv == 'High') key = 'ConsumeRt_Main_High';else key = 'ConsumeRt_Main';
+              if (weapon.InkSaverLv == 'Low') key = 'ConsumeRt_Main_Low';else if (weapon.InkSaverLv == 'High') key = 'ConsumeRt_Main_High';else key = 'ConsumeRt_Main'; // calc
+
               var consumeRateHML = getHML(res[draggedSkillName], key);
               var consumeRateVal = calculateAbilityEffect(skillObj.main, skillObj.subs, consumeRateHML[0], consumeRateHML[1], consumeRateHML[2], skillObj.skillName);
               var inkTankSize = weaponData.mInkMagazineRatio || 1.0;
@@ -2095,69 +2123,6 @@ function dropHandler(e) {
 
               console.log(consumeRateObj);
               return consumeRateObj;
-            };
-
-            // weapon info
-            $.getJSON("/storage/540/WeaponInfo_Main.json", function (mainInfoJson) {
-              // console.log(mainInfoJson);
-              var weapon = mainInfoJson[116]; // 0, 33, 56, 116
-
-              var weaponName = weapon["Name"].substring(0, weapon["Name"].length - 3).replace("_", "");
-
-              if (weaponName.includes("Blaster")) {
-                weaponName = weaponName.substring(7);
-              } // console.log(weaponName);
-              // weapon stats info
-
-
-              $.getJSON("/storage/540/WeaponBullet/" + weaponName + ".json", function (bulletJson) {
-                var weaponData;
-                var inkConsume = 0;
-
-                if (weapon.Name.includes('Roller')) {
-                  $.getJSON("/storage/540/WeaponBullet/" + weapon.Name.substring(0, weapon.Name.length - 3).replace("_", "") + "_Stand.json", function (data) {
-                    $.getJSON("/storage/540/WeaponBullet/" + weapon.Name.substring(0, weapon.Name.length - 3).replace("_", "") + "_Jump.json", function (data2) {
-                      var dataObj = {};
-                      $.each(bulletJson['param'], function (key, val) {
-                        dataObj[key] = val;
-                      });
-                      $.each(data['param'], function (key, val) {
-                        dataObj['Stand_' + key] = val;
-                      });
-                      $.each(data2['param'], function (key, val) {
-                        dataObj['Jump_' + key] = val;
-                      });
-                      weaponData = dataObj;
-                      inkConsume = weaponData.Stand_mInkConsumeSplash;
-                      var consumeRateObj = mainInkSaveCalc(weapon, res, skillObj, weaponData, inkConsume);
-                    });
-                  });
-                } else {
-                  if (weapon.Name.includes('Spinner') || weapon.Name.includes('Twins')) {
-                    $.getJSON("/storage/540/WeaponBullet/" + weapon.Name.substring(0, weapon.Name.length - 3).replace("_", "") + "_2.json", function (data) {
-                      weaponData = Object.assign({}, bulletJson['param'], data['param']);
-                      inkConsume = weaponData.mInkConsume;
-                      var consumeRateObj = mainInkSaveCalc(weapon, res, skillObj, weaponData, inkConsume);
-                    });
-                  } else if (weapon.Name.includes('Blaster')) {
-                    $.getJSON("/storage/540/WeaponBullet/" + weaponName + "_Burst.json", function (data) {
-                      weaponData = Object.assign({}, bulletJson['param'], data['param']);
-                      inkConsume = weaponData.mInkConsume;
-                      var consumeRateObj = mainInkSaveCalc(weapon, res, skillObj, weaponData, inkConsume);
-                    });
-                  } else {
-                    weaponData = bulletJson['param'];
-
-                    if (weapon.Name.includes('Charger')) {
-                      inkConsume = weaponData.mFullChargeInkConsume || weaponData.mInkConsume;
-                    } else {
-                      inkConsume = weaponData.mInkConsume;
-                    }
-
-                    var consumeRateObj = mainInkSaveCalc(weapon, res, skillObj, weaponData, inkConsume);
-                  }
-                }
-              });
             });
           } else {
             var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
@@ -2172,6 +2137,74 @@ function dropHandler(e) {
     //     console.log(data);
     // });
   }
+} // get weapon stats info
+
+
+function getWeaponStats(weaponName) {
+  var weaponData = null; // weapon stats info
+  // use $.ajax for synchronous calls
+
+  $.ajax({
+    url: "/storage/540/WeaponBullet/" + weaponName + ".json",
+    dataType: 'json',
+    async: false,
+    success: function success(bulletJson) {
+      if (weaponName.includes("Spinner") || weaponName.includes("Twins")) {
+        $.ajax({
+          url: "/storage/540/WeaponBullet/" + weaponName + "_2.json",
+          dataType: 'json',
+          async: false,
+          success: function success(data) {
+            weaponData = Object.assign({}, bulletJson['param'], data['param']);
+            return weaponData;
+          }
+        });
+      } else if (weaponName.includes("Blaster")) {
+        $.ajax({
+          url: "/storage/540/WeaponBullet/" + weaponName + "_Burst.json",
+          dataType: 'json',
+          async: false,
+          success: function success(data) {
+            weaponData = Object.assign({}, bulletJson['param'], data['param']);
+            return weaponData;
+          }
+        });
+      } else if (weaponName.includes("Roller")) {
+        $.ajax({
+          url: "/storage/540/WeaponBullet/" + weaponName + "_Stand.json",
+          dataType: 'json',
+          async: false,
+          success: function success(data) {
+            $.ajax({
+              url: "/storage/540/WeaponBullet/" + weaponName + "_Jump.json",
+              dataType: 'json',
+              async: false,
+              success: function success(data2) {
+                var dataObj = {};
+                $.each(bulletJson['param'], function (key, val) {
+                  dataObj[key] = val;
+                });
+                $.each(data['param'], function (key, val) {
+                  dataObj['Stand_' + key] = val;
+                });
+                $.each(data2['param'], function (key, val) {
+                  dataObj['Jump_' + key] = val;
+                });
+                weaponData = dataObj;
+                return weaponData;
+              }
+            });
+          }
+        });
+      } else {
+        weaponData = bulletJson['param'];
+        return weaponData;
+      }
+
+      return weaponData;
+    }
+  });
+  return weaponData;
 } // assign dragstart listener on draggable elements
 
 

@@ -7,6 +7,102 @@ var source = '';
 var draggedSkillName = '';
 var draggedSkillId = -1;
 var draggedSkillType = '';
+var allWeaponData = [];
+var allSpecialData = [];
+var allSubData = [];
+
+
+
+// load inital data
+window.addEventListener('load', function() {
+    loadData();
+ });
+
+function loadData() {
+    loadWeaponData();
+    // loadSpecialData();
+    loadSubData();
+}
+
+function loadWeaponData() {
+    $.getJSON('/storage/540/WeaponInfo_Main.json', function(weaponJson) {
+        $.each(weaponJson, function(idx, weapon) {
+            // get weapon name
+            var weaponNameSplit = weapon["Name"].split("_");
+            var weaponName = weaponNameSplit[0] + weaponNameSplit[1];
+            if (weaponName.includes("Blaster")) {
+                weaponName = weaponName.substring(7);
+            }
+
+            
+            // get weapon stats
+            $.getJSON('/storage/540/WeaponBullet/' + weaponName + '.json', function(bulletJson) {
+                if (weaponName.includes("Spinner") || weaponName.includes("Twins")) {
+                    $.getJSON('/storage/540/WeaponBullet/' + weaponName + '_2.json', function(data) {
+                        allWeaponData[weapon["Name"]] = [weapon, Object.assign({}, bulletJson['param'], data['param'])];
+                    });
+                }
+                else if (weaponName.includes("Blaster")) {
+                    $.getJSON('/storage/540/WeaponBullet/' + weaponName + '_Burst.json', function(data) {
+                        allWeaponData[weapon["Name"]] = [weapon, Object.assign({}, bulletJson['param'], data['param'])];
+                    });
+                }
+                else if (weaponName.includes("Roller")) {
+                    $.getJSON('/storage/540/WeaponBullet/' + weaponName + '_Stand.json', function(data) {
+                        $.getJSON('/storage/540/WeaponBullet/' + weaponName + '_Jump.json', function(data2) {
+                            var dataObj = {};
+                            $.each(bulletJson['param'], function(key, val) {
+                                dataObj[key] = val;
+                            });
+                            $.each(data['param'], function(key, val) {
+                                dataObj['Stand_' + key] = val;
+                            });
+                            $.each(data2['param'], function(key, val) {
+                                dataObj['Jump_' + key] = val;
+                            });
+                            
+                            allWeaponData[weapon["Name"]] = [weapon, dataObj];
+                        });
+                    });
+                }
+                else {
+                    allWeaponData[weapon["Name"]] = [weapon, bulletJson['param']];
+                }
+            });
+        });
+    });
+}
+
+function loadSubData() {
+    $.getJSON('/storage/540/WeaponInfo_Sub.json', function(subJson) {
+        $.each(subJson, function(index, subweapon) {
+            if (subweapon["Id"] < 100) {
+                var subname = subweapon["Name"];
+                var subInternalName = subname;
+
+                if (subname.includes("Bomb_")) {
+                    subInternalName = subname.replace("Bomb_", "Bomb")
+                }
+                if (subname == "TimerTrap") {
+                    subInternalName = "Trap";
+                }
+                if (subname.includes("Poison") || subname.includes("Point")) {
+                    subInternalName = "Bomb" + subname;
+                }
+                if (subname == "Flag") {
+                    subInternalName = "JumpBeacon";
+                }
+
+
+                // get sub stats
+                $.getJSON('/storage/540/WeaponBullet/' + subInternalName + '.json', function(bulletJson) {
+                    allSubData[subweapon["Name"]] = [subweapon, bulletJson["param"]];
+                });
+            }
+        });
+    });
+}
+
 
 
 
@@ -253,104 +349,83 @@ function dropHandler(e) {
                         console.log(subFarObj);
                     }
                     else if (skillObj.skillName == 'MainInk_Save') {
-                        // weapon info
-                        $.getJSON("/storage/540/WeaponInfo_Main.json", function(mainInfoJson) {
-                            // console.log(mainInfoJson);
-                            var weapon = mainInfoJson[116]; // 0, 33, 56, 116
-                            
-                            // get weapon name
-                            var weaponName = weapon["Name"].substring(0, weapon["Name"].length - 3).replace("_", "")
-                            if (weaponName.includes("Blaster")) {
-                                weaponName = weaponName.substring(7)
-                            }
-                            // console.log(weaponName);
+                        // console.log(allWeaponData);
+                        var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+                        var weaponName = weapon[0]["Name"];
+                        // console.log(weaponName);
 
 
-                            // get weapon info
-                            var weaponData = getWeaponStats(weaponName);
-                            var inkConsume = 0
-
-
-                            // get ink consume val
-                            if (weaponName.includes('Roller')) {
-                                inkConsume = weaponData.Stand_mInkConsumeSplash;
+                        // get ink consume val
+                        var inkConsume = 0
+                        if (weaponName.includes('Roller')) {
+                            inkConsume = weapon[1].Stand_mInkConsumeSplash;
+                        }
+                        else {
+                            if (weaponName.includes('Charger')) {
+                                inkConsume = weapon[1].mFullChargeInkConsume || weapon[1].mInkConsume;
                             }
                             else {
-                                if (weaponName.includes('Charger')) {
-                                    inkConsume = weaponData.mFullChargeInkConsume || weaponData.mInkConsume;
-                                }
-                                else {
-                                    inkConsume = weaponData.mInkConsume;
-                                }
+                                inkConsume = weapon[1].mInkConsume;
                             }
+                        }
 
 
-                            // prep values to calc
-                            var key = '';
-                            if (weapon.InkSaverLv == 'Low') key = 'ConsumeRt_Main_Low';
-                            else if (weapon.InkSaverLv == 'High') key = 'ConsumeRt_Main_High';
-                            else key = 'ConsumeRt_Main';
+                        // prep values to calc
+                        var key = '';
+                        if (weapon[0].InkSaverLv == 'Low') key = 'ConsumeRt_Main_Low';
+                        else if (weapon[0].InkSaverLv == 'High') key = 'ConsumeRt_Main_High';
+                        else key = 'ConsumeRt_Main';
 
-                            // calc
-                            var consumeRateHML = getHML(res[draggedSkillName], key);
-                            var consumeRateVal = calculateAbilityEffect(skillObj.main, skillObj.subs, consumeRateHML[0], consumeRateHML[1], consumeRateHML[2], skillObj.skillName);
+                        // calc
+                        var consumeRateHML = getHML(res[draggedSkillName], key);
+                        var consumeRateVal = calculateAbilityEffect(skillObj.main, skillObj.subs, consumeRateHML[0], consumeRateHML[1], consumeRateHML[2], skillObj.skillName);
 
-                            var inkTankSize = weaponData.mInkMagazineRatio || 1.0;
-
-
-
-                            var consumeRateObj = {
-                                Effect: (consumeRateVal * inkConsume).toFixed(5),
-                                MaxShots: Math.floor(inkTankSize / (consumeRateVal * inkConsume))
-                            };
-                            // console.log(consumeRateVal + ', ' + inkConsume + ', ' + inkTankSize);
-                            console.log(consumeRateObj);
+                        var inkTankSize = weapon[1].mInkMagazineRatio || 1.0;
 
 
-                            return consumeRateObj;
-                        });
+
+                        var consumeRateObj = {
+                            Effect: (consumeRateVal * inkConsume).toFixed(5),
+                            MaxShots: Math.floor(inkTankSize / (consumeRateVal * inkConsume))
+                        };
+                        // console.log(consumeRateVal + ', ' + inkConsume + ', ' + inkTankSize);
+                        console.log(consumeRateObj);
+
+
+                        return consumeRateObj;
                     }
                     else if (skillObj.skillName == 'SubInk_Save') {
-                        // weapon info
-                        $.getJSON("/storage/540/WeaponInfo_Main.json", function(mainInfoJson) {
-                            var weapon = mainInfoJson[116]; // 0, 33, 56, 116
-                            
-                            // get weapon name
-                            var weaponName = weapon["Name"].substring(0, weapon["Name"].length - 3).replace("_", "")
-                            if (weaponName.includes("Blaster")) {
-                                weaponName = weaponName.substring(7)
-                            }
+                        var weapon = allWeaponData['Roller_Compact_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
 
 
-                            // get sub info
-                            var allSubData = getSubStats();
-                            var subData = allSubData[weapon.Sub];
-                            var inkConsume = subData[1].mInkConsume;
-                            var key;
+                        // prep sub info
+                        var subData = allSubData[weapon[0].Sub];
+                        var inkConsume = subData[1].mInkConsume;
+                        var key;
+                        // console.log(subData[0].Name);
 
-                            if ('ConsumeRt_Sub_A_Low' in res[draggedSkillName]) {
-                                key = "ConsumeRt_Sub_" + subData[0].InkSaverType;
+                        if ('ConsumeRt_Sub_A_Low' in res[draggedSkillName]) {
+                            key = "ConsumeRt_Sub_" + subData[0].InkSaverType;
+                        }
+                        else {
+                            if (subData[0].InkSaverLv == "Middle") {
+                                key = "ConsumeRt_Sub";
                             }
                             else {
-                                if (subData[0].InkSaverLv == "Middle") {
-                                    key = "ConsumeRt_Sub";
-                                }
-                                else {
-                                    key = "ConsumeRt_Sub_" + subData[0].InkSaverLv;
-                                }
+                                key = "ConsumeRt_Sub_" + subData[0].InkSaverLv;
                             }
+                        }
 
-                            var consumeRateHML = getHML(res[draggedSkillName], key);
-                            var consumeRateVal = calculateAbilityEffect(skillObj.main, skillObj.subs, consumeRateHML[0], consumeRateHML[1], consumeRateHML[2], skillObj.skillName);
+                        var consumeRateHML = getHML(res[draggedSkillName], key);
+                        var consumeRateVal = calculateAbilityEffect(skillObj.main, skillObj.subs, consumeRateHML[0], consumeRateHML[1], consumeRateHML[2], skillObj.skillName);
 
-                            var consumeRateObj = {
-                                Effect: (consumeRateVal * inkConsume).toFixed(5)
-                            };
-                            console.log(consumeRateObj);
+                        var consumeRateObj = {
+                            Effect: (consumeRateVal * inkConsume).toFixed(5)
+                        };
+                        console.log(consumeRateObj);
 
 
-                            return consumeRateObj;
-                        });
+                        return consumeRateObj;
                     }
                     else {
                         var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');

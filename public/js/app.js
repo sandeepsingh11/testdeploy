@@ -2124,6 +2124,42 @@ function dropHandler(e) {
               console.log(consumeRateObj);
               return consumeRateObj;
             });
+          } else if (skillObj.skillName == 'SubInk_Save') {
+            // weapon info
+            $.getJSON("/storage/540/WeaponInfo_Main.json", function (mainInfoJson) {
+              var weapon = mainInfoJson[116]; // 0, 33, 56, 116
+              // get weapon name
+
+              var weaponName = weapon["Name"].substring(0, weapon["Name"].length - 3).replace("_", "");
+
+              if (weaponName.includes("Blaster")) {
+                weaponName = weaponName.substring(7);
+              } // get sub info
+
+
+              var allSubData = getSubStats();
+              var subData = allSubData[weapon.Sub];
+              var inkConsume = subData[1].mInkConsume;
+              var key;
+
+              if ('ConsumeRt_Sub_A_Low' in res[draggedSkillName]) {
+                key = "ConsumeRt_Sub_" + subData[0].InkSaverType;
+              } else {
+                if (subData[0].InkSaverLv == "Middle") {
+                  key = "ConsumeRt_Sub";
+                } else {
+                  key = "ConsumeRt_Sub_" + subData[0].InkSaverLv;
+                }
+              }
+
+              var consumeRateHML = getHML(res[draggedSkillName], key);
+              var consumeRateVal = calculateAbilityEffect(skillObj.main, skillObj.subs, consumeRateHML[0], consumeRateHML[1], consumeRateHML[2], skillObj.skillName);
+              var consumeRateObj = {
+                Effect: (consumeRateVal * inkConsume).toFixed(5)
+              };
+              console.log(consumeRateObj);
+              return consumeRateObj;
+            });
           } else {
             var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
             var val = calculateAbilityEffect(skillObj.main, skillObj.subs, hml[0], hml[1], hml[2], skillObj.skillName); // console.log(val);
@@ -2205,6 +2241,54 @@ function getWeaponStats(weaponName) {
     }
   });
   return weaponData;
+} // get sub stats info
+
+
+function getSubStats() {
+  var subData = []; // sub stats info
+  // use $.ajax for synchronous calls
+
+  $.ajax({
+    url: "/storage/540/WeaponInfo_Sub.json",
+    dataType: 'json',
+    async: false,
+    success: function success(subJson) {
+      $.each(subJson, function (index, subweapon) {
+        if (subweapon["Id"] < 100) {
+          var subname = subweapon["Name"];
+          var subInternalName = subname;
+
+          if (subname.includes("Bomb_")) {
+            subInternalName = subname.replace("Bomb_", "Bomb");
+          }
+
+          if (subname == "TimerTrap") {
+            subInternalName = "Trap";
+          }
+
+          if (subname.includes("Poison") || subname.includes("Point")) {
+            subInternalName = "Bomb" + subname;
+          }
+
+          if (subname == "Flag") {
+            subInternalName = "JumpBeacon";
+          }
+
+          $.ajax({
+            url: "/storage/540/WeaponBullet/" + subInternalName + ".json",
+            dataType: 'json',
+            async: false,
+            success: function success(bulletJson) {
+              subData[subweapon["Name"]] = [subweapon, bulletJson["param"]];
+              return subData;
+            }
+          });
+        }
+      });
+      return subData;
+    }
+  });
+  return subData;
 } // assign dragstart listener on draggable elements
 
 

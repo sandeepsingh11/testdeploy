@@ -1904,8 +1904,8 @@ window.addEventListener('load', function () {
 });
 
 function loadData() {
-  loadWeaponData(); // loadSpecialData();
-
+  loadWeaponData();
+  loadSpecialData();
   loadSubData();
 }
 
@@ -1950,6 +1950,26 @@ function loadWeaponData() {
           allWeaponData[weapon["Name"]] = [weapon, bulletJson['param']];
         }
       });
+    });
+  });
+}
+
+function loadSpecialData() {
+  $.getJSON('/storage/540/WeaponInfo_Special.json', function (specialJson) {
+    $.each(specialJson, function (idx, specialweapon) {
+      if (specialweapon["Id"] != 15 && specialweapon["Id"] != 16 && specialweapon["Id"] != 13 && specialweapon["Id"] <= 18) {
+        var special_internal_name = specialweapon["Name"];
+
+        if (specialweapon["Name"].includes("Launcher")) {
+          special_internal_name = "Bomb" + specialweapon["Name"].replace("Launcher", "") + "Launcher";
+        } // get special stats
+
+
+        $.getJSON("/storage/540/WeaponBullet/" + special_internal_name + ".json", function (bulletJson) {
+          specialweapon["Name"] = special_internal_name;
+          allSpecialData[special_internal_name] = [specialweapon, bulletJson["param"]];
+        });
+      }
     });
   });
 }
@@ -2230,6 +2250,17 @@ function dropHandler(e) {
             };
             console.log(consumeRateObj);
             return consumeRateObj;
+          } else if (skillObj.skillName == 'SpecialIncrease_Up') {
+            var weapon = allWeaponData['Shooter_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+            // var specialData = allSpecialData[weapon[0].Special];
+
+            var chargeUpHML = getHML(res[draggedSkillName], 'SpecialRt_Charge');
+            var chargeUpVal = calculateAbilityEffect(skillObj.main, skillObj.subs, chargeUpHML[0], chargeUpHML[1], chargeUpHML[2], skillObj.skillName);
+            var chargeUpObj = {
+              Effect: Math.ceil(weapon[0]["SpecialCost"] / chargeUpVal)
+            };
+            console.log(chargeUpObj);
+            return chargeUpObj;
           } else {
             var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
             var val = calculateAbilityEffect(skillObj.main, skillObj.subs, hml[0], hml[1], hml[2], skillObj.skillName); // console.log(val);

@@ -2118,31 +2118,6 @@ function dropHandler(e) {
             console.log(damageLimitObj);
             console.log(damageObj);
             console.log(armorObj);
-          } else if (skillObj.skillName == 'MarkingTime_Reduction') {
-            var pointSensorHML = getHML(res[draggedSkillName], 'MarkingTime_ShortRt');
-            var inkMineHML = getHML(res[draggedSkillName], 'MarkingTime_ShortRt_Trap');
-            var silFarHML = getHML(res[draggedSkillName], 'Silhouette_DistFar');
-            var silNearHML = getHML(res[draggedSkillName], 'Silhouette_DistNear');
-            var pointSensorVal = calculateAbilityEffect(skillObj.main, skillObj.subs, pointSensorHML[0], pointSensorHML[1], pointSensorHML[2], skillObj.skillName);
-            var inkMineVal = calculateAbilityEffect(skillObj.main, skillObj.subs, inkMineHML[0], inkMineHML[1], inkMineHML[2], skillObj.skillName);
-            var silFarVal = calculateAbilityEffect(skillObj.main, skillObj.subs, silFarHML[0], silFarHML[1], silFarHML[2], skillObj.skillName);
-            var silNearVal = calculateAbilityEffect(skillObj.main, skillObj.subs, silNearHML[0], silNearHML[1], silNearHML[2], skillObj.skillName);
-            var pointSensorObj = {
-              Effect: pointSensorVal.toFixed(4)
-            };
-            var inkMineObj = {
-              Effect: inkMineVal.toFixed(4)
-            };
-            var silFarObj = {
-              Effect: silFarVal.toFixed(4)
-            };
-            var silNearObj = {
-              Effect: silNearVal.toFixed(4)
-            };
-            console.log(pointSensorObj);
-            console.log(inkMineObj);
-            console.log(silFarObj);
-            console.log(silNearObj);
           } else if (skillObj.skillName == 'JumpTime_Save') {
             var prepareHML = getHML(res[draggedSkillName], 'DokanWarp_TameFrm');
             var superJumpHML = getHML(res[draggedSkillName], 'DokanWarp_MoveFrm');
@@ -2174,6 +2149,7 @@ function dropHandler(e) {
             console.log(squidFormObj);
             console.log(humanFormObj);
           } else if (skillObj.skillName == 'BombDamage_Reduction') {
+            // calc bomb defense up values
             var specialDamageHML = getHML(res[draggedSkillName], 'BurstDamageRt_Special');
             var subNearHML = getHML(res[draggedSkillName], 'BurstDamageRt_SubH');
             var subFarHML = getHML(res[draggedSkillName], 'BurstDamageRt_SubL');
@@ -2191,7 +2167,34 @@ function dropHandler(e) {
             };
             console.log(specialDamageObj);
             console.log(subNearObj);
-            console.log(subFarObj);
+            console.log(subFarObj); // calc cold-blooded values
+
+            $.getJSON('/storage/540/Player/Player_Spec_MarkingTime_Reduction.json', function (data) {
+              var pointSensorHML = getHML(data['MarkingTime_Reduction'], 'MarkingTime_ShortRt');
+              var inkMineHML = getHML(data['MarkingTime_Reduction'], 'MarkingTime_ShortRt_Trap');
+              var silFarHML = getHML(data['MarkingTime_Reduction'], 'Silhouette_DistFar');
+              var silNearHML = getHML(data['MarkingTime_Reduction'], 'Silhouette_DistNear');
+              var pointSensorVal = calculateAbilityEffect(skillObj.main, skillObj.subs, pointSensorHML[0], pointSensorHML[1], pointSensorHML[2], skillObj.skillName);
+              var inkMineVal = calculateAbilityEffect(skillObj.main, skillObj.subs, inkMineHML[0], inkMineHML[1], inkMineHML[2], skillObj.skillName);
+              var silFarVal = calculateAbilityEffect(skillObj.main, skillObj.subs, silFarHML[0], silFarHML[1], silFarHML[2], skillObj.skillName);
+              var silNearVal = calculateAbilityEffect(skillObj.main, skillObj.subs, silNearHML[0], silNearHML[1], silNearHML[2], skillObj.skillName);
+              var pointSensorObj = {
+                Effect: pointSensorVal.toFixed(4)
+              };
+              var inkMineObj = {
+                Effect: inkMineVal.toFixed(4)
+              };
+              var silFarObj = {
+                Effect: silFarVal.toFixed(4)
+              };
+              var silNearObj = {
+                Effect: silNearVal.toFixed(4)
+              };
+              console.log(pointSensorObj);
+              console.log(inkMineObj);
+              console.log(silFarObj);
+              console.log(silNearObj);
+            });
           } else if (skillObj.skillName == 'MainInk_Save') {
             // console.log(allWeaponData);
             var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
@@ -2323,6 +2326,163 @@ function dropHandler(e) {
                   };
                   console.log(specialPUObj);
                   return specialPUObj;
+                }
+              }
+            });
+          } else if (skillObj.skillName == 'MarkingTime_Reduction') {
+            var weapon = allWeaponData['Shooter_BlasterShort_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+
+            var keys = {
+              'mBulletDamageMaxDist': 'Bullet Damage Max Distance',
+              'mBulletDamageMinDist': 'Bullet Damage Min Distance',
+              'mCanopyHP': 'Canopy HP',
+              'mCanopyNakedFrame': 'Canopy Recovery Time',
+              'mCollisionRadiusFarRate': 'Collision Radius Far',
+              'mCollisionRadiusMiddleRate': 'Collision Radius Middle',
+              'mCollisionRadiusNearRate': 'Collision Radius Near',
+              'mCoreDamageRate': 'Core Damage Rate',
+              'mCorePaintWidthHalfRate': 'Core Paint Width Half Rate',
+              'mDamageMaxMaxChargeRate': 'Damage Max Charge Rate',
+              'mDamageRate': 'Damage',
+              'mDashSpeed': 'Dash Speed',
+              'mDegBias': 'Degree Bias',
+              'mDegJumpBiasInterpolateRate': 'Jump Bias Interpolation Rate',
+              'mDegJumpBias': 'Degree Jump Bias',
+              'mDegJumpRandom': 'Degree Jump Random',
+              'mDegRandom': 'Degree Random',
+              'mDropSplashPaintRadiusRate': 'Drop Splash Paint Radius Rate',
+              'mFirstGroupBulletBoundPaintRadiusRate': 'Group 1 Bullet Paint Radius Rate (Outer)',
+              'mFirstGroupBulletDamageRate': 'Group 1 Bullet Damage Rate',
+              'mFirstGroupBulletFirstPaintRRate': 'Group 1 Bullet Paint Radius Rate',
+              'mFirstGroupBurst_PaintRRate': 'Group 1 Bullet PaintR Rate',
+              'mFirstGroupSplashPaintRadiusRate': 'Group 1 Bullet Splash Paint Radius Rate',
+              'mFirstSecondMaxChargeShootingFrameTimes': 'Splatling Max Charge Frame',
+              'mFullChargeDamageRate': 'Full Charge Damage',
+              'mFullChargeDistance': 'Full Charge Distance',
+              'mInitVelRate': 'Init Velocity Rate',
+              'mInkConsumeCoreMaxSpeed': 'Ink Consume Max Speed',
+              'mInkConsumeCoreMinSpeed': 'Ink Consume Min Speed',
+              'mKnockBackRadiusRate': 'Knock Back Radius',
+              'mMaxDistance': 'Max Distance',
+              'mMinMaxChargeDamageRate': 'Max Shooting Damage',
+              'mMoveSpeed': 'Move Speed',
+              'mSecondGroupBulletBoundPaintRadiusRate': 'Group 2 Bullet Paint Radius Rate (Outer)',
+              'mSecondGroupBulletDamageRate': 'Group 2 Bullet Damage Rate',
+              'mSecondGroupBulletFirstPaintRRate': 'Group 2 Bullet Paint Radius Rate',
+              'mSecondGroupBurst_PaintRRate': 'Group 2 Bullet PaintR Rate',
+              'mSecondGroupSplashPaintRadiusRate': 'Group 2 Bullet Splash Paint Radius Rate',
+              'mSideStepOneMuzzleDamageRate': 'Side Step One Muzzle Damage',
+              'mSphereSplashDropPaintRadiusRate': 'Sphere Splash Drop Paint Radius',
+              'mSplashDamageInsideRate': 'Splash Damage Inside Rate',
+              'mSplashDamageOutsideRate': 'Splash Damage Outside Rate',
+              'mSplashPaintRadiusRate': 'Paint Radius Rate',
+              'mSplashPaintRadius': 'Paint Radius',
+              'mThirdGroupBulletBoundPaintRadiusRate': 'Group 3 Bullet Paint Radius Rate (Outer)',
+              'mThirdGroupBulletDamageRate': 'Group 3 Bullet Damage Rate',
+              'mThirdGroupBulletFirstPaintRRate': 'Group 3 Bullet Paint Radius Rate',
+              'mThirdGroupBurst_PaintRRate': 'Group 3 Bullet PaintR Rate',
+              'mThirdGroupSplashPaintRadiusRate': 'Group 3 Bullet Splash Paint Radius Rate'
+            };
+            var dmgKeys = ["mDamageRate", "mMinMaxChargeDamageRate", "mFullChargeDamageRate", "mDamageMaxMaxChargeRate", "mCoreDamageRate", "mSideStepOneMuzzleDamageRate"];
+            var rates = ["mCollisionRadiusFarRate", "mCollisionRadiusMiddleRate", "mCollisionRadiusNearRate", "mKnockBackRadiusRate", "mSphereSplashDropPaintRadiusRate"];
+            $.each(keys, function (name, translation) {
+              if (name + "_MWPUG_High" in weapon[1] || "Stand_" + name + "_MWPUG_High" in weapon[1] || "Jump_" + name + "_MWPUG_High" in weapon[1]) {
+                var mainPUHML = getHML_MWPUG(weapon[1], name);
+
+                if (mainPUHML[0] != mainPUHML[1]) {
+                  var mainPUVal = calculateAbilityEffect(skillObj.main, skillObj.subs, mainPUHML[0], mainPUHML[1], mainPUHML[2], skillObj.skillName);
+                  var eff = 0;
+
+                  if (name == "mCanopyHP") {
+                    eff = Math.floor(mainPUVal * 1) / 10;
+                  } else if (name == "mCanopyNakedFrame") {
+                    eff = Math.ceil(mainPUVal * 1);
+                  } else if (name == "mFirstSecondMaxChargeShootingFrameTimes") {
+                    var f1 = weapon[1]["mFirstPeriodMaxChargeShootingFrame"];
+                    var f2 = weapon[1]["mSecondPeriodMaxChargeShootingFrame"];
+                    eff = Math.ceil(mainPUVal * (f1 + f2));
+                  } else if (dmgKeys.includes(name)) {
+                    var dmg = 0;
+                    var dmg_max = 0;
+
+                    if (name == "mDamageRate") {
+                      dmg = weapon[1]["mDamageMax"];
+                      dmg_max = weapon[1]["mDamage_MWPUG_Max"];
+                    }
+
+                    if (name == "mDamageMaxMaxChargeRate") {
+                      dmg = weapon[1]["mDamageMaxMaxCharge"];
+                      dmg_max = weapon[1]["mDamageMaxMaxCharge_MWPUG_Max"];
+                    }
+
+                    if (name == "mMinMaxChargeDamageRate") {
+                      dmg = weapon[1]["mMaxChargeDamage"];
+                      dmg_max = weapon[1]["mMinMaxChargeDamage_MWPUG_Max"];
+                    }
+
+                    if (name == "mFullChargeDamageRate") {
+                      dmg = weapon[1]["mFullChargeDamage"];
+                      dmg_max = weapon[1]["mFullChargeDamage_MWPUG_Max"];
+                    }
+
+                    if (name == "mCoreDamageRate") {
+                      dmg = weapon[1]["mCoreDamage"];
+                      dmg_max = weapon[1]["mCoreDamage_MWPUG_Max"];
+                    }
+
+                    if (name == "mSideStepOneMuzzleDamageRate") {
+                      dmg = weapon[1]["mSideStepOneMuzzleDamageMax"];
+                      dmg_max = weapon[1]["mSideStepOneMuzzleDamage_MWPUG_Max"];
+                    }
+
+                    eff = Math.floor(mainPUVal * dmg);
+
+                    if (eff > dmg_max) {
+                      eff = dmg_max;
+                    }
+
+                    eff = eff / 10;
+                  } else if (rates.includes(name)) {
+                    if (name == "mCollisionRadiusFarRate") {
+                      radius = weapon[1]["mCollisionRadiusFar"];
+                      radius_max = weapon[1]["mCollisionRadiusFar_MWPUG_Max"];
+                    }
+
+                    if (name == "mCollisionRadiusMiddleRate") {
+                      radius = weapon[1]["mCollisionRadiusMiddle"];
+                      radius_max = weapon[1]["mCollisionRadiusMiddle_MWPUG_Max"];
+                    }
+
+                    if (name == "mCollisionRadiusNearRate") {
+                      radius = weapon[1]["mCollisionRadiusNear"];
+                      radius_max = weapon[1]["mCollisionRadiusNear_MWPUG_Max"];
+                    }
+
+                    if (name == "mKnockBackRadiusRate") {
+                      radius = weapon[1]["mKnockBackRadius"];
+                      radius_max = weapon[1]["mKnockBackRadius_MWPUG_Max"];
+                    }
+
+                    if (name == "mSphereSplashDropPaintRadius") {
+                      radius = weapon[1]["mSphereSplashDropPaintRadius"];
+                      radius_max = 999;
+                    } // console.log(eff + ', ' + mainPUVal + ', ' + radius + ', ' + radius_max);
+
+
+                    eff = (mainPUVal * radius).toFixed(5);
+
+                    if (eff > radius_max) {
+                      eff = radius_max;
+                    }
+                  } else {
+                    eff = (mainPUVal * 1).toFixed(5);
+                  }
+
+                  var mainPUObj = {
+                    Effect: eff
+                  };
+                  console.log(mainPUObj);
+                  return mainPUObj;
                 }
               }
             });
@@ -2562,6 +2722,32 @@ function getHML(data, key) {
     high = data[key + "H"];
     mid = data[key + "M"];
     low = data[key + "L"] || data[key] || 1.0;
+  }
+
+  return [high, mid, low];
+}
+
+function getHML_MWPUG(data, key) {
+  var high = 0;
+  var mid = 0;
+  var low = 0;
+
+  if (data[key + "_MWPUG_High"] === 0 || data[key + "_MWPUG_High"] === 0.0 || data["Stand_" + key + "_MWPUG_High"] === 0 || data["Jump_" + key + "_MWPUG_High"] === 0 || data["Stand_" + key + "_MWPUG_High"] === 0.0 || data["Jump_" + key + "_MWPUG_High"] === 0.0) {
+    high = 0.0;
+  } else {
+    high = data[key + "_MWPUG_High"] || data["Stand_" + key + "_MWPUG_High"] || data["Jump_" + key + "_MWPUG_High"];
+  }
+
+  if (data[key + "_MWPUG_Mid"] === 0 || data[key + "_MWPUG_Mid"] === 0.0 || data["Stand_" + key + "_MWPUG_Mid"] === 0 || data["Jump_" + key + "_MWPUG_Mid"] === 0 || data["Stand_" + key + "_MWPUG_Mid"] === 0.0 || data["Jump_" + key + "_MWPUG_Mid"] === 0.0) {
+    mid = 0.0;
+  } else {
+    mid = data[key + "_MWPUG_Mid"] || data["Stand_" + key + "_MWPUG_Mid"] || data["Jump_" + key + "_MWPUG_Mid"];
+  }
+
+  if (data[key] === 0 || data[key] === 0.0 || data["Stand_" + key] === 0 || data["Jump_" + key] === 0 || data["Stand_" + key] === 0.0 || data["Jump_" + key] === 0.0) {
+    low = 0.0;
+  } else {
+    low = data[key] || data["Stand_" + key] || data["Jump_" + key] || 1.0;
   }
 
   return [high, mid, low];

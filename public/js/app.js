@@ -2261,6 +2261,71 @@ function dropHandler(e) {
             };
             console.log(chargeUpObj);
             return chargeUpObj;
+          } else if (skillObj.skillName == 'SpecialTime_Up') {
+            var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+            // get special data
+
+            var specialName = weapon[0].Special;
+
+            if (weapon[0].Special.includes("Launcher")) {
+              specialName = "Bomb" + weapon[0].Special.replace("Launcher", "") + "Launcher";
+            }
+
+            var specialData = allSpecialData[specialName]; // prep special values
+
+            if (specialData[0]["Name"] == "SuperLanding") {
+              specialData[1]["mBurst_Landing_AddHeight"] = 0.0;
+              specialData[1]["mBurst_Landing_AddHeight_SJ"] = 0.0;
+            }
+
+            if (specialData[0]["Name"] == "SuperBubble" || specialData[0]["Name"] == "Jetpack") {
+              specialData[1]["mBombCoreRadiusRate"] = 1.0;
+            }
+
+            var keys = {
+              "mBurst_PaintR": "Paint Radius",
+              "mTargetInCircleRadius": "Circle Radius",
+              "mEnergyAbsorbFrm": "Armor Wind Up Time",
+              "mPaintGauge_SpecialFrm": "Special Duration Time",
+              "mBurst_SplashPaintR": "Splash Paint Radius",
+              "mBurst_SplashVelL": "Splash Velocity L",
+              "mBurst_SplashVelH": "Splash Velocity H",
+              "mBurst_Landing_AddHeight": "Additional High",
+              "mBurst_Landing_AddHeight_SJ": "Additional High (Super Jump)",
+              "mRainAreaFrame": "Rain Duration",
+              "mBurst_Radius_Far": "Explosion Radius (Far)",
+              "mBurst_Radius_Middle": "Explosion Radius (Middle)",
+              "mBurst_Radius_Near": "Explosion Radius (Near)",
+              "mHP": "HP",
+              "mBombCoreRadiusRate": "Core Radius Rate",
+              "mCollisionPlayerRadiusMax": "Explosion Effect Radius",
+              "mChargeRtAutoIncr": "Booyah Charge Speed"
+            };
+            var frameKeys = ["mRainAreaFrame", "mEnergyAbsorbFrm", "mPaintGauge_SpecialFrm"]; // calc if current property from 'key' var exists in specialData
+
+            $.each(keys, function (name, translation) {
+              if (name in specialData[1] || name + "_Low" in specialData[1]) {
+                if (name + "H" in specialData[1] || name + "High" in specialData[1] || name + "_High" in specialData[1]) {
+                  var specialPUHML = getHML(specialData[1], name);
+                  var specialPUVal = calculateAbilityEffect(skillObj.main, skillObj.subs, specialPUHML[0], specialPUHML[1], specialPUHML[2], skillObj.skillName);
+                  var eff = 0;
+
+                  if (name == "mHP") {
+                    eff = Math.floor(specialPUVal * 1) / 10;
+                  } else if (frameKeys.includes(name)) {
+                    eff = Math.ceil(specialPUVal * 1);
+                  } else {
+                    eff = (specialPUVal * 1).toFixed(5);
+                  }
+
+                  var specialPUObj = {
+                    Effect: eff
+                  };
+                  console.log(specialPUObj);
+                  return specialPUObj;
+                }
+              }
+            });
           } else {
             var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
             var val = calculateAbilityEffect(skillObj.main, skillObj.subs, hml[0], hml[1], hml[2], skillObj.skillName); // console.log(val);

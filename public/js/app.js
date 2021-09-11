@@ -2666,6 +2666,16 @@ function dropHandler(e) {
               Effect: swimSpeedNinjaVal.toFixed(5)
             };
             console.log(swimSpeedNinjaObj);
+          } else if (skillObj.skillName == 'RespawnSpecialGauge_Save') {
+            var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+
+            var specialSaveHML = getHML(res[draggedSkillName], "SpecialRt_Restart");
+            var specialSaveVal = calculateAbilityEffect(skillObj.main, skillObj.subs, specialSaveHML[0], specialSaveHML[1], specialSaveHML[2], skillObj.skillName);
+            var specialSaveObj = {
+              'Special Remaining': Math.ceil(weapon[0]["SpecialCost"] * specialSaveVal),
+              'Percentage Remaining': (100 * specialSaveVal).toFixed(4)
+            };
+            console.log(specialSaveObj);
           } else {
             var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
             var val = calculateAbilityEffect(skillObj.main, skillObj.subs, hml[0], hml[1], hml[2], skillObj.skillName); // console.log(val);

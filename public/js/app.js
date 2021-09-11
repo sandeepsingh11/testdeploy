@@ -2486,6 +2486,134 @@ function dropHandler(e) {
                 }
               }
             });
+          } else if (skillObj.skillName == 'BombDistance_Up') {
+            var weapon = allWeaponData['Shooter_BlasterShort_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+
+            var subName = weapon[0].Sub;
+            var subData = allSubData[subName];
+            var bru = ["Bomb_Splash", "Bomb_Suction", "Bomb_Quick", "PointSensor", "PoisonFog", "Bomb_Robo", "Bomb_Tako", "Bomb_Piyo"];
+
+            if (bru.includes(subName)) {
+              // case 1: bomblike object + tako + piyo + point sensors
+              // Player_Spec_BombDistance_Up
+              $.getJSON('/storage/540/Player/Player_Spec_BombDistance_Up.json', function (data) {
+                var calculatedData = [];
+
+                if (subName == "Bomb_Piyo") {
+                  calculatedData = getHML(data['BombDistance_Up'], "BombThrow_VelZ_BombPiyo");
+                } else if (subName == "Bomb_Tako") {
+                  calculatedData = getHML(data['BombDistance_Up'], "BombThrow_VelZ_BombTako");
+                } else if (subName == "PointSensor") {
+                  calculatedData = getHML(data['BombDistance_Up'], "BombThrow_VelZ_PointSensor");
+                } else {
+                  calculatedData = getHML(data['BombDistance_Up'], "BombThrow_VelZ");
+                }
+
+                var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
+                var resultObj = {
+                  Effect: (result * 1).toFixed(5)
+                };
+                console.log(resultObj); // special case: PointSensor, MarkingFrame
+
+                if ("PointSensor" == subName) {
+                  $.getJSON('/storage/540/WeaponBullet/BombPointSensor.json', function (data2) {
+                    var calculatedData = getHML(data2["param"], "mMarkingFrame");
+                    var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
+                    var resultObj = {
+                      Effect: Math.ceil(result)
+                    };
+                    console.log(resultObj);
+                  });
+                }
+              });
+            }
+
+            if ("Bomb_Curling" == subName) {
+              // case 2: Bomb_Curling, param file "InitVelAndBaseSpeed"
+              $.getJSON('/storage/540/WeaponBullet/BombCurling.json', function (data) {
+                var calculatedData = getHML(data["param"], "mInitVelAndBaseSpeed");
+                var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
+                var resultObj = {
+                  Effect: (result * 1).toFixed(5)
+                };
+                console.log(resultObj);
+              });
+            }
+
+            if ("TimerTrap" == subName) {
+              // case 3: TimerTrap, BombCoreRadiusRate, MarkingFrame, PlayerColRadius
+              $.getJSON('/storage/540/WeaponBullet/Trap.json', function (data) {
+                var calculatedData = [getHML(data["param"], "mBombCoreRadiusRate"), getHML(data["param"], "mPlayerColRadius"), getHML(data["param"], "mMarkingFrame")];
+
+                for (var c = 0; c < 3; c++) {
+                  var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[c][0], calculatedData[c][1], calculatedData[c][2], skillObj.skillName);
+                  var eff = 0;
+
+                  if (c < 2) {
+                    eff = (result * 1).toFixed(5);
+                  } else {
+                    eff = Math.ceil(result * 1);
+                  }
+
+                  var resultObj = {
+                    Effect: eff
+                  };
+                  console.log(resultObj);
+                }
+              });
+            }
+
+            if ("Sprinkler" == subName) {
+              // case 4: Sprinkler, Period_First, Second
+              $.getJSON('/storage/540/WeaponBullet/Sprinkler.json', function (data) {
+                var calculatedData = [getHML(data["param"], "mPeriod_First"), getHML(data["param"], "mPeriod_Second")];
+
+                for (var c = 0; c < 2; c++) {
+                  var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[c][0], calculatedData[c][1], calculatedData[c][2], skillObj.skillName);
+                  var resultObj = {
+                    Effect: Math.ceil(result * 1)
+                  };
+                  console.log(resultObj);
+                }
+              });
+            }
+
+            if ("Shield" == subName) {
+              // case 5: Shield, MaxHp
+              $.getJSON('/storage/540/WeaponBullet/Shield.json', function (data) {
+                var calculatedData = getHML(data["param"], "mMaxHp");
+                var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
+                var resultObj = {
+                  Effect: Math.floor(result * 1) / 10.0
+                };
+                console.log(resultObj);
+              });
+            }
+
+            if ("Flag" == subName) {
+              // case 6: Flag, SubRt_Effect_JumpTime_Save
+              $.getJSON('/storage/540/Player/Player_Spec_JumpTime_Save.json', function (data) {
+                $.getJSON('/storage/540/WeaponBullet/JumpBeacon.json', function (data2) {
+                  var multiplier = getHML(data2["param"], "mSubRt_Effect_ActualCnt");
+                  var varData = data["JumpTime_Save"];
+                  var calculatedData = [getHML(varData, "DokanWarp_TameFrm"), getHML(varData, "DokanWarp_MoveFrm")];
+                  var totalAPs = getAPs(skillObj.main, skillObj.subs);
+                  var slope = ((multiplier[1] - multiplier[2]) / multiplier[0] - 17.8 / multiplier[0]) / (17.8 / multiplier[0] * (17.8 / multiplier[0] + -1.0));
+                  var percentage = totalAPs / multiplier[0] * (totalAPs / multiplier[0] * slope + (1.0 - slope));
+                  var newAP = Math.floor(multiplier[2] + (multiplier[0] - multiplier[2]) * percentage);
+                  var newMainSubAPs = getMainSubPoints(newAP); // console.log(newAP);
+                  // console.log(newMainSubAPs);
+
+                  for (var c = 0; c < 2; c++) {
+                    var result = calculateAbilityEffect(newMainSubAPs[0], newMainSubAPs[1], calculatedData[c][0], calculatedData[c][1], calculatedData[c][2], skillObj.skillName);
+                    var resultObj = {
+                      Effect: Math.ceil(result)
+                    };
+                    console.log(resultObj);
+                  }
+                });
+              });
+            }
           } else {
             var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
             var val = calculateAbilityEffect(skillObj.main, skillObj.subs, hml[0], hml[1], hml[2], skillObj.skillName); // console.log(val);
@@ -2650,6 +2778,20 @@ function getInputtedSkillNames() {
   var sub2SkillName = sub2Ele.children[0].dataset.skillName;
   var sub3SkillName = sub3Ele.children[0].dataset.skillName;
   return [mainSkillName, sub1SkillName, sub2SkillName, sub3SkillName];
+} // convert AP to main and sub points
+
+
+function getMainSubPoints(ap) {
+  var main = 0;
+  var sub = 0;
+
+  while (ap >= 10) {
+    main++;
+    ap -= 10;
+  }
+
+  sub = ap / 3;
+  return [main, sub];
 } // get and map number of main and subs to the inputted skill names
 
 

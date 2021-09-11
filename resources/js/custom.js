@@ -835,6 +835,40 @@ function dropHandler(e) {
                             });
                         }
                     }
+                    else if (skillObj.skillName == 'HumanMove_Up') {
+                        var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+                        var baseSpeed = [1, weapon[1]["mMoveSpeed"]];
+                        var calculatedData;
+
+                        
+                        if (weapon[0]["MoveVelLv"] == "Low") {
+                            calculatedData = getHML(res[draggedSkillName], "MoveVel_Human_BigWeapon");
+                        } 
+                        else if (weapon[0]["MoveVelLv"] == "High") {
+                            calculatedData = getHML(res[draggedSkillName], "MoveVel_Human_ShortWeapon");
+                        } 
+                        else {
+                            calculatedData = getHML(res[draggedSkillName], "MoveVel_Human");
+                        }
+
+                        var calculatedDataWeapon = getHML(res[draggedSkillName], "MoveVelRt_Human_Shot" + (weapon[0]["ShotMoveVelType"] || ""));
+
+
+                        // run speed
+                        var runSpeedVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
+                        var runSpeedObj = {
+                            Effect: (runSpeedVal * baseSpeed[0]).toFixed(5)
+                        }
+                        console.log(runSpeedObj);
+
+
+                        // run speed shooting
+                        var runSpeedShootingVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedDataWeapon[0], calculatedDataWeapon[1], calculatedDataWeapon[2], skillObj.skillName);
+                        var runSpeedShootingObj = {
+                            Effect: (runSpeedShootingVal * baseSpeed[1]).toFixed(5)
+                        }
+                        console.log(runSpeedShootingObj);
+                    }
                     else {
                         var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
 

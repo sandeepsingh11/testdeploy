@@ -869,6 +869,37 @@ function dropHandler(e) {
                         }
                         console.log(runSpeedShootingObj);
                     }
+                    else if (skillObj.skillName == 'SquidMove_Up') {
+                        var weapon = allWeaponData['Umbrella_Wide_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+                        var calculatedData;
+
+
+                        if (weapon[0]["MoveVelLv"] == "Low") {
+                            calculatedData = getHML(res[draggedSkillName], "MoveVel_Stealth_BigWeapon");
+                        } 
+                        else if (weapon[0]["MoveVelLv"] == "High") {
+                            calculatedData = getHML(res[draggedSkillName], "MoveVel_Stealth_ShortWeapon");
+                        } 
+                        else {
+                            calculatedData = getHML(res[draggedSkillName], "MoveVel_Stealth");
+                        }
+
+
+                        // swim speed
+                        var swimSpeedVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
+                        var swimSpeedObj = {
+                            Effect: (swimSpeedVal).toFixed(5)
+                        }
+                        console.log(swimSpeedObj);
+
+
+                        // swim speed - ninja
+                        var swimSpeedNinjaVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName, true);
+                        var swimSpeedNinjaObj = {
+                            Effect: (swimSpeedNinjaVal).toFixed(5)
+                        }
+                        console.log(swimSpeedNinjaObj);
+                    }
                     else {
                         var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
 
@@ -1251,12 +1282,14 @@ function getResult(high, low, lerpN) {
 }
 
 // get the value of an ability's effect value with the current gear's skills
-function calculateAbilityEffect(numOfMains, numOfSubs, high, mid, low, abilityName) {
+function calculateAbilityEffect(numOfMains, numOfSubs, high, mid, low, abilityName, ninjaSquid = false) {
     var APs = getAPs(numOfMains, numOfSubs);
     var percentage = getPercentage(APs);
+    if (ninjaSquid) percentage *= 0.8;
     var slope = getSlope(high, mid, low);
     var lerpN = getLerpN(percentage / 100, slope);
     var result = getResult(high, low, lerpN);
+    if (ninjaSquid) result *= 0.9;
 
     console.log(`AP: ${APs}, p: ${percentage}, s: ${slope}, lerpN: ${lerpN} h:${high} m:${mid} l:${low}`);
     return result;

@@ -232,16 +232,31 @@ function dropHandler(e) {
                         var aroudVal = calculateAbilityEffect(skillObj.main, skillObj.subs, aroudHML[0], aroudHML[1], aroudHML[2], skillObj.skillName);
                         var chaseVal = calculateAbilityEffect(skillObj.main, skillObj.subs, chaseHML[0], chaseHML[1], chaseHML[2], skillObj.skillName);
 
-                        var deathCamObj = {
-                            Frames: Math.ceil(aroudVal),
-                            Seconds: (Math.ceil(aroudVal) / 60).toFixed(2)
-                        };
-                        var dyingObj = {
-                            Frames: Math.ceil(chaseVal),
-                            Seconds: (Math.ceil(chaseVal) / 60).toFixed(2)
-                        };
-                        console.log(deathCamObj);
-                        console.log(dyingObj);
+
+                        var respawnObj = {
+                            name: 'RespawnTime_Save',
+                            displayName: 'Quick Respawn',
+                            effects: [
+                                {
+                                    name: 'Dying Frames',
+                                    value: Math.ceil(chaseVal)
+                                },
+                                {
+                                    name: 'Dying Seconds',
+                                    value: (Math.ceil(chaseVal) / 60).toFixed(2)
+                                },
+                                {
+                                    name: 'Deathcam Frames',
+                                    value: Math.ceil(aroudVal)
+                                },
+                                {
+                                    name: 'Deathcam Seconds',
+                                    value: (Math.ceil(aroudVal) / 60).toFixed(2)
+                                }
+                            ]
+                        }
+
+                        displayStat(respawnObj);
                     }
                     else if (skillObj.skillName == 'OpInkEffect_Reduction') {
                         var jumpHML = getHML(res[draggedSkillName], 'OpInk_JumpGnd');
@@ -258,30 +273,39 @@ function dropHandler(e) {
                         var damageVal = calculateAbilityEffect(skillObj.main, skillObj.subs, damageHML[0], damageHML[1], damageHML[2], skillObj.skillName);
                         var armorVal = calculateAbilityEffect(skillObj.main, skillObj.subs, armorHML[0], armorHML[1], armorHML[2], skillObj.skillName);
 
-                        var jumpObj = {
-                            Effect: jumpVal.toFixed(4)
-                        };
-                        var velShotObj = {
-                            Effect: velShotVal.toFixed(4)
-                        };
-                        var velObj = {
-                            Effect: velVal.toFixed(4)
-                        };
-                        var damageLimitObj = {
-                            Effect: damageLimitVal.toFixed(4)
-                        };
-                        var damageObj = {
-                            Effect: damageVal.toFixed(4)
-                        };
-                        var armorObj = {
-                            Effect: Math.ceil(armorVal)
-                        };
-                        console.log(jumpObj);
-                        console.log(velShotObj);
-                        console.log(velObj);
-                        console.log(damageLimitObj);
-                        console.log(damageObj);
-                        console.log(armorObj); 
+
+                        var inkResObj = {
+                            name: 'OpInkEffect_Reduction',
+                            displayName: 'Ink Resistance Up',
+                            effects: [
+                                {
+                                    name: 'Jump in Ink',
+                                    value: jumpVal.toFixed(4)
+                                },
+                                {
+                                    name: 'Shoot in Ink',
+                                    value: velShotVal.toFixed(4)
+                                },
+                                {
+                                    name: 'Run Speed in Ink',
+                                    value: velVal.toFixed(4)
+                                },
+                                {
+                                    name: 'Damage Limit in Ink',
+                                    value: damageLimitVal.toFixed(4)
+                                },
+                                {
+                                    name: 'Damage per Frame in Ink',
+                                    value: damageVal.toFixed(4)
+                                },
+                                {
+                                    name: 'Armor in Ink',
+                                    value: Math.ceil(armorVal)
+                                }
+                            ]
+                        }
+
+                        displayStat(inkResObj);
                     }
                     else if (skillObj.skillName == 'JumpTime_Save') {
                         var prepareHML = getHML(res[draggedSkillName], 'DokanWarp_TameFrm');
@@ -290,16 +314,31 @@ function dropHandler(e) {
                         var prepareVal = calculateAbilityEffect(skillObj.main, skillObj.subs, prepareHML[0], prepareHML[1], prepareHML[2], skillObj.skillName);
                         var superJumpVal = calculateAbilityEffect(skillObj.main, skillObj.subs, superJumpHML[0], superJumpHML[1], superJumpHML[2], skillObj.skillName);
 
-                        var prepareObj = {
-                            Frames: Math.ceil(prepareVal),
-                            Seconds: (Math.ceil(prepareVal) / 60).toFixed(2)
-                        };
+                        
                         var superJumpObj = {
-                            Frames: Math.ceil(superJumpVal),
-                            Seconds: (Math.ceil(superJumpVal) / 60).toFixed(2)
-                        };
-                        console.log(prepareObj);
-                        console.log(superJumpObj);
+                            name: 'JumpTime_Save',
+                            displayName: 'Quick Super Jump',
+                            effects: [
+                                {
+                                    name: 'Prepare Frames',
+                                    value: Math.ceil(prepareVal)
+                                },
+                                {
+                                    name: 'Prepare Seconds',
+                                    value: (Math.ceil(prepareVal) / 60).toFixed(2)
+                                },
+                                {
+                                    name: 'Super Jump Frames',
+                                    value: Math.ceil(superJumpVal)
+                                },
+                                {
+                                    name: 'Super Jump Seconds',
+                                    value: (Math.ceil(superJumpVal) / 60).toFixed(2)
+                                }
+                            ]
+                        }
+
+                        displayStat(superJumpObj);
                     }
                     else if (skillObj.skillName == 'InkRecovery_Up') {
                         var squidFormHML = getHML(res[draggedSkillName], 'RecoverFullFrm_Ink');
@@ -308,16 +347,30 @@ function dropHandler(e) {
                         var squidFormVal = calculateAbilityEffect(skillObj.main, skillObj.subs, squidFormHML[0], squidFormHML[1], squidFormHML[2], skillObj.skillName);
                         var humanFormVal = calculateAbilityEffect(skillObj.main, skillObj.subs, humanFormHML[0], humanFormHML[1], humanFormHML[2], skillObj.skillName);
 
-                        var squidFormObj = {
-                            Frames: Math.ceil(squidFormVal),
-                            Seconds: (Math.ceil(squidFormVal) / 60).toFixed(2)
-                        };
-                        var humanFormObj = {
-                            Frames: Math.ceil(humanFormVal),
-                            Seconds: (Math.ceil(humanFormVal) / 60).toFixed(2)
-                        };
-                        console.log(squidFormObj);
-                        console.log(humanFormObj);
+                        var inkRecoveryObj = {
+                            name: 'InkRecovery_Up',
+                            displayName: 'Ink Recovery Up',
+                            effects: [
+                                {
+                                    name: 'Recovery Time in Ink - Frames',
+                                    value: Math.ceil(squidFormVal)
+                                },
+                                {
+                                    name: 'Recovery Time in Ink - Seconds',
+                                    value: (Math.ceil(squidFormVal) / 60).toFixed(2)
+                                },
+                                {
+                                    name: 'Recovery Time Standing - Frames',
+                                    value: Math.ceil(humanFormVal)
+                                },
+                                {
+                                    name: 'Recovery Time Standing - Seconds',
+                                    value: (Math.ceil(humanFormVal) / 60).toFixed(2)
+                                }
+                            ]
+                        }
+
+                        displayStat(inkRecoveryObj);
                     }
                     else if (skillObj.skillName == 'BombDamage_Reduction') {
                         // calc bomb defense up values
@@ -328,19 +381,6 @@ function dropHandler(e) {
                         var specialDamageVal = calculateAbilityEffect(skillObj.main, skillObj.subs, specialDamageHML[0], specialDamageHML[1], specialDamageHML[2], skillObj.skillName);
                         var subNearVal = calculateAbilityEffect(skillObj.main, skillObj.subs, subNearHML[0], subNearHML[1], subNearHML[2], skillObj.skillName);
                         var subFarVal = calculateAbilityEffect(skillObj.main, skillObj.subs, subFarHML[0], subFarHML[1], subFarHML[2], skillObj.skillName);
-
-                        var specialDamageObj = {
-                            Effect: specialDamageVal.toFixed(4)
-                        };
-                        var subNearObj = {
-                            Effect: subNearVal.toFixed(4)
-                        };
-                        var subFarObj = {
-                            Effect: subFarVal.toFixed(4)
-                        };
-                        console.log(specialDamageObj);
-                        console.log(subNearObj);
-                        console.log(subFarObj);
 
                         
                         // calc cold-blooded values
@@ -355,29 +395,48 @@ function dropHandler(e) {
                             var silFarVal = calculateAbilityEffect(skillObj.main, skillObj.subs, silFarHML[0], silFarHML[1], silFarHML[2], skillObj.skillName);
                             var silNearVal = calculateAbilityEffect(skillObj.main, skillObj.subs, silNearHML[0], silNearHML[1], silNearHML[2], skillObj.skillName);
 
-                            var pointSensorObj = {
-                                Effect: pointSensorVal.toFixed(4)
-                            };
-                            var inkMineObj = {
-                                Effect: inkMineVal.toFixed(4)
-                            };
-                            var silFarObj = {
-                                Effect: silFarVal.toFixed(4)
-                            };
-                            var silNearObj = {
-                                Effect: silNearVal.toFixed(4)
-                            };
-                            console.log(pointSensorObj);
-                            console.log(inkMineObj);
-                            console.log(silFarObj);
-                            console.log(silNearObj);
+
+                            var bombDefenseObj = {
+                                name: 'BombDamage_Reduction',
+                                displayName: 'Bomb Defense Up DX',
+                                effects: [
+                                    {
+                                        name: 'Special Damage Multiplier',
+                                        value: specialDamageVal.toFixed(4)
+                                    },
+                                    {
+                                        name: 'Close Hit Sub Damage Multiplier',
+                                        value: subNearVal.toFixed(4)
+                                    },
+                                    {
+                                        name: 'Far Hit Sub Damage Multiplier',
+                                        value: subFarVal.toFixed(4)
+                                    },
+                                    {
+                                        name: 'Marking Time - Point Sensors',
+                                        value: pointSensorVal.toFixed(4)
+                                    },
+                                    {
+                                        name: 'Marking Time - Ink Mines',
+                                        value: inkMineVal.toFixed(4)
+                                    },
+                                    {
+                                        name: 'Thermal-Ink Sillhoute - Far Range Distance',
+                                        value: silFarVal.toFixed(4)
+                                    },
+                                    {
+                                        name: 'Thermal-Ink Sillhoute - Close Range Distance',
+                                        value: silNearVal.toFixed(4)
+                                    }
+                                ]
+                            }
+    
+                            displayStat(bombDefenseObj);
                         });
                     }
                     else if (skillObj.skillName == 'MainInk_Save') {
-                        // console.log(allWeaponData);
                         var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
                         var weaponName = weapon[0]["Name"];
-                        // console.log(weaponName);
 
 
                         // get ink consume val
@@ -408,16 +467,22 @@ function dropHandler(e) {
                         var inkTankSize = weapon[1].mInkMagazineRatio || 1.0;
 
 
+                        var mainInkSaveObj = {
+                            name: 'MainInk_Save',
+                            displayName: 'Ink Saver - Main',
+                            effects: [
+                                {
+                                    name: 'Ink Consumption / Shot',
+                                    value: (consumeRateVal * inkConsume).toFixed(5)
+                                },
+                                {
+                                    name: 'Max Number of Shots',
+                                    value: Math.floor(inkTankSize / (consumeRateVal * inkConsume))
+                                }
+                            ]
+                        }
 
-                        var consumeRateObj = {
-                            Effect: (consumeRateVal * inkConsume).toFixed(5),
-                            MaxShots: Math.floor(inkTankSize / (consumeRateVal * inkConsume))
-                        };
-                        // console.log(consumeRateVal + ', ' + inkConsume + ', ' + inkTankSize);
-                        console.log(consumeRateObj);
-
-
-                        return consumeRateObj;
+                        displayStat(mainInkSaveObj);
                     }
                     else if (skillObj.skillName == 'SubInk_Save') {
                         var weapon = allWeaponData['Roller_Compact_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
@@ -427,7 +492,6 @@ function dropHandler(e) {
                         var subData = allSubData[weapon[0].Sub];
                         var inkConsume = subData[1].mInkConsume;
                         var key;
-                        // console.log(subData[0].Name);
 
                         if ('ConsumeRt_Sub_A_Low' in res[draggedSkillName]) {
                             key = "ConsumeRt_Sub_" + subData[0].InkSaverType;
@@ -444,13 +508,19 @@ function dropHandler(e) {
                         var consumeRateHML = getHML(res[draggedSkillName], key);
                         var consumeRateVal = calculateAbilityEffect(skillObj.main, skillObj.subs, consumeRateHML[0], consumeRateHML[1], consumeRateHML[2], skillObj.skillName);
 
-                        var consumeRateObj = {
-                            Effect: (consumeRateVal * inkConsume).toFixed(5)
-                        };
-                        console.log(consumeRateObj);
 
+                        var subInkSaveObj = {
+                            name: 'SubInk_Save',
+                            displayName: 'Ink Saver - Sub',
+                            effects: [
+                                {
+                                    name: 'Ink Consumption',
+                                    value: (consumeRateVal * inkConsume).toFixed(5)
+                                }
+                            ]
+                        }
 
-                        return consumeRateObj;
+                        displayStat(subInkSaveObj);
                     }
                     else if (skillObj.skillName == 'SpecialIncrease_Up') {
                         var weapon = allWeaponData['Shooter_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
@@ -459,16 +529,23 @@ function dropHandler(e) {
                         var chargeUpHML = getHML(res[draggedSkillName], 'SpecialRt_Charge');
                         var chargeUpVal = calculateAbilityEffect(skillObj.main, skillObj.subs, chargeUpHML[0], chargeUpHML[1], chargeUpHML[2], skillObj.skillName);
 
+
                         var chargeUpObj = {
-                            Effect: Math.ceil(weapon[0]["SpecialCost"] / chargeUpVal)
-                        };
-                        console.log(chargeUpObj);
+                            name: 'SpecialIncrease_Up',
+                            displayName: 'Special Charge Up',
+                            effects: [
+                                {
+                                    name: 'Special Cost',
+                                    value: Math.ceil(weapon[0]["SpecialCost"] / chargeUpVal)
+                                }
+                            ]
+                        }
 
-
-                        return chargeUpObj;
+                        displayStat(chargeUpObj);
                     }
                     else if (skillObj.skillName == 'SpecialTime_Up') {
                         var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+                        var effects = [];
 
                         // get special data
                         var specialName = weapon[0].Special;
@@ -521,25 +598,36 @@ function dropHandler(e) {
                                     var eff = 0;
                                     if (name == "mHP") {
                                         eff = Math.floor(specialPUVal * 1) / 10;
-                                    } else if (frameKeys.includes(name)) {
+                                    } 
+                                    else if (frameKeys.includes(name)) {
                                         eff = Math.ceil(specialPUVal * 1);
-                                    } else {
+                                    } 
+                                    else {
                                         eff = (specialPUVal * 1).toFixed(5);
                                     }
 
-                                    var specialPUObj = {
-                                        Effect: eff,
+
+                                    var specialEffect = {
+                                        name: translation,
+                                        value: eff
                                     }
-                                    console.log(specialPUObj);
-
-
-                                    return specialPUObj;
+                                    effects.push(specialEffect);
                                 }
                             }
                         });
+
+                        
+                        var specialPUObj = {
+                            name: 'SpecialTime_Up',
+                            displayName: 'Special Power Up',
+                            effects: effects
+                        }
+
+                        displayStat(specialPUObj);
                     }
                     else if (skillObj.skillName == 'MarkingTime_Reduction') {
                         var weapon = allWeaponData['Shooter_BlasterShort_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+                        var effects = [];
 
                         var keys = {
                             'mBulletDamageMaxDist': 'Bullet Damage Max Distance',
@@ -672,7 +760,7 @@ function dropHandler(e) {
                                             radius_max = 999;
                                         }
                                         
-                                        // console.log(eff + ', ' + mainPUVal + ', ' + radius + ', ' + radius_max);
+
                                         eff = (mainPUVal * radius).toFixed(5);
                                         if (eff > radius_max) {
                                             eff = radius_max;
@@ -683,16 +771,24 @@ function dropHandler(e) {
                                         eff = (mainPUVal * 1).toFixed(5);
                                     }
 
-                                    var mainPUObj = {
-                                        Effect: eff
+
+                                    var mainPUEffect = {
+                                        name: translation,
+                                        value: eff
                                     }
-                                    console.log(mainPUObj);
-
-
-                                    return mainPUObj;
+                                    effects.push(mainPUEffect);
                                 }
                             }
                         });
+
+
+                        var mainPUObj = {
+                            name: 'MarkingTime_Reduction',
+                            displayName: 'Main Power Up',
+                            effects: effects
+                        }
+
+                        displayStat(mainPUObj);
                     }
                     else if (skillObj.skillName == 'BombDistance_Up') {
                         var weapon = allWeaponData['Shooter_BlasterShort_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
@@ -702,6 +798,7 @@ function dropHandler(e) {
                         var bru = ["Bomb_Splash", "Bomb_Suction", "Bomb_Quick", "PointSensor", "PoisonFog", "Bomb_Robo", "Bomb_Tako", "Bomb_Piyo"]
                         
                         
+                        var effects = [];
                         if (bru.includes(subName)) {
                             // case 1: bomblike object + tako + piyo + point sensors
                             // Player_Spec_BombDistance_Up
@@ -721,11 +818,13 @@ function dropHandler(e) {
                                     calculatedData = getHML(data['BombDistance_Up'], "BombThrow_VelZ");
                                 }
 
+
                                 var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
-                                var resultObj = {
-                                    Effect: (result * 1).toFixed(5)
+                                var subPUEffect = {
+                                    name: 'Throw Velocity',
+                                    value: (result * 1).toFixed(5)
                                 }
-                                console.log(resultObj);
+                                effects.push(subPUEffect);
 
 
                                 // special case: PointSensor, MarkingFrame
@@ -734,12 +833,22 @@ function dropHandler(e) {
                                         var calculatedData = getHML(data2["param"], "mMarkingFrame");
 
                                         var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
-                                        var resultObj = {
-                                            Effect: Math.ceil(result)
+                                        var subPUEffect = {
+                                            name: 'Marking Time',
+                                            value: Math.ceil(result)
                                         }
-                                        console.log(resultObj);
+                                        effects.push(subPUEffect);
                                     });
                                 }
+
+
+                                var subPUObj = {
+                                    name: 'BombDistance_Up',
+                                    displayName: 'Sub Power Up',
+                                    effects: effects
+                                }
+        
+                                displayStat(subPUObj);
                             });
                         }
 
@@ -749,10 +858,19 @@ function dropHandler(e) {
                                 var calculatedData = getHML(data["param"], "mInitVelAndBaseSpeed");
                                 var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
 
-                                var resultObj = {
-                                    Effect: (result * 1).toFixed(5)
+                                var subPUEffect = {
+                                    name: 'Base Speed',
+                                    value: (result * 1).toFixed(5)
                                 }
-                                console.log(resultObj);
+                                effects.push(subPUEffect);
+
+                                var subPUObj = {
+                                    name: 'BombDistance_Up',
+                                    displayName: 'Sub Power Up',
+                                    effects: effects
+                                }
+        
+                                displayStat(subPUObj);
                             });
                         }
 
@@ -771,11 +889,26 @@ function dropHandler(e) {
                                         eff = Math.ceil(result * 1);
                                     }
 
-                                    var resultObj = {
-                                        Effect: eff
+
+                                    var effectName;
+                                    if (c == 0) effectName = 'Explosion Radius Rate';
+                                    else if (c == 1) effectName = 'Marking Radius';
+                                    else effectName = 'Marking Duration';
+
+                                    var subPUEffect = {
+                                        name: effectName,
+                                        value: eff
                                     }
-                                    console.log(resultObj);
+                                    effects.push(subPUEffect);
                                 }
+
+                                var subPUObj = {
+                                    name: 'BombDistance_Up',
+                                    displayName: 'Sub Power Up',
+                                    effects: effects
+                                }
+        
+                                displayStat(subPUObj);
                             });
                         }
 
@@ -786,11 +919,24 @@ function dropHandler(e) {
                                 for (var c = 0; c < 2 ; c++) {
                                     var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[c][0], calculatedData[c][1], calculatedData[c][2], skillObj.skillName);
 
-                                    var resultObj = {
-                                        Effect: Math.ceil(result * 1)
+                                    var effectName;
+                                    if (c == 0) effectName = 'First Phase Duration';
+                                    else effectName = 'Second Phase Duration';
+
+                                    var subPUEffect = {
+                                        name: effectName,
+                                        value: Math.ceil(result * 1)
                                     }
-                                    console.log(resultObj);
+                                    effects.push(subPUEffect);
                                 }
+
+                                var subPUObj = {
+                                    name: 'BombDistance_Up',
+                                    displayName: 'Sub Power Up',
+                                    effects: effects
+                                }
+        
+                                displayStat(subPUObj);
                             });
                         }
 
@@ -800,10 +946,19 @@ function dropHandler(e) {
                                 var calculatedData = getHML(data["param"], "mMaxHp");
                                 var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
 
-                                var resultObj = {
-                                    Effect: Math.floor(result * 1) / 10.0
+                                var subPUEffect = {
+                                    name: 'Max HP',
+                                    value: Math.floor(result * 1) / 10.0
                                 }
-                                console.log(resultObj);
+                                effects.push(subPUEffect);
+
+                                var subPUObj = {
+                                    name: 'BombDistance_Up',
+                                    displayName: 'Sub Power Up',
+                                    effects: effects
+                                }
+        
+                                displayStat(subPUObj);
                             });
                         }
 
@@ -826,11 +981,24 @@ function dropHandler(e) {
                                     for (var c = 0; c < 2 ; c++) {
                                         var result = calculateAbilityEffect(newMainSubAPs[0], newMainSubAPs[1], calculatedData[c][0], calculatedData[c][1], calculatedData[c][2], skillObj.skillName);
 
-                                        var resultObj = {
-                                            Effect: Math.ceil(result)
+                                        var effectName;
+                                        if (c == 0) effectName = 'Prepare Frames';
+                                        else effectName = 'Jump Frames';
+
+                                        var subPUEffect = {
+                                            name: effectName,
+                                            value: Math.ceil(result)
                                         }
-                                        console.log(resultObj);
+                                        effects.push(subPUEffect);
                                     }
+
+                                    var subPUObj = {
+                                        name: 'BombDistance_Up',
+                                        displayName: 'Sub Power Up',
+                                        effects: effects
+                                    }
+            
+                                    displayStat(subPUObj);
                                 });
                             });
                         }
@@ -839,6 +1007,7 @@ function dropHandler(e) {
                         var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
                         var baseSpeed = [1, weapon[1]["mMoveSpeed"]];
                         var calculatedData;
+                        var effects = [];
 
                         
                         if (weapon[0]["MoveVelLv"] == "Low") {
@@ -856,22 +1025,34 @@ function dropHandler(e) {
 
                         // run speed
                         var runSpeedVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
-                        var runSpeedObj = {
-                            Effect: (runSpeedVal * baseSpeed[0]).toFixed(5)
+                        var runSpeedEffect = {
+                            name: 'Run Speed (DU/Frame)',
+                            value: (runSpeedVal * baseSpeed[0]).toFixed(5)
                         }
-                        console.log(runSpeedObj);
+                        effects.push(runSpeedEffect);
 
 
                         // run speed shooting
                         var runSpeedShootingVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedDataWeapon[0], calculatedDataWeapon[1], calculatedDataWeapon[2], skillObj.skillName);
-                        var runSpeedShootingObj = {
-                            Effect: (runSpeedShootingVal * baseSpeed[1]).toFixed(5)
+                        runSpeedEffect = {
+                            name: 'Run Speed (Shooting) (DU/Frame)',
+                            value: (runSpeedShootingVal * baseSpeed[1]).toFixed(5)
                         }
-                        console.log(runSpeedShootingObj);
+                        effects.push(runSpeedEffect);
+
+
+                        var runSpeedObj = {
+                            name: 'HumanMove_Up',
+                            displayName: 'Run Speed Up',
+                            effects: effects
+                        }
+
+                        displayStat(runSpeedObj);
                     }
                     else if (skillObj.skillName == 'SquidMove_Up') {
                         var weapon = allWeaponData['Umbrella_Wide_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
                         var calculatedData;
+                        var effects = [];
 
 
                         if (weapon[0]["MoveVelLv"] == "Low") {
@@ -887,29 +1068,52 @@ function dropHandler(e) {
 
                         // swim speed
                         var swimSpeedVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
-                        var swimSpeedObj = {
-                            Effect: (swimSpeedVal).toFixed(5)
+                        var swimSpeedEffect = {
+                            name: 'Swim Speed (DU/Frame)',
+                            value: (swimSpeedVal).toFixed(5)
                         }
-                        console.log(swimSpeedObj);
+                        effects.push(swimSpeedEffect);
 
 
                         // swim speed - ninja
                         var swimSpeedNinjaVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName, true);
-                        var swimSpeedNinjaObj = {
-                            Effect: (swimSpeedNinjaVal).toFixed(5)
+                        swimSpeedEffect = {
+                            name: 'Swim Speed (Ninja) (DU/Frame)',
+                            value: (swimSpeedNinjaVal).toFixed(5)
                         }
-                        console.log(swimSpeedNinjaObj);
+                        effects.push(swimSpeedEffect);
+
+
+                        var swimSpeedObj = {
+                            name: 'SquidMove_Up',
+                            displayName: 'Swim Speed Up',
+                            effects: effects
+                        }
+
+                        displayStat(swimSpeedObj);
                     }
                     else if (skillObj.skillName == 'RespawnSpecialGauge_Save') {
                         var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
 
                         var specialSaveHML = getHML(res[draggedSkillName], "SpecialRt_Restart");
                         var specialSaveVal = calculateAbilityEffect(skillObj.main, skillObj.subs, specialSaveHML[0], specialSaveHML[1], specialSaveHML[2], skillObj.skillName);
+
                         var specialSaveObj = {
-                            'Special Remaining': Math.ceil(weapon[0]["SpecialCost"] * specialSaveVal),
-                            'Percentage Remaining': (100 * specialSaveVal).toFixed(4)
+                            name: 'RespawnSpecialGauge_Save',
+                            displayName: 'Special Saver',
+                            effects: [
+                                {
+                                    name: 'Special Remaining',
+                                    value: Math.ceil(weapon[0]["SpecialCost"] * specialSaveVal)
+                                },
+                                {
+                                    name: 'Percentage Remaining',
+                                    value: (100 * specialSaveVal).toFixed(4)
+                                }
+                            ]
                         }
-                        console.log(specialSaveObj);
+
+                        displayStat(specialSaveObj);
                     }
                     else {
                         var hml = getHML(res[draggedSkillName], 'SpecialRt_Restart');
@@ -1304,4 +1508,52 @@ function calculateAbilityEffect(numOfMains, numOfSubs, high, mid, low, abilityNa
 
     console.log(`AP: ${APs}, p: ${percentage}, s: ${slope}, lerpN: ${lerpN} h:${high} m:${mid} l:${low}`);
     return result;
+}
+
+
+// display a skill stat
+function displayStat(statObj) {
+    var containerEle = $('#stats');
+    containerEle.empty();
+
+
+    // skill title element
+    var skillTitleEle = $('<div class="flex justify-start items-center gap-1"></div>');
+
+    var skillImgEle = $('<img />')
+        .attr('src', '/storage/skills/' + statObj.name + '.png')
+        .attr('alt', statObj.displayName)
+        .attr('width', '32px')
+    
+    var skillNameEle = $('<h5></h5>').text(statObj.displayName);
+
+    skillTitleEle.append(skillImgEle, skillNameEle);
+
+
+    // stat effect entries
+    var statValContainerEle = $('<div></div>');
+    for (var i = 0; i < statObj.effects.length; i++) {
+        var effectName = statObj.effects[i].name;
+        var effectVal = statObj.effects[i].value;
+        // var effectEle = $('<p></p>').text(effectName + ': ' + effectVal);
+
+
+        // create progress bar
+        var statContainerEle = $('<div></div>');
+        var statProgressBarContainerEle = $('<div class="bg-gray-300 rounded-full"></div>');
+        var statsProgressBarEle = $('<div class="flex justify-around bg-pink-300 rounded-full"></div>').css('width', '50%');
+        // use <meter></meter> ? https://www.w3schools.com/TAgs/tag_meter.asp
+        var statsProgressBarValueEle = $('<div class="text-2xl font-bold"></div>').text(effectVal).css('-webkit-text-stroke', '0.5px black').css('-webkit-text-fill-color', 'white');
+        var statsProgressBarPercentageEle = $('<div class="text-2xl font-bold"></div>').text('50%').css('-webkit-text-stroke', '0.5px black').css('-webkit-text-fill-color', 'white');
+
+        statsProgressBarEle.append(statsProgressBarValueEle, statsProgressBarPercentageEle);
+        statProgressBarContainerEle.append(statsProgressBarEle);
+        statContainerEle.append(effectName, statProgressBarContainerEle);
+
+        statValContainerEle.append(statContainerEle);
+    }
+
+
+    // add to display container
+    containerEle.append(skillTitleEle, statValContainerEle);
 }

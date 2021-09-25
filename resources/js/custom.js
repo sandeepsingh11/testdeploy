@@ -10,6 +10,9 @@ var draggedSkillType = '';
 var allWeaponData = [];
 var allSpecialData = [];
 var allSubData = [];
+var currentWeapon;
+var currentSub;
+var currentSpecial;
 
 
 
@@ -62,11 +65,13 @@ function loadWeaponData() {
                             });
                             
                             allWeaponData[weapon["Name"]] = [weapon, dataObj];
+                            currentWeapon = allWeaponData['Shooter_Short_00'];
                         });
                     });
                 }
                 else {
                     allWeaponData[weapon["Name"]] = [weapon, bulletJson['param']];
+                    currentWeapon = allWeaponData['Shooter_Short_00'];
                 }
             });
         });
@@ -88,6 +93,7 @@ function loadSpecialData() {
                 $.getJSON("/storage/540/WeaponBullet/" + special_internal_name  + ".json", function(bulletJson) {
                     specialweapon["Name"] = special_internal_name;
                     allSpecialData[special_internal_name] = [specialweapon, bulletJson["param"]];
+                    currentSpecial = allSpecialData['SuperLanding'];
                 })
             }
         });
@@ -118,6 +124,7 @@ function loadSubData() {
                 // get sub stats
                 $.getJSON('/storage/540/WeaponBullet/' + subInternalName + '.json', function(bulletJson) {
                     allSubData[subweapon["Name"]] = [subweapon, bulletJson["param"]];
+                    currentSub = allSubData['Bomb_Curling'];
                 });
             }
         });
@@ -206,65 +213,7 @@ function dropHandler(e) {
     ];
 
     if (highMidLowFiles.indexOf(draggedSkillName) != -1) {    
-        // clear stats display
-        var containerEle = $('#stats');
-        containerEle.empty();
-
-        // get all inputted skill names
-        var inputtedSkillNames = getInputtedSkillNames();
-
-        // map number of main and subs to each inputted skill
-        var mainAndSubs = getMainAndSubs(inputtedSkillNames);
-
-        // calculate ability effect for each inputted skill
-        mainAndSubs.forEach(skillObj => {
-            console.log(skillObj.skillName);
-
-            switch (skillObj.skillName) {
-                case 'MainInk_Save':
-                    calcIsm(skillObj);
-                    break;
-                case 'SubInk_Save':
-                    calcIss(skillObj);
-                    break;
-                case 'InkRecovery_Up':
-                    calcIru(skillObj);
-                    break;
-                case 'HumanMove_Up':
-                    calcRsu(skillObj);
-                    break;
-                case 'SquidMove_Up':
-                    calcSsu(skillObj);
-                    break;
-                case 'SpecialIncrease_Up':
-                    calcScu(skillObj);
-                    break;
-                case 'RespawnSpecialGauge_Save':
-                    calcSs(skillObj);
-                    break;
-                case 'MarkingTime_Reduction':
-                    calcMpu(skillObj);
-                    break;
-                case 'BombDistance_Up':
-                    calcSubPu(skillObj);
-                    break;
-                case 'SpecialTime_Up':
-                    calcSpu(skillObj);
-                    break;
-                case 'RespawnTime_Save':
-                    calcQrs(skillObj);
-                    break;
-                case 'JumpTime_Save':
-                    calcQsj(skillObj);
-                    break;
-                case 'OpInkEffect_Reduction':
-                    calcInkRu(skillObj);
-                    break;
-                case 'BombDamage_Reduction':
-                    calcBdu(skillObj);
-                    break;
-            } 
-        });
+        recalculateStats();
     }
 }
 
@@ -272,9 +221,71 @@ function dropHandler(e) {
 
 
 
+function recalculateStats() {
+    // clear stats display
+    var containerEle = $('#stats');
+    containerEle.empty();
+
+    // get all inputted skill names
+    var inputtedSkillNames = getInputtedSkillNames();
+
+    // map number of main and subs to each inputted skill
+    var mainAndSubs = getMainAndSubs(inputtedSkillNames);
+
+    // calculate ability effect for each inputted skill
+    mainAndSubs.forEach(skillObj => {
+        console.log(skillObj.skillName);
+
+        switch (skillObj.skillName) {
+            case 'MainInk_Save':
+                calcIsm(skillObj);
+                break;
+            case 'SubInk_Save':
+                calcIss(skillObj);
+                break;
+            case 'InkRecovery_Up':
+                calcIru(skillObj);
+                break;
+            case 'HumanMove_Up':
+                calcRsu(skillObj);
+                break;
+            case 'SquidMove_Up':
+                calcSsu(skillObj);
+                break;
+            case 'SpecialIncrease_Up':
+                calcScu(skillObj);
+                break;
+            case 'RespawnSpecialGauge_Save':
+                calcSs(skillObj);
+                break;
+            case 'MarkingTime_Reduction':
+                calcMpu(skillObj);
+                break;
+            case 'BombDistance_Up':
+                calcSubPu(skillObj);
+                break;
+            case 'SpecialTime_Up':
+                calcSpu(skillObj);
+                break;
+            case 'RespawnTime_Save':
+                calcQrs(skillObj);
+                break;
+            case 'JumpTime_Save':
+                calcQsj(skillObj);
+                break;
+            case 'OpInkEffect_Reduction':
+                calcInkRu(skillObj);
+                break;
+            case 'BombDamage_Reduction':
+                calcBdu(skillObj);
+                break;
+        } 
+    });
+}
+
 function calcIsm(skillObj) {
     $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
-        var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+        var weapon = currentWeapon;
         var weaponName = weapon[0]["Name"];
 
 
@@ -329,10 +340,10 @@ function calcIsm(skillObj) {
 
 function calcIss(skillObj) {
     $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
-        var weapon = allWeaponData['Roller_Compact_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+        var weapon = currentWeapon;
 
         // prep sub info
-        var subData = allSubData[weapon[0].Sub];
+        var subData = currentSub;
         var inkConsume = subData[1].mInkConsume;
         var key;
 
@@ -409,7 +420,7 @@ function calcIru(skillObj) {
 
 function calcRsu(skillObj) {
     $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
-        var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+        var weapon = currentWeapon;
         var baseSpeed = [1, weapon[1]["mMoveSpeed"]];
         var calculatedData;
         var effects = [];
@@ -460,7 +471,7 @@ function calcRsu(skillObj) {
 
 function calcSsu(skillObj) {
     $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
-        var weapon = allWeaponData['Umbrella_Wide_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+        var weapon = currentWeapon;
         var calculatedData;
         var effects = [];
 
@@ -508,8 +519,7 @@ function calcSsu(skillObj) {
 
 function calcScu(skillObj) {
     $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
-        var weapon = allWeaponData['Shooter_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
-        // var specialData = allSpecialData[weapon[0].Special];
+        var weapon = currentWeapon;
 
         var chargeUpHML = getHML(res[skillObj.skillName], 'SpecialRt_Charge');
         var chargeUpVal = calculateAbilityEffect(skillObj.main, skillObj.subs, chargeUpHML[0], chargeUpHML[1], chargeUpHML[2]);
@@ -533,7 +543,7 @@ function calcScu(skillObj) {
 
 function calcSs(skillObj) {
     $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
-        var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+        var weapon = currentWeapon;
 
         var specialSaveHML = getHML(res[skillObj.skillName], "SpecialRt_Restart");
         var specialSaveVal = calculateAbilityEffect(skillObj.main, skillObj.subs, specialSaveHML[0], specialSaveHML[1], specialSaveHML[2]);
@@ -560,7 +570,7 @@ function calcSs(skillObj) {
 }
 
 function calcMpu(skillObj) {
-    var weapon = allWeaponData['Shooter_BlasterShort_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+    var weapon = currentWeapon;
     var effects = [];
 
     var keys = {
@@ -727,9 +737,8 @@ function calcMpu(skillObj) {
 }
 
 function calcSubPu(skillObj) {
-    var weapon = allWeaponData['Shooter_BlasterShort_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+    var weapon = acurrentWeapon;
     var subName = weapon[0].Sub;
-    var subData = allSubData[subName];
 
     var bru = ["Bomb_Splash", "Bomb_Suction", "Bomb_Quick", "PointSensor", "PoisonFog", "Bomb_Robo", "Bomb_Tako", "Bomb_Piyo"]
     
@@ -946,7 +955,7 @@ function calcSubPu(skillObj) {
 }
 
 function calcSpu(skillObj) {
-    var weapon = allWeaponData['Twins_Short_00']; // Shooter_Short_00, Shooter_BlasterShort_00, Roller_Compact_00, Twins_Short_00
+    var weapon = currentWeapon;
     var effects = [];
 
     // get special data
@@ -1265,6 +1274,21 @@ for (let i = 0; i < dragIntoEle.length; i++) {
         dropHandler(e);
     });
 }
+
+
+
+
+// update weapon, sub, special on select change
+var selectEle = document.getElementById('gearset-weapon');
+selectEle.addEventListener('change', (e) => {
+    var weaponName = e.target.options[e.target.value - 1].dataset.name;
+
+    currentWeapon = allWeaponData[weaponName];
+    currentSub = allSubData[currentWeapon[0].Sub];
+    currentSpecial = allSpecialData[currentWeapon[0].Special];
+
+    recalculateStats();
+});
 
 
 

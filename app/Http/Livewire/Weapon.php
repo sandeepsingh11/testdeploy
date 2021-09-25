@@ -12,10 +12,14 @@ class Weapon extends Component
     public string $specialName = 'SuperLanding';
     public string $subName = 'Bomb_Curling';
     public int $oldWeaponId = -1;
+    public bool $inline = false;
+    public string $selectLabel = 'Weapon';
 
-    public function mount(Collection $weapons, int $oldWeaponId = -1)
+    public function mount(Collection $weapons, int $oldWeaponId = -1, $inline = false, $selectLabel = 'Weapon')
     {
         $this->weapons = $weapons;
+        $this->inline = $inline;
+        $this->selectLabel = $selectLabel;
 
 
         if ($oldWeaponId != -1) {

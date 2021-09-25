@@ -239,19 +239,23 @@ function dropHandler(e) {
                             effects: [
                                 {
                                     name: 'Dying Frames',
-                                    value: Math.ceil(chaseVal)
+                                    value: Math.ceil(chaseVal[0]),
+                                    percent: (chaseVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Dying Seconds',
-                                    value: (Math.ceil(chaseVal) / 60).toFixed(2)
+                                    value: (Math.ceil(chaseVal[0]) / 60).toFixed(2),
+                                    percent: (chaseVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Deathcam Frames',
-                                    value: Math.ceil(aroudVal)
+                                    value: Math.ceil(aroudVal[0]),
+                                    percent: (aroudVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Deathcam Seconds',
-                                    value: (Math.ceil(aroudVal) / 60).toFixed(2)
+                                    value: (Math.ceil(aroudVal[0]) / 60).toFixed(2),
+                                    percent: (aroudVal[1] * 100).toFixed(2)
                                 }
                             ]
                         }
@@ -280,27 +284,33 @@ function dropHandler(e) {
                             effects: [
                                 {
                                     name: 'Jump in Ink',
-                                    value: jumpVal.toFixed(4)
+                                    value: jumpVal[0].toFixed(4),
+                                    percent: (jumpVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Shoot in Ink',
-                                    value: velShotVal.toFixed(4)
+                                    value: velShotVal[0].toFixed(4),
+                                    percent: (velShotVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Run Speed in Ink',
-                                    value: velVal.toFixed(4)
+                                    value: velVal[0].toFixed(4),
+                                    percent: (velVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Damage Limit in Ink',
-                                    value: damageLimitVal.toFixed(4)
+                                    value: damageLimitVal[0].toFixed(4),
+                                    percent: (damageLimitVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Damage per Frame in Ink',
-                                    value: damageVal.toFixed(4)
+                                    value: damageVal[0].toFixed(4),
+                                    percent: (damageVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Armor in Ink',
-                                    value: Math.ceil(armorVal)
+                                    value: Math.ceil(armorVal[0]),
+                                    percent: (armorVal[1] * 100).toFixed(2)
                                 }
                             ]
                         }
@@ -321,19 +331,23 @@ function dropHandler(e) {
                             effects: [
                                 {
                                     name: 'Prepare Frames',
-                                    value: Math.ceil(prepareVal)
+                                    value: Math.ceil(prepareVal[0]),
+                                    percent: (prepareVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Prepare Seconds',
-                                    value: (Math.ceil(prepareVal) / 60).toFixed(2)
+                                    value: (Math.ceil(prepareVal[0]) / 60).toFixed(2),
+                                    percent: (prepareVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Super Jump Frames',
-                                    value: Math.ceil(superJumpVal)
+                                    value: Math.ceil(superJumpVal[0]),
+                                    percent: (superJumpVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Super Jump Seconds',
-                                    value: (Math.ceil(superJumpVal) / 60).toFixed(2)
+                                    value: (Math.ceil(superJumpVal[0]) / 60).toFixed(2),
+                                    percent: (superJumpVal[1] * 100).toFixed(2)
                                 }
                             ]
                         }
@@ -353,19 +367,23 @@ function dropHandler(e) {
                             effects: [
                                 {
                                     name: 'Recovery Time in Ink - Frames',
-                                    value: Math.ceil(squidFormVal)
+                                    value: Math.ceil(squidFormVal[0]),
+                                    percent: (squidFormVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Recovery Time in Ink - Seconds',
-                                    value: (Math.ceil(squidFormVal) / 60).toFixed(2)
+                                    value: (Math.ceil(squidFormVal[0]) / 60).toFixed(2),
+                                    percent: (squidFormVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Recovery Time Standing - Frames',
-                                    value: Math.ceil(humanFormVal)
+                                    value: Math.ceil(humanFormVal[0]),
+                                    percent: (humanFormVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Recovery Time Standing - Seconds',
-                                    value: (Math.ceil(humanFormVal) / 60).toFixed(2)
+                                    value: (Math.ceil(humanFormVal[0]) / 60).toFixed(2),
+                                    percent: (humanFormVal[1] * 100).toFixed(2)
                                 }
                             ]
                         }
@@ -402,31 +420,38 @@ function dropHandler(e) {
                                 effects: [
                                     {
                                         name: 'Special Damage Multiplier',
-                                        value: specialDamageVal.toFixed(4)
+                                        value: specialDamageVal[0].toFixed(4),
+                                        percent: (specialDamageVal[1] * 100).toFixed(2)
                                     },
                                     {
                                         name: 'Close Hit Sub Damage Multiplier',
-                                        value: subNearVal.toFixed(4)
+                                        value: subNearVal[0].toFixed(4),
+                                        percent: (subNearVal[1] * 100).toFixed(2)
                                     },
                                     {
                                         name: 'Far Hit Sub Damage Multiplier',
-                                        value: subFarVal.toFixed(4)
+                                        value: subFarVal[0].toFixed(4),
+                                        percent: (subFarVal[1] * 100).toFixed(2)
                                     },
                                     {
                                         name: 'Marking Time - Point Sensors',
-                                        value: pointSensorVal.toFixed(4)
+                                        value: pointSensorVal[0].toFixed(4),
+                                        percent: (pointSensorVal[1] * 100).toFixed(2)
                                     },
                                     {
                                         name: 'Marking Time - Ink Mines',
-                                        value: inkMineVal.toFixed(4)
+                                        value: inkMineVal[0].toFixed(4),
+                                        percent: (inkMineVal[1] * 100).toFixed(2)
                                     },
                                     {
                                         name: 'Thermal-Ink Sillhoute - Far Range Distance',
-                                        value: silFarVal.toFixed(4)
+                                        value: silFarVal[0].toFixed(4),
+                                        percent: (silFarVal[1] * 100).toFixed(2)
                                     },
                                     {
                                         name: 'Thermal-Ink Sillhoute - Close Range Distance',
-                                        value: silNearVal.toFixed(4)
+                                        value: silNearVal[0].toFixed(4),
+                                        percent: (silNearVal[1] * 100).toFixed(2)
                                     }
                                 ]
                             }
@@ -473,11 +498,13 @@ function dropHandler(e) {
                             effects: [
                                 {
                                     name: 'Ink Consumption / Shot',
-                                    value: (consumeRateVal * inkConsume).toFixed(5)
+                                    value: (consumeRateVal[0] * inkConsume).toFixed(5),
+                                    percent: (consumeRateVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Max Number of Shots',
-                                    value: Math.floor(inkTankSize / (consumeRateVal * inkConsume))
+                                    value: Math.floor(inkTankSize / (consumeRateVal[0] * inkConsume)),
+                                    percent: (consumeRateVal[1] * 100).toFixed(2)
                                 }
                             ]
                         }
@@ -515,7 +542,8 @@ function dropHandler(e) {
                             effects: [
                                 {
                                     name: 'Ink Consumption',
-                                    value: (consumeRateVal * inkConsume).toFixed(5)
+                                    value: (consumeRateVal[0] * inkConsume).toFixed(5),
+                                    percent: (consumeRateVal[1] * 100).toFixed(2)
                                 }
                             ]
                         }
@@ -536,7 +564,8 @@ function dropHandler(e) {
                             effects: [
                                 {
                                     name: 'Special Cost',
-                                    value: Math.ceil(weapon[0]["SpecialCost"] / chargeUpVal)
+                                    value: Math.ceil(weapon[0]["SpecialCost"] / chargeUpVal[0]),
+                                    percent: (chargeUpVal[1] * 100).toFixed(2)
                                 }
                             ]
                         }
@@ -597,19 +626,20 @@ function dropHandler(e) {
 
                                     var eff = 0;
                                     if (name == "mHP") {
-                                        eff = Math.floor(specialPUVal * 1) / 10;
+                                        eff = Math.floor(specialPUVal[0] * 1) / 10;
                                     } 
                                     else if (frameKeys.includes(name)) {
-                                        eff = Math.ceil(specialPUVal * 1);
+                                        eff = Math.ceil(specialPUVal[0] * 1);
                                     } 
                                     else {
-                                        eff = (specialPUVal * 1).toFixed(5);
+                                        eff = (specialPUVal[0] * 1).toFixed(5);
                                     }
 
 
                                     var specialEffect = {
                                         name: translation,
-                                        value: eff
+                                        value: eff,
+                                        percent: (specialPUVal[1] * 100).toFixed(2)
                                     }
                                     effects.push(specialEffect);
                                 }
@@ -692,16 +722,16 @@ function dropHandler(e) {
                                     var eff = 0;
 
                                     if (name == "mCanopyHP") {
-                                        eff = Math.floor(mainPUVal * 1) / 10;
+                                        eff = Math.floor(mainPUVal[0] * 1) / 10;
                                     } 
                                     else if (name == "mCanopyNakedFrame") {
-                                        eff = Math.ceil(mainPUVal * 1);
+                                        eff = Math.ceil(mainPUVal[0] * 1);
                                     } 
                                     else if (name == "mFirstSecondMaxChargeShootingFrameTimes") {
                                         var f1 = weapon[1]["mFirstPeriodMaxChargeShootingFrame"];
                                         var f2 = weapon[1]["mSecondPeriodMaxChargeShootingFrame"];
 
-                                        eff = Math.ceil(mainPUVal * (f1 + f2));
+                                        eff = Math.ceil(mainPUVal[0] * (f1 + f2));
                                     } 
                                     else if (dmgKeys.includes(name)) {
                                         var dmg = 0;
@@ -732,7 +762,7 @@ function dropHandler(e) {
                                             dmg_max = weapon[1]["mSideStepOneMuzzleDamage_MWPUG_Max"];
                                         }
 
-                                        eff = Math.floor(mainPUVal * dmg);
+                                        eff = Math.floor(mainPUVal[0] * dmg);
                                         if (eff > dmg_max) {
                                             eff = dmg_max;
                                         }
@@ -761,20 +791,21 @@ function dropHandler(e) {
                                         }
                                         
 
-                                        eff = (mainPUVal * radius).toFixed(5);
+                                        eff = (mainPUVal[0] * radius).toFixed(5);
                                         if (eff > radius_max) {
                                             eff = radius_max;
                                         }
                                     
                                     } 
                                     else {
-                                        eff = (mainPUVal * 1).toFixed(5);
+                                        eff = (mainPUVal[0] * 1).toFixed(5);
                                     }
 
 
                                     var mainPUEffect = {
                                         name: translation,
-                                        value: eff
+                                        value: eff,
+                                        percent: (mainPUVal[1] * 100).toFixed(2)
                                     }
                                     effects.push(mainPUEffect);
                                 }
@@ -822,7 +853,8 @@ function dropHandler(e) {
                                 var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
                                 var subPUEffect = {
                                     name: 'Throw Velocity',
-                                    value: (result * 1).toFixed(5)
+                                    value: (result[0] * 1).toFixed(5),
+                                    percent: (result[1] * 100).toFixed(2)
                                 }
                                 effects.push(subPUEffect);
 
@@ -835,7 +867,8 @@ function dropHandler(e) {
                                         var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
                                         var subPUEffect = {
                                             name: 'Marking Time',
-                                            value: Math.ceil(result)
+                                            value: Math.ceil(result[0]),
+                                            percent: (result[1] * 100).toFixed(2)
                                         }
                                         effects.push(subPUEffect);
                                     });
@@ -860,7 +893,8 @@ function dropHandler(e) {
 
                                 var subPUEffect = {
                                     name: 'Base Speed',
-                                    value: (result * 1).toFixed(5)
+                                    value: (result[0] * 1).toFixed(5),
+                                    percent: (result[1] * 100).toFixed(2)
                                 }
                                 effects.push(subPUEffect);
 
@@ -883,10 +917,10 @@ function dropHandler(e) {
 
                                     var eff = 0;
                                     if (c < 2) {
-                                        eff = (result * 1).toFixed(5);
+                                        eff = (result[0] * 1).toFixed(5);
                                     } 
                                     else {
-                                        eff = Math.ceil(result * 1);
+                                        eff = Math.ceil(result[0] * 1);
                                     }
 
 
@@ -897,7 +931,8 @@ function dropHandler(e) {
 
                                     var subPUEffect = {
                                         name: effectName,
-                                        value: eff
+                                        value: eff,
+                                        percent: (result[1] * 100).toFixed(2)
                                     }
                                     effects.push(subPUEffect);
                                 }
@@ -925,7 +960,8 @@ function dropHandler(e) {
 
                                     var subPUEffect = {
                                         name: effectName,
-                                        value: Math.ceil(result * 1)
+                                        value: Math.ceil(result[0] * 1),
+                                        percent: (result[1] * 100).toFixed(2)
                                     }
                                     effects.push(subPUEffect);
                                 }
@@ -948,7 +984,8 @@ function dropHandler(e) {
 
                                 var subPUEffect = {
                                     name: 'Max HP',
-                                    value: Math.floor(result * 1) / 10.0
+                                    value: Math.floor(result[0] * 1) / 10.0,
+                                    percent: (result[1] * 100).toFixed(2)
                                 }
                                 effects.push(subPUEffect);
 
@@ -975,8 +1012,6 @@ function dropHandler(e) {
                                     var percentage = (totalAPs / multiplier[0]) * (((totalAPs / multiplier[0]) * slope) + (1.0 - slope));
                                     var newAP = Math.floor(multiplier[2] + ((multiplier[0] - multiplier[2]) * percentage));
                                     var newMainSubAPs = getMainSubPoints(newAP);
-                                    // console.log(newAP);
-                                    // console.log(newMainSubAPs);
 
                                     for (var c = 0; c < 2 ; c++) {
                                         var result = calculateAbilityEffect(newMainSubAPs[0], newMainSubAPs[1], calculatedData[c][0], calculatedData[c][1], calculatedData[c][2], skillObj.skillName);
@@ -987,7 +1022,8 @@ function dropHandler(e) {
 
                                         var subPUEffect = {
                                             name: effectName,
-                                            value: Math.ceil(result)
+                                            value: Math.ceil(result[0]),
+                                            percent: (result[1] * 100).toFixed(2)
                                         }
                                         effects.push(subPUEffect);
                                     }
@@ -1027,7 +1063,8 @@ function dropHandler(e) {
                         var runSpeedVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
                         var runSpeedEffect = {
                             name: 'Run Speed (DU/Frame)',
-                            value: (runSpeedVal * baseSpeed[0]).toFixed(5)
+                            value: (runSpeedVal[0] * baseSpeed[0]).toFixed(5),
+                            percent: (runSpeedVal[1] * 100).toFixed(2)
                         }
                         effects.push(runSpeedEffect);
 
@@ -1036,7 +1073,8 @@ function dropHandler(e) {
                         var runSpeedShootingVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedDataWeapon[0], calculatedDataWeapon[1], calculatedDataWeapon[2], skillObj.skillName);
                         runSpeedEffect = {
                             name: 'Run Speed (Shooting) (DU/Frame)',
-                            value: (runSpeedShootingVal * baseSpeed[1]).toFixed(5)
+                            value: (runSpeedShootingVal[0] * baseSpeed[1]).toFixed(5),
+                            percent: (runSpeedShootingVal[1] * 100).toFixed(2)
                         }
                         effects.push(runSpeedEffect);
 
@@ -1070,7 +1108,8 @@ function dropHandler(e) {
                         var swimSpeedVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName);
                         var swimSpeedEffect = {
                             name: 'Swim Speed (DU/Frame)',
-                            value: (swimSpeedVal).toFixed(5)
+                            value: (swimSpeedVal[0]).toFixed(5),
+                            percent: (swimSpeedVal[1] * 100).toFixed(2)
                         }
                         effects.push(swimSpeedEffect);
 
@@ -1079,7 +1118,8 @@ function dropHandler(e) {
                         var swimSpeedNinjaVal = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2], skillObj.skillName, true);
                         swimSpeedEffect = {
                             name: 'Swim Speed (Ninja) (DU/Frame)',
-                            value: (swimSpeedNinjaVal).toFixed(5)
+                            value: (swimSpeedNinjaVal[0]).toFixed(5),
+                            percent: (swimSpeedNinjaVal[1] * 100).toFixed(2)
                         }
                         effects.push(swimSpeedEffect);
 
@@ -1104,11 +1144,13 @@ function dropHandler(e) {
                             effects: [
                                 {
                                     name: 'Special Remaining',
-                                    value: Math.ceil(weapon[0]["SpecialCost"] * specialSaveVal)
+                                    value: Math.ceil(weapon[0]["SpecialCost"] * specialSaveVal[0]),
+                                    percent: (specialSaveVal[1] * 100).toFixed(2)
                                 },
                                 {
                                     name: 'Percentage Remaining',
-                                    value: (100 * specialSaveVal).toFixed(4)
+                                    value: (100 * specialSaveVal[0]).toFixed(4),
+                                    percent: (specialSaveVal[1] * 100).toFixed(2)
                                 }
                             ]
                         }
@@ -1507,7 +1549,7 @@ function calculateAbilityEffect(numOfMains, numOfSubs, high, mid, low, abilityNa
     if (ninjaSquid) result *= 0.9;
 
     console.log(`AP: ${APs}, p: ${percentage}, s: ${slope}, lerpN: ${lerpN} h:${high} m:${mid} l:${low}`);
-    return result;
+    return [result, lerpN];
 }
 
 
@@ -1535,16 +1577,17 @@ function displayStat(statObj) {
     for (var i = 0; i < statObj.effects.length; i++) {
         var effectName = statObj.effects[i].name;
         var effectVal = statObj.effects[i].value;
+        var effectPercent = statObj.effects[i].percent;
         // var effectEle = $('<p></p>').text(effectName + ': ' + effectVal);
 
 
         // create progress bar
         var statContainerEle = $('<div></div>');
         var statProgressBarContainerEle = $('<div class="bg-gray-300 rounded-full"></div>');
-        var statsProgressBarEle = $('<div class="flex justify-around bg-pink-300 rounded-full"></div>').css('width', '50%');
+        var statsProgressBarEle = $('<div class="flex justify-around bg-pink-300 rounded-full"></div>').css('width', effectPercent + '%');
         // use <meter></meter> ? https://www.w3schools.com/TAgs/tag_meter.asp
         var statsProgressBarValueEle = $('<div class="text-2xl font-bold"></div>').text(effectVal).css('-webkit-text-stroke', '0.5px black').css('-webkit-text-fill-color', 'white');
-        var statsProgressBarPercentageEle = $('<div class="text-2xl font-bold"></div>').text('50%').css('-webkit-text-stroke', '0.5px black').css('-webkit-text-fill-color', 'white');
+        var statsProgressBarPercentageEle = $('<div class="text-2xl font-bold"></div>').text(effectPercent + '%').css('-webkit-text-stroke', '0.5px black').css('-webkit-text-fill-color', 'white');
 
         statsProgressBarEle.append(statsProgressBarValueEle, statsProgressBarPercentageEle);
         statProgressBarContainerEle.append(statsProgressBarEle);

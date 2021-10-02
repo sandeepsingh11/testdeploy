@@ -134,6 +134,7 @@ class GearController extends GearAbstractController
             'gearSkillNames' => $gearSkillNames,
             'baseGears' => $baseGears->all(),
             'skills' => $skills->all(),
+            'weapons' => Weapon::all()
         ]);
     }
 

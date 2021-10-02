@@ -66,23 +66,38 @@
             </div>
         </div>
 
+        {{-- gears, skills, and stats --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            {{-- weapons --}}
-            <livewire:weapon :weapons="$weapons" />
-    
-            {{-- gear (head) --}}
-            <livewire:gear :gears="$gears" gearType="Head" />
-    
-            {{-- gear (clothes) --}}
-            <livewire:gear :gears="$gears" gearType="Clothes" />
-            
-            {{-- gear (shoes) --}}
-            <livewire:gear :gears="$gears" gearType="Shoes" />
+            <div>       
+                {{-- gear (head) --}}
+                <livewire:gear :gears="$gears" gearType="Head" />
+        
+                {{-- gear (clothes) --}}
+                <livewire:gear :gears="$gears" gearType="Clothes" />
+                
+                {{-- gear (shoes) --}}
+                <livewire:gear :gears="$gears" gearType="Shoes" />
+
+                {{-- submit --}}
+                <input type="submit" value="Create" class="p-2 bg-transparent text-primary-700 rounded-md border border-primary-700 mb-2 cursor-pointer transition-colors hover:bg-primary-500 hover:text-white hover:border-primary-500">
+            </div>
+
+            {{-- gear stats --}}
+            <div>
+                <div class="mb-6">
+                    <div id="weapons-container">
+                        {{-- weapons --}}
+                        <livewire:weapon :weapons="$weapons" />
+                    </div>
+                    <div id="stats-container">
+                        <h4>Gearset stats:</h4>
+
+                        <div id="stats"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-
-
-        <input type="submit" value="Create" class="p-2 bg-transparent text-primary-700 rounded-md border border-primary-700 mb-2 cursor-pointer transition-colors hover:bg-primary-500 hover:text-white hover:border-primary-500">
     </form>
 @endsection
 

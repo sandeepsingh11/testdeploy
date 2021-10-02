@@ -1900,7 +1900,12 @@ var allSpecialData = [];
 var allSubData = [];
 var currentWeapon;
 var currentSub;
-var currentSpecial; // load inital data
+var currentSpecial;
+var gear = false;
+var gearset = false; // set mode
+
+var uri = window.location.pathname.split('/');
+if (uri[uri.length - 2] == 'gears') gear = true;else if (uri[uri.length - 2] == 'gearsets') gearset = true; // load inital data
 
 window.addEventListener('load', function () {
   loadData();
@@ -2072,8 +2077,6 @@ function recalculateStats() {
   var mainAndSubs = getMainAndSubs(inputtedSkillNames); // calculate ability effect for each inputted skill
 
   mainAndSubs.forEach(function (skillObj) {
-    console.log(skillObj.skillName);
-
     switch (skillObj.skillName) {
       case 'MainInk_Save':
         calcIsm(skillObj);
@@ -2972,6 +2975,28 @@ for (var _i = 0; _i < dragIntoEle.length; _i++) {
   dragIntoEle[_i].addEventListener('drop', function (e) {
     dropHandler(e);
   });
+} // if on gearset page, set listeners for gear changes
+
+
+if (gearset) {
+  var gearsetChange = function gearsetChange() {
+    setTimeout(function () {
+      recalculateStats();
+    }, 1200);
+  };
+
+  var headSelectEle = document.getElementById('gear-head-id');
+  headSelectEle.addEventListener('change', function (e) {
+    return gearsetChange();
+  });
+  var clothesSelectEle = document.getElementById('gear-clothes-id');
+  clothesSelectEle.addEventListener('change', function (e) {
+    return gearsetChange();
+  });
+  var shoesSelectEle = document.getElementById('gear-shoes-id');
+  shoesSelectEle.addEventListener('change', function (e) {
+    return gearsetChange();
+  });
 } // update weapon, sub, special on select change
 
 
@@ -2985,15 +3010,34 @@ selectEle.addEventListener('change', function (e) {
 }); // get all current skill names
 
 function getInputtedSkillNames() {
-  var mainSkillEle = document.getElementById('skill-main');
-  var sub1Ele = document.getElementById('skill-sub-1');
-  var sub2Ele = document.getElementById('skill-sub-2');
-  var sub3Ele = document.getElementById('skill-sub-3');
-  var mainSkillName = mainSkillEle.children[0].dataset.skillName;
-  var sub1SkillName = sub1Ele.children[0].dataset.skillName;
-  var sub2SkillName = sub2Ele.children[0].dataset.skillName;
-  var sub3SkillName = sub3Ele.children[0].dataset.skillName;
-  return [mainSkillName, sub1SkillName, sub2SkillName, sub3SkillName];
+  var allSkills = [];
+
+  if (gear) {
+    var mainSkillEle = document.getElementById('skill-main');
+    var sub1Ele = document.getElementById('skill-sub-1');
+    var sub2Ele = document.getElementById('skill-sub-2');
+    var sub3Ele = document.getElementById('skill-sub-3');
+    var mainSkillName = mainSkillEle.children[0].dataset.skillName;
+    var sub1SkillName = sub1Ele.children[0].dataset.skillName;
+    var sub2SkillName = sub2Ele.children[0].dataset.skillName;
+    var sub3SkillName = sub3Ele.children[0].dataset.skillName;
+    allSkills.push(mainSkillName, sub1SkillName, sub2SkillName, sub3SkillName);
+  } else if (gearset) {
+    var gearTypes = ['head', 'clothes', 'shoes'];
+    gearTypes.forEach(function (gearType) {
+      var mainSkillEle = document.getElementById(gearType + '-skill-main');
+      var sub1Ele = document.getElementById(gearType + '-skill-sub-1');
+      var sub2Ele = document.getElementById(gearType + '-skill-sub-2');
+      var sub3Ele = document.getElementById(gearType + '-skill-sub-3');
+      var mainSkillName = mainSkillEle.children[0].dataset.skillName;
+      var sub1SkillName = sub1Ele.children[0].dataset.skillName;
+      var sub2SkillName = sub2Ele.children[0].dataset.skillName;
+      var sub3SkillName = sub3Ele.children[0].dataset.skillName;
+      allSkills.push(mainSkillName, sub1SkillName, sub2SkillName, sub3SkillName);
+    });
+  }
+
+  return allSkills;
 } // convert AP to main and sub points
 
 
@@ -3046,14 +3090,19 @@ function getMainAndSubs(skillNames) {
           'main': 0,
           'subs': 0
         }; // set 'main' count
+        // if iteration is a multiple of 4
 
-        skillObj.main = i == 0 ? 1 : 0; // set 'subs' count
+        skillObj.main = (i + 4) % 4 == 0 ? 1 : 0; // set 'subs' count
+        // run through array and add if same skill name
 
         var numOfSubs = 0;
-        if (skillNames[1] == skillNames[i]) numOfSubs++;
-        if (skillNames[2] == skillNames[i]) numOfSubs++;
-        if (skillNames[3] == skillNames[i]) numOfSubs++;
-        skillObj.subs = numOfSubs;
+
+        for (k = 0; k < skillNames.length; k++) {
+          if (skillNames[i] == skillNames[k]) numOfSubs++;
+        } // exclude main count
+
+
+        skillObj.subs = numOfSubs - skillObj.main;
         mainAndSubs.push(skillObj);
       }
     }

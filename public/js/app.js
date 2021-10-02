@@ -3168,27 +3168,27 @@ function calculateAbilityEffect(numOfMains, numOfSubs, high, mid, low) {
 function displayStat(statObj) {
   var containerEle = $('#stats'); // skill title element
 
-  var skillTitleEle = $('<div class="flex justify-start items-center gap-1"></div>');
+  var skillTitleEle = $('<div class="flex justify-start items-center gap-1 mt-4"></div>');
   var skillImgEle = $('<img />').attr('src', '/storage/skills/' + statObj.name + '.png').attr('alt', statObj.displayName).attr('width', '32px');
   var skillNameEle = $('<h5></h5>').text(statObj.displayName);
   skillTitleEle.append(skillImgEle, skillNameEle); // stat effect entries
 
-  var statValContainerEle = $('<div></div>');
+  var statValContainerEle = $('<div class="grid grid-cols-2 gap-2 items-end"></div>');
 
   for (var i = 0; i < statObj.effects.length; i++) {
     var effectName = statObj.effects[i].name;
     var effectVal = statObj.effects[i].value;
-    var effectPercent = statObj.effects[i].percent; // var effectEle = $('<p></p>').text(effectName + ': ' + effectVal);
-    // create progress bar
+    var effectPercent = statObj.effects[i].percent; // create progress bar
 
     var statContainerEle = $('<div></div>');
-    var statProgressBarContainerEle = $('<div class="bg-gray-300 rounded-full"></div>');
-    var statsProgressBarEle = $('<div class="flex justify-around bg-pink-300 rounded-full"></div>').css('width', effectPercent + '%'); // use <meter></meter> ? https://www.w3schools.com/TAgs/tag_meter.asp
+    var statProgressBarContainerEle = $('<div class="bg-gray-300 relative rounded-full"></div>');
+    var statsProgressBarEle = $('<div class="absolute top-0 left-0 h-full bg-pink-300 rounded-full"></div>').css('width', effectPercent + '%'); // use <meter></meter> ? https://www.w3schools.com/TAgs/tag_meter.asp
 
-    var statsProgressBarValueEle = $('<div class="text-2xl font-bold"></div>').text(effectVal).css('-webkit-text-stroke', '0.5px black').css('-webkit-text-fill-color', 'white');
-    var statsProgressBarPercentageEle = $('<div class="text-2xl font-bold"></div>').text(effectPercent + '%').css('-webkit-text-stroke', '0.5px black').css('-webkit-text-fill-color', 'white');
-    statsProgressBarEle.append(statsProgressBarValueEle, statsProgressBarPercentageEle);
-    statProgressBarContainerEle.append(statsProgressBarEle);
+    var statsProgressBarValPerContainerEle = $('<div class="flex justify-between relative z-10"></div>');
+    var statsProgressBarValueEle = $('<div class="ml-6 text-xl font-bold"></div>').text(effectVal).css('-webkit-text-stroke', '0.75px black').css('-webkit-text-fill-color', 'white');
+    var statsProgressBarPercentageEle = $('<div class="mr-6 text-xl font-bold"></div>').text(effectPercent + '%').css('-webkit-text-stroke', '0.75px black').css('-webkit-text-fill-color', 'white');
+    statsProgressBarValPerContainerEle.append(statsProgressBarValueEle, statsProgressBarPercentageEle);
+    statProgressBarContainerEle.append(statsProgressBarEle, statsProgressBarValPerContainerEle);
     statContainerEle.append(effectName, statProgressBarContainerEle);
     statValContainerEle.append(statContainerEle);
   } // add to display container

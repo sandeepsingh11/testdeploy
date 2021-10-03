@@ -1905,7 +1905,7 @@ var gear = false;
 var gearset = false; // set mode
 
 var uri = window.location.pathname.split('/');
-if (uri[uri.length - 2] == 'gears') gear = true;else if (uri[uri.length - 2] == 'gearsets') gearset = true; // load inital data
+if (uri[uri.length - 2] == 'gears' || uri[uri.length - 3] == 'gears') gear = true;else if (uri[uri.length - 2] == 'gearsets' || uri[uri.length - 3] == 'gearsets') gearset = true; // load inital data
 
 window.addEventListener('load', function () {
   loadData();

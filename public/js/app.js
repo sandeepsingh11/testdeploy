@@ -1914,7 +1914,11 @@ window.addEventListener('load', function () {
 function loadData() {
   loadWeaponData();
   loadSpecialData();
-  loadSubData();
+  loadSubData(); // if editing, calc existing skills
+
+  setTimeout(function () {
+    recalculateStats();
+  }, 2500);
 }
 
 function loadWeaponData() {

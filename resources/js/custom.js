@@ -34,6 +34,11 @@ function loadData() {
     loadWeaponData();
     loadSpecialData();
     loadSubData();
+
+    // if editing, calc existing skills
+    setTimeout(() => {
+        recalculateStats();
+    }, 2500);
 }
 
 function loadWeaponData() {

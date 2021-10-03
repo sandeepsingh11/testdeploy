@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\User\DashboardController;
@@ -35,6 +37,23 @@ Route::post('/login', [LoginController::class, 'login']);
 // logout
 // setting Logout to GET is vul to csrf. use POST instead
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+
+// reset password
+Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+                ->middleware('guest')
+                ->name('password.request');
+
+Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+                ->middleware('guest')
+                ->name('password.email');
+
+Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+                ->middleware('guest')
+                ->name('password.reset');
+
+Route::post('/reset-password', [NewPasswordController::class, 'store'])
+                ->middleware('guest')
+                ->name('password.update');
 
 // dashboard
 Route::get('/{user:username}', [DashboardController::class, 'index'])->name('dashboard');

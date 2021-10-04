@@ -4,8 +4,16 @@
     <div class="flex justify-center">
         <div class="w-4/12 bg-white p-6 rounded-lg">
             @if (session('status'))
+                {{-- error message --}}
                 <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
                     {{ session('status') }}
+                </div>
+            @endif
+
+            @if (session('reset-pw'))
+                {{-- success message --}}
+                <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
+                    {{ session('reset-pw') }}
                 </div>
             @endif
 

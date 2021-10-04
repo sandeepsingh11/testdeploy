@@ -25,17 +25,19 @@ class RegisterController extends Controller
     {
         $this->validate($request, [
             'username' => ['required', 'max:255'],
+            'email' => 'required|email',
             'password' => 'required|confirmed' // look for _confirmation
         ]);
 
         User::create([
             'username' => $request->username,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
         // sign in user
         Auth::attempt($request->only('username', 'password'));
 
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
     }
 }

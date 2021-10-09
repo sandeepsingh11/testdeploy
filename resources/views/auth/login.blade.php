@@ -4,8 +4,16 @@
     <div class="flex justify-center">
         <div class="w-4/12 bg-white p-6 rounded-lg">
             @if (session('status'))
+                {{-- error message --}}
                 <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
                     {{ session('status') }}
+                </div>
+            @endif
+
+            @if (session('reset-pw'))
+                {{-- success message --}}
+                <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
+                    {{ session('reset-pw') }}
                 </div>
             @endif
 
@@ -14,7 +22,7 @@
 
                 <div class="mb-4">
                     <label for="username" class="sr-only">Username</label>
-                    <input type="text" name="username" id="username" placeholder="username" class="bg-gray-100 border-2 w-full p-4 rounded-lg @error('username') border-red-500 @enderror" value="{{ old('username') }}">
+                    <input type="text" name="username" id="username" placeholder="username" class="bg-gray-100 border-2 w-full p-4 rounded-lg @error('username') border-red-500 @enderror" value="{{ old('username') }}" autofocus>
 
                     @error('username')
                         <div class="text-red-500 mt-2 text-sm">
@@ -45,6 +53,10 @@
                     <button type="submit" class="bg-blue-500 text-white px-4 py-3 rounded font-medium w-full">Login</button>
                 </div>
             </form>
+
+            <div class="mt-2">
+                <a href="{{ route('password.request') }}" class="text-sm underline">Forgot password?</a>
+            </div>
         </div>
     </div>
 @endsection

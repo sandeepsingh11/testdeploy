@@ -1,8 +1,9 @@
 // ==================== HANDLE DRAG AND DROP ==================== //
 
-const { forEach } = require("lodash");
 
 // global vars
+var version = '550';
+var storageUrl = '/storage/' + version + '/';
 var source = '';
 var draggedSkillName = '';
 var draggedSkillId = -1;
@@ -42,7 +43,7 @@ function loadData() {
 }
 
 function loadWeaponData() {
-    $.getJSON('/storage/540/WeaponInfo_Main.json', function(weaponJson) {
+    $.getJSON(storageUrl + 'WeaponInfo_Main.json', function(weaponJson) {
         $.each(weaponJson, function(idx, weapon) {
             // get weapon name
             var weaponNameSplit = weapon["Name"].split("_");
@@ -53,20 +54,20 @@ function loadWeaponData() {
 
             
             // get weapon stats
-            $.getJSON('/storage/540/WeaponBullet/' + weaponName + '.json', function(bulletJson) {
+            $.getJSON(storageUrl + 'WeaponBullet/' + weaponName + '.json', function(bulletJson) {
                 if (weaponName.includes("Spinner") || weaponName.includes("Twins")) {
-                    $.getJSON('/storage/540/WeaponBullet/' + weaponName + '_2.json', function(data) {
+                    $.getJSON(storageUrl + 'WeaponBullet/' + weaponName + '_2.json', function(data) {
                         allWeaponData[weapon["Name"]] = [weapon, Object.assign({}, bulletJson['param'], data['param'])];
                     });
                 }
                 else if (weaponName.includes("Blaster")) {
-                    $.getJSON('/storage/540/WeaponBullet/' + weaponName + '_Burst.json', function(data) {
+                    $.getJSON(storageUrl + 'WeaponBullet/' + weaponName + '_Burst.json', function(data) {
                         allWeaponData[weapon["Name"]] = [weapon, Object.assign({}, bulletJson['param'], data['param'])];
                     });
                 }
                 else if (weaponName.includes("Roller")) {
-                    $.getJSON('/storage/540/WeaponBullet/' + weaponName + '_Stand.json', function(data) {
-                        $.getJSON('/storage/540/WeaponBullet/' + weaponName + '_Jump.json', function(data2) {
+                    $.getJSON(storageUrl + 'WeaponBullet/' + weaponName + '_Stand.json', function(data) {
+                        $.getJSON(storageUrl + 'WeaponBullet/' + weaponName + '_Jump.json', function(data2) {
                             var dataObj = {};
                             $.each(bulletJson['param'], function(key, val) {
                                 dataObj[key] = val;
@@ -93,7 +94,7 @@ function loadWeaponData() {
 }
 
 function loadSpecialData() {
-    $.getJSON('/storage/540/WeaponInfo_Special.json', function(specialJson) {
+    $.getJSON(storageUrl + 'WeaponInfo_Special.json', function(specialJson) {
         $.each(specialJson, function(idx, specialweapon) {
             if (specialweapon["Id"] != 15 && specialweapon["Id"] != 16 && specialweapon["Id"] != 13 && specialweapon["Id"] <= 18 ) {
 
@@ -104,7 +105,7 @@ function loadSpecialData() {
                 }
 
                 // get special stats
-                $.getJSON("/storage/540/WeaponBullet/" + special_internal_name  + ".json", function(bulletJson) {
+                $.getJSON(storageUrl + "WeaponBullet/" + special_internal_name  + ".json", function(bulletJson) {
                     specialweapon["Name"] = special_internal_name;
                     allSpecialData[special_internal_name] = [specialweapon, bulletJson["param"]];
                     currentSpecial = allSpecialData['SuperLanding'];
@@ -115,7 +116,7 @@ function loadSpecialData() {
 }
 
 function loadSubData() {
-    $.getJSON('/storage/540/WeaponInfo_Sub.json', function(subJson) {
+    $.getJSON(storageUrl + 'WeaponInfo_Sub.json', function(subJson) {
         $.each(subJson, function(index, subweapon) {
             if (subweapon["Id"] < 100) {
                 var subname = subweapon["Name"];
@@ -136,7 +137,7 @@ function loadSubData() {
 
 
                 // get sub stats
-                $.getJSON('/storage/540/WeaponBullet/' + subInternalName + '.json', function(bulletJson) {
+                $.getJSON(storageUrl + 'WeaponBullet/' + subInternalName + '.json', function(bulletJson) {
                     allSubData[subweapon["Name"]] = [subweapon, bulletJson["param"]];
                     currentSub = allSubData['Bomb_Curling'];
                 });
@@ -297,7 +298,7 @@ function recalculateStats() {
 }
 
 function calcIsm(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         var weapon = currentWeapon;
         var weaponName = weapon[0]["Name"];
 
@@ -352,7 +353,7 @@ function calcIsm(skillObj) {
 }
 
 function calcIss(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         var weapon = currentWeapon;
 
         // prep sub info
@@ -393,7 +394,7 @@ function calcIss(skillObj) {
 }
 
 function calcIru(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         var squidFormHML = getHML(res[skillObj.skillName], 'RecoverFullFrm_Ink');
         var humanFormHML = getHML(res[skillObj.skillName], 'RecoverNrmlFrm_Ink');
 
@@ -432,7 +433,7 @@ function calcIru(skillObj) {
 }
 
 function calcRsu(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         var weapon = currentWeapon;
         var baseSpeed = [1, weapon[1]["mMoveSpeed"]];
         var calculatedData;
@@ -483,7 +484,7 @@ function calcRsu(skillObj) {
 }
 
 function calcSsu(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         var weapon = currentWeapon;
         var calculatedData;
         var effects = [];
@@ -531,7 +532,7 @@ function calcSsu(skillObj) {
 }
 
 function calcScu(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         var weapon = currentWeapon;
 
         var chargeUpHML = getHML(res[skillObj.skillName], 'SpecialRt_Charge');
@@ -555,7 +556,7 @@ function calcScu(skillObj) {
 }
 
 function calcSs(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         var weapon = currentWeapon;
 
         var specialSaveHML = getHML(res[skillObj.skillName], "SpecialRt_Restart");
@@ -760,7 +761,7 @@ function calcSubPu(skillObj) {
     if (bru.includes(subName)) {
         // case 1: bomblike object + tako + piyo + point sensors
         // Player_Spec_BombDistance_Up
-        $.getJSON('/storage/540/Player/Player_Spec_BombDistance_Up.json', function(data) {
+        $.getJSON(storageUrl + 'Player/Player_Spec_BombDistance_Up.json', function(data) {
             var calculatedData = [];
             
             if (subName == "Bomb_Piyo") {
@@ -788,7 +789,7 @@ function calcSubPu(skillObj) {
 
             // special case: PointSensor, MarkingFrame
             if ("PointSensor" == subName) {
-                $.getJSON('/storage/540/WeaponBullet/BombPointSensor.json', function(data2) {
+                $.getJSON(storageUrl + 'WeaponBullet/BombPointSensor.json', function(data2) {
                     var calculatedData = getHML(data2["param"], "mMarkingFrame");
 
                     var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2]);
@@ -814,7 +815,7 @@ function calcSubPu(skillObj) {
 
     if ("Bomb_Curling" == subName) {
         // case 2: Bomb_Curling, param file "InitVelAndBaseSpeed"
-        $.getJSON('/storage/540/WeaponBullet/BombCurling.json', function(data) {
+        $.getJSON(storageUrl + 'WeaponBullet/BombCurling.json', function(data) {
             var calculatedData = getHML(data["param"], "mInitVelAndBaseSpeed");
             var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2]);
 
@@ -837,7 +838,7 @@ function calcSubPu(skillObj) {
 
     if ("TimerTrap" == subName) {
         // case 3: TimerTrap, BombCoreRadiusRate, MarkingFrame, PlayerColRadius
-        $.getJSON('/storage/540/WeaponBullet/Trap.json', function(data) {
+        $.getJSON(storageUrl + 'WeaponBullet/Trap.json', function(data) {
             var calculatedData = [getHML(data["param"], "mBombCoreRadiusRate"), getHML(data["param"], "mPlayerColRadius"), getHML(data["param"], "mMarkingFrame")];
             for (var c = 0; c < 3 ; c++) {
                 var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[c][0], calculatedData[c][1], calculatedData[c][2], skillObj.skillName);
@@ -876,7 +877,7 @@ function calcSubPu(skillObj) {
 
     if ("Sprinkler" == subName) {
         // case 4: Sprinkler, Period_First, Second
-        $.getJSON('/storage/540/WeaponBullet/Sprinkler.json', function(data) {
+        $.getJSON(storageUrl + 'WeaponBullet/Sprinkler.json', function(data) {
             var calculatedData = [getHML(data["param"], "mPeriod_First"), getHML(data["param"], "mPeriod_Second")];
             for (var c = 0; c < 2 ; c++) {
                 var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[c][0], calculatedData[c][1], calculatedData[c][2], skillObj.skillName);
@@ -905,7 +906,7 @@ function calcSubPu(skillObj) {
 
     if ("Shield" == subName) {
         // case 5: Shield, MaxHp
-        $.getJSON('/storage/540/WeaponBullet/Shield.json', function(data) {
+        $.getJSON(storageUrl + 'WeaponBullet/Shield.json', function(data) {
             var calculatedData = getHML(data["param"], "mMaxHp");
             var result = calculateAbilityEffect(skillObj.main, skillObj.subs, calculatedData[0], calculatedData[1], calculatedData[2]);
 
@@ -928,8 +929,8 @@ function calcSubPu(skillObj) {
 
     if ("Flag" == subName) {
         // case 6: Flag, SubRt_Effect_JumpTime_Save
-        $.getJSON('/storage/540/Player/Player_Spec_JumpTime_Save.json', function(data) {
-            $.getJSON('/storage/540/WeaponBullet/JumpBeacon.json', function(data2) {
+        $.getJSON(storageUrl + 'Player/Player_Spec_JumpTime_Save.json', function(data) {
+            $.getJSON(storageUrl + 'WeaponBullet/JumpBeacon.json', function(data2) {
                 var multiplier = getHML(data2["param"], "mSubRt_Effect_ActualCnt");
                 var varData = data["JumpTime_Save"];
                 var calculatedData = [getHML(varData, "DokanWarp_TameFrm"), getHML(varData, "DokanWarp_MoveFrm")];
@@ -1052,7 +1053,7 @@ function calcSpu(skillObj) {
 }
 
 function calcQrs(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         var aroudHML = getHML(res[skillObj.skillName], 'Dying_AroudFrm');
         var chaseHML = getHML(res[skillObj.skillName], 'Dying_ChaseFrm');
 
@@ -1093,7 +1094,7 @@ function calcQrs(skillObj) {
 }
 
 function calcQsj(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         var prepareHML = getHML(res[skillObj.skillName], 'DokanWarp_TameFrm');
         var superJumpHML = getHML(res[skillObj.skillName], 'DokanWarp_MoveFrm');
 
@@ -1133,7 +1134,7 @@ function calcQsj(skillObj) {
 }
 
 function calcInkRu(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         var jumpHML = getHML(res[skillObj.skillName], 'OpInk_JumpGnd');
         var velShotHML = getHML(res[skillObj.skillName], 'OpInk_VelGnd_Shot');
         var velHML = getHML(res[skillObj.skillName], 'OpInk_VelGnd');
@@ -1191,7 +1192,7 @@ function calcInkRu(skillObj) {
 }
 
 function calcBdu(skillObj) {
-    $.getJSON("/storage/540/Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
+    $.getJSON(storageUrl + "Player/Player_Spec_" + skillObj.skillName + ".json", function(res) {
         // calc bomb defense up values
         var specialDamageHML = getHML(res[skillObj.skillName], 'BurstDamageRt_Special');
         var subNearHML = getHML(res[skillObj.skillName], 'BurstDamageRt_SubH');
@@ -1203,7 +1204,7 @@ function calcBdu(skillObj) {
 
         
         // calc cold-blooded values
-        $.getJSON('/storage/540/Player/Player_Spec_MarkingTime_Reduction.json', function(data) {
+        $.getJSON(storageUrl + 'Player/Player_Spec_MarkingTime_Reduction.json', function(data) {
             var pointSensorHML = getHML(data['MarkingTime_Reduction'], 'MarkingTime_ShortRt');
             var inkMineHML = getHML(data['MarkingTime_Reduction'], 'MarkingTime_ShortRt_Trap');
             var silFarHML = getHML(data['MarkingTime_Reduction'], 'Silhouette_DistFar');

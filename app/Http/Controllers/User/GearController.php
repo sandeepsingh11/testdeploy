@@ -8,6 +8,7 @@ use App\Models\BaseGear;
 use App\Models\Gear;
 use App\Models\Skill;
 use App\Models\User;
+use App\Models\Weapon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redirect;
@@ -52,6 +53,7 @@ class GearController extends GearAbstractController
         // get according splatdata
         $skills = new Skill();
         $baseGears = new BaseGear();
+        $weapons = new Weapon();
 
 
 
@@ -59,6 +61,7 @@ class GearController extends GearAbstractController
             'user' => $user,
             'gears' => $baseGears->all(),
             'skills' => $skills->all(),
+            'weapons' => $weapons->all()
         ]);
     }
 
@@ -131,6 +134,7 @@ class GearController extends GearAbstractController
             'gearSkillNames' => $gearSkillNames,
             'baseGears' => $baseGears->all(),
             'skills' => $skills->all(),
+            'weapons' => Weapon::all()
         ]);
     }
 

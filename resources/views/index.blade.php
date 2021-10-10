@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- hero --}}
-    <div id="hero-container" class="relative h-screen">
+    <div id="hero-container" class="relative h-screen mb-10">
         {{-- bg img --}}
         <div id="hero-bg-img" class="bg-gray-800 absolute top-0 left-0 w-full">
             <img src="{{ asset('storage/img/splatoon2-cover.jpg') }}" alt="Splatoon 2 cover"
@@ -26,5 +26,16 @@
                 >
             </div>
         </div>
+    </div>
+    
+    {{-- building --}}
+    <div id="building-container" class="md:w-10/12 w-full mx-auto mb-8 px-6 py-4">
+        <x-header text="Building Gears and Gearsets" />
+        
+        <p class="mb-2 text-lg">Start by creating gears that you have in-game. Create a title and description for the new gear, like the purpose or strength of using this gear. Select a head, clothing, or shoe gear, then add skills to it. Using Lean's algorithm, you can see the gear stats updating as you add or change skills!</p>
+        <img src="{{ asset('storage/img/gear-row.png') }}" alt="Created gears snippet" class="md:w-11/12 w-full rounded mx-auto mb-10">
+
+        <p class="mb-2 text-lg">After you've created a head, clothing, and shoe gear, you can start building your gearset! Gearsets also contain a title and description, along with which ranked modes you plan on using this gearset. Assemble the gearset with existing pieces of gears that you've created already. Finally, pick a weapon that would complement this gearset well. And boom! You have the freshest build on the block.</p>
+        <img src="{{ asset('storage/img/gearset.png') }}" alt="Created gearset snippet" class="md:w-11/12 w-full rounded mx-auto mb-5">
     </div>
 @endsection

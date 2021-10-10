@@ -29,7 +29,7 @@
     </div>
     
     {{-- building --}}
-    <div id="building-container" class="md:w-10/12 w-full mx-auto mb-8 px-6 py-4">
+    <div id="building-container" class="md:w-10/12 w-full mx-auto mb-8 p-8">
         <x-header text="Building Gears and Gearsets" />
         
         <p class="mb-2 text-lg">Start by creating gears that you have in-game. Create a title and description for the new gear, like the purpose or strength of using this gear. Select a head, clothing, or shoe gear, then add skills to it. Using Lean's algorithm, you can see the gear stats updating as you add or change skills!</p>
@@ -37,5 +37,22 @@
 
         <p class="mb-2 text-lg">After you've created a head, clothing, and shoe gear, you can start building your gearset! Gearsets also contain a title and description, along with which ranked modes you plan on using this gearset. Assemble the gearset with existing pieces of gears that you've created already. Finally, pick a weapon that would complement this gearset well. And boom! You have the freshest build on the block.</p>
         <img src="{{ asset('storage/img/gearset.png') }}" alt="Created gearset snippet" class="md:w-11/12 w-full rounded mx-auto mb-5">
+    </div>
+
+    {{-- stats --}}
+    <div id="stats-container" class="bg-indigo-800 text-white">
+        <div id="stats-wrapper" class="md:w-10/12 w-full mx-auto mb-8 px-8 py-12">
+            <div class="flex flex-wrap items-center">
+                <div class="md:w-2/5 w-full md:mb-0 mb-6">
+                    <x-header text="Skill Stats" />
+                    <p class="mb-6 text-lg md:w-10/12 w-full">Thanks to Lean's work, we are able to calculate the effectiveness of skills! When building your gears and gearsets, you'll be able to see the skill stat calculations in real-time. This way, you know your builds are the best</p>
+                    <x-button-link link="https://github.com/Leanny" text="Lean's GitHub" target="_blank" rel="noopener noreferrer" />
+                </div>
+                <div class="md:w-3/5 w-full flex flex-wrap justify-center md:mt-0 mt-6 py-8">
+                    <img src="{{ asset('storage/img/gear-card.png') }}" alt="Gear snippet" class="w-1/2 rounded transform translate-x-4 -translate-y-4">
+                    <img src="{{ asset('storage/img/gear-stats.png') }}" alt="Gear stats" class="w-1/2 rounded transform -translate-x-4 translate-y-4 shadow-lg z-10">
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

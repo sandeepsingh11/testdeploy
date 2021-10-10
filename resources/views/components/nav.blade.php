@@ -1,4 +1,4 @@
-<nav class="p-2 bg-primary-500 text-white flex justify-between mb-6">
+<nav class="p-2 bg-primary-500 text-white flex justify-between">
     <ul class="flex items-center">
         <li>
             <a href="{{ route('home') }}" class="p-3 pl-0">Splat Build</a>

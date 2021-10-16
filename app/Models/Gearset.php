@@ -35,6 +35,29 @@ class Gearset extends Model
         return $this->belongsTo(Weapon::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the most recent gearsets created.
+     * 
+     * @param number $numOfGearsets number of gearsets to retrieve
+     * 
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getRecentGearsets($numOfGearsets = 3)
+    {
+        $recentGearsets = $this
+            ->latest()
+            ->limit($numOfGearsets)
+            ->with('user')
+            ->get();
+        
+        return $recentGearsets;
+    }
+
     /**
      * If a gearset has a missing gear(s), fill it in with a temporary gear to display on the front-end.
      * 

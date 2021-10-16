@@ -29,6 +29,11 @@ class Gear extends Model
         return $this->belongsToMany(Skill::class, 'gear_skill')->withPivot('id', 'skill_type');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function baseGears()
     {
         return $this->belongsTo(BaseGear::class, 'base_gear_id');
@@ -95,6 +100,24 @@ class Gear extends Model
 
         // if no skill found, return 'unknown'
         return 'unknown';
+    }
+
+    /**
+     * Get the most recent gears created.
+     * 
+     * @param number $numOfGears number of gears to retrieve
+     * 
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function getRecentGears($numOfGears = 3)
+    {
+        $recentGears = $this
+            ->latest()
+            ->limit($numOfGears)
+            ->with('user')
+            ->get();
+
+        return $recentGears;
     }
 
     /**

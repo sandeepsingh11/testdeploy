@@ -55,4 +55,35 @@
             </div>
         </div>
     </div>
+
+    {{-- recent builds --}}
+    <div id="recent-builds" class="md:w-10/12 w-full mx-auto mb-8 p-8">
+        <x-header text="Recent Builds" />
+
+        {{-- gears --}}
+        <div class="mb-8">
+            <x-sub-header text="Gears" />
+            <div id="recent-gear-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start">
+                @foreach ($recentGears as $gear)
+                    <div>
+                        <x-gear.base :gear="$gear" :user="$gear->user" />
+                        <i>Gear by {{ $gear->user->username }}</i>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- gearsets --}}
+        <div>
+            <x-sub-header text="Gearset" />
+            <div id="recent-gearset-container">
+                @foreach ($recentGearsets as $gearset)
+                    <div>
+                        <x-gearset.base :gearset="$gearset" :user="$gearset->user" />
+                        <i>Gearset by {{ $gearset->user->username }}</i>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
 @endsection

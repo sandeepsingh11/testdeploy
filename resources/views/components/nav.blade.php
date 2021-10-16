@@ -1,35 +1,48 @@
-<nav class="p-2 bg-primary-500 text-white flex justify-between">
+<nav class="bg-primary-500 text-white flex justify-between">
     <ul class="flex items-center">
-        <li>
-            <a href="{{ route('home') }}" class="p-3 pl-0">Splat Build</a>
-        </li>
+        <x-nav-link link="{{ route('home') }}" text="SB" />
     </ul>
 
     <ul class="flex items-center">
-        <li>
-            <a href="{{ route('home') }}" class="p-3">Home</a>
-        </li>
-
         @auth
-            <li>
-                <a href="{{ route('dashboard', Request::user()) }}" class="p-3">Dashboard</a>
-            </li>
+            <x-nav-link link="{{ route('gears.create', Request::user()) }}" text="+Gear" />
+            <x-nav-link link="{{ route('gearsets.create', Request::user()) }}" text="+Gearset" />
+
+            {{-- dropdown container --}}
+            <div x-data="{ open: false }" class="relative">
+                <button 
+                    @click="open = true" 
+                    @mouseenter="open = true"
+                    class="block p-3 hover:bg-primary-600 focus:hover:bg-primary-600 transition-colors"
+                >
+                    Profile
+                </button>
             
-            <li>
-                <form action="{{ route('logout') }}" method="post" class="inline">
-                    @csrf
-                    <button type="submit">Logout</button>
-                </form>
-            </li>
+                {{-- dropdown --}}
+                <ul
+                    x-show.transition="open"
+                    @click.away="open = false"
+                    @mouseleave="open = false"
+                    class="absolute top-full right-0 bg-primary-500 mt-1 rounded text-left z-10"
+                    style="display: none"
+                >
+                    <x-nav-link link="{{ route('dashboard', Request::user()) }}" text="Dashboard" class="py-2 px-4" />
+                    <x-nav-link link="{{ route('gears', Request::user()) }}" text="Gears" class="py-2 px-4" />
+                    <x-nav-link link="{{ route('gearsets', Request::user()) }}" text="Gearsets" class="py-2 px-4" />
+                    {{-- <x-nav-link link="{{ route('settings', Request::user()) }}" text="Settings" class="py-2 px-4" /> --}}
+                    <li>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="w-full py-2 px-4 text-left hover:bg-primary-600 focus:hover:bg-primary-600 transition-colors">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         @endauth
 
         @guest
-            <li>
-                <a href="{{ route('login') }}" class="p-3">Login</a>
-            </li>
-            <li>
-                <a href="{{ route('register') }}" class="p-3">Register</a>
-            </li>
+            <x-nav-link link="{{ route('login') }}" text="Login" />
+            <x-nav-link link="{{ route('register') }}" text="Register" />
         @endguest
     </ul>
 </nav>

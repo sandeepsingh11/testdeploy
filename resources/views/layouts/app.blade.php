@@ -7,6 +7,7 @@
     <title>{{ env('APP_NAME') }}</title>
 
     @yield('scripts-head')
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('styles')

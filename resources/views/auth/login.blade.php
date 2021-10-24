@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex justify-center items-center h-screen">
-        <div class="w-4/12 bg-white p-6 rounded-lg shadow-md">
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="w-4/12 bg-white my-4 p-6 rounded-lg shadow-md">
             <div id="login-header">
                 <h1 class="mb-6 text-3xl font-bold text-center">Login</h1>
             </div>

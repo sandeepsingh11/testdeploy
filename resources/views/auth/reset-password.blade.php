@@ -1,17 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex justify-center">
-        <div class="w-4/12 bg-white p-6 rounded-lg">
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="w-4/12 bg-white my-4 p-6 rounded-lg shadow-md">
+            <div id="reset-password-header">
+                <h1 class="mb-6 text-3xl font-bold text-center">Reset Password</h1>
+            </div>
+
             <form action="{{ route('password.update') }}" method="post">
                 @csrf
 
                 <!-- Password Reset Token -->
                 <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-                <div class="mb-4">
-                    <label for="email" class="sr-only">email</label>
-                    <input type="email" name="email" id="email" placeholder="email" class="bg-gray-100 border-2 w-full p-4 rounded-lg @error('email') border-red-500 @enderror" value="{{ old('email', $request->email) }}" required autofocus>
+                <div class="mb-5">
+                    <x-label for="email" value="Email" />
+                    <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
 
                     @error('email')
                         <div class="text-red-500 mt-2 text-sm">
@@ -20,9 +24,9 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="password" class="sr-only">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" class="bg-gray-100 border-2 w-full p-4 rounded-lg @error('password') border-red-500 @enderror" value="">
+                <div class="mb-5">
+                    <x-label for="password" value="Password" />
+                    <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
 
                     @error('password')
                         <div class="text-red-500 mt-2 text-sm">
@@ -31,13 +35,13 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="password_confirmation" class="sr-only">Password again</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Retype password" class="bg-gray-100 border-2 w-full p-4 rounded-lg" value="">
+                <div class="mb-5">
+                    <x-label for="password_confirmation" value="Retype password" />
+                    <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required />
                 </div>
 
-                <div>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-3 rounded font-medium w-full">Reset Password</button>
+                <div class="mb-6">
+                    <x-button text="Reset Password" />
                 </div>
             </form>
         </div>

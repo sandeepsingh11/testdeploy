@@ -28,7 +28,8 @@ class LoginController extends Controller
 
         // sign in user
         if (!Auth::attempt($request->only('username', 'password'), $request->remember)) {
-            return back()->with('status', 'Invalid login details');
+            $request->flashOnly(['username']);
+            return back()->with('status', 'Incorrect credentials');
         }
 
         return redirect()->route('dashboard', $request->user());

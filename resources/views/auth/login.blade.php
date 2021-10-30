@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="flex justify-center items-center min-h-screen">
-        <div class="w-4/12 bg-white my-4 p-6 rounded-lg shadow-md">
+        <div class="lg:w-4/12 md:w-8/12 w-11/12 bg-white my-4 p-6 rounded-lg shadow-md">
             <div id="login-header">
                 <h1 class="mb-6 text-3xl font-bold text-center">Login</h1>
             </div>
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="mb-7">
-                    <div class="flex justify-between items-center">
+                    <div class="flex flex-wrap justify-between items-center">
                         <div class="flex items-center">
                             <input type="checkbox" name="remember" id="remember" class="mr-1 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer">
                             <label for="remember">Remember me</label>

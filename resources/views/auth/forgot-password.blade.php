@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="flex justify-center items-center min-h-screen">
-        <div class="w-4/12 bg-white p-6 rounded-lg shadow-md">
+        <div class="lg:w-4/12 md:w-8/12 w-11/12 bg-white p-6 rounded-lg shadow-md">
 
             <div id="forgot-password-header">
                 <h1 class="mb-6 text-3xl font-bold text-center">Forgot Password</h1>

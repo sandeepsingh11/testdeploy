@@ -1,4 +1,4 @@
-<nav class="bg-primary-500 text-white flex justify-between">
+<nav class="relative bg-primary-500 text-white flex justify-between">
     <ul class="flex items-center">
         <x-nav-link link="{{ route('home') }}" text="SB" />
     </ul>
@@ -52,7 +52,7 @@
     {{-- mobile menu --}}
     <ul class="md:hidden items-center flex">
         {{-- dropdown container --}}
-        <div x-data="{ open: false }" class="relative">
+        <div x-data="{ open: false }">
             <button 
                 @click="open = true" 
                 class="block p-3 hover:bg-primary-600 focus:hover:bg-primary-600 transition-colors"
@@ -73,7 +73,7 @@
             <ul
                 x-show.transition="open"
                 @click.away="open = false"
-                class="fixed left-0 flex flex-col justify-evenly w-screen bg-primary-500 text-center"
+                class="absolute top-full left-0 flex flex-col justify-evenly w-screen bg-primary-500 text-center"
                 style="display: none"
             >
                 @auth

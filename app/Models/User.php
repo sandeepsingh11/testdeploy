@@ -84,4 +84,32 @@ class User extends Authenticatable
         
         return $recentGearsets;
     }
+
+    /**
+     * Get the user's gear count.
+     * 
+     * @param string $gearType get count of a specific gear type ['H', 'C', 'S']
+     * 
+     * @return int
+     */
+    public function getUserGearCount($gearType = '')
+    {
+        $gearTypes = ['H', 'C', 'S'];
+
+        if ( (!empty($gearType)) && (in_array(strtoupper($gearType), $gearTypes)) ) {
+            // get all of user's gears of a specific type        
+            $count = $this->gears()
+                ->join('base_gears', 'gears.base_gear_id', '=', 'base_gears.id')
+                ->where('base_gears.base_gear_type', $gearType)
+                ->count();
+        }
+        else {
+            // get all of user's gears
+            $count = $this->gears()
+                ->join('base_gears', 'gears.base_gear_id', '=', 'base_gears.id')
+                ->count();
+        }
+
+        return $count;
+    }
 }

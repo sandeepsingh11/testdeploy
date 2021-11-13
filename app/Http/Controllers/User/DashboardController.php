@@ -21,11 +21,18 @@ class DashboardController extends Controller
         $gears = $user->getRecentGears();
         $gearsets = $user->getRecentGearsets();
 
+        $headCount = $user->getUserGearCount('H');
+        $clothesCount = $user->getUserGearCount('C');
+        $shoesCount = $user->getUserGearCount('S');
+        $totalCount = $user->getUserGearCount();
+        $gearCount = [$headCount, $clothesCount, $shoesCount, $totalCount];
+
         
         return view('users.dashboard', [
             'user' => $user,
             'recentGears' => $gears,
             'recentGearsets' => $gearsets,
+            'gearCount' =>$gearCount
         ]);
     }
 }

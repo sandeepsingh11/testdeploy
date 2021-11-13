@@ -1,11 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="min-h-screen">
-        <h2 class="mt-10 mb-6 text-4xl font-semibold text-center">Welcome {{ $user->username }}</h2>
+    <div class="md:w-10/12 w-full mx-auto">
+        <h2 class="mt-10 mb-6 text-5xl font-semibold text-center">Welcome {{ $user->username }}</h2>
+
+        {{-- gear count --}}
+        <div id="gear-count">
+            <x-header text="Gear Count" />
+
+            <div class="flex justify-evenly flex-wrap">
+                <x-big-number :number="$gearCount[0]" label="Head" />
+                <x-big-number :number="$gearCount[1]" label="Clothes" />
+                <x-big-number :number="$gearCount[2]" label="Shoes" />
+                <x-big-number :number="$gearCount[3]" label="Total" />
+            </div>
+        </div>
 
         {{-- recent builds --}}
-        <div id="recent-builds" class="md:w-10/12 w-full mx-auto mb-8 p-8">
+        <div id="recent-builds" class="mb-8 p-8">
             <x-header text="Recent Builds" />
     
             {{-- gears --}}

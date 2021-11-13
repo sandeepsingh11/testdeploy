@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="md:w-10/12 w-full mx-auto">
-        <h2 class="mt-10 mb-6 text-5xl font-semibold text-center">Welcome {{ $user->username }}</h2>
+    <div class="md:w-10/12 w-full mx-auto p-4">
+        <h2 class="mt-10 mb-12 text-4xl md:text-5xl font-semibold text-center">Welcome {{ $user->username }}</h2>
 
         {{-- gear count --}}
-        <div id="gear-count">
+        <div id="gear-count" class="mb-10">
             <x-header text="Gear Count" />
 
-            <div class="flex justify-evenly flex-wrap">
+            <div class="flex justify-evenly flex-wrap p-4">
                 <x-big-number :number="$gearCount[0]" label="Head" />
                 <x-big-number :number="$gearCount[1]" label="Clothes" />
                 <x-big-number :number="$gearCount[2]" label="Shoes" />
@@ -17,11 +17,11 @@
         </div>
 
         {{-- recent builds --}}
-        <div id="recent-builds" class="mb-8 p-8">
+        <div id="recent-builds" class="mb-10">
             <x-header text="Recent Builds" />
     
             {{-- gears --}}
-            <div class="mb-8">
+            <div class="mb-10">
                 <x-sub-header text="Gears" />
                 <div id="recent-gear-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 items-start mb-6">
                     @if ($recentGears->count())

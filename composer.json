@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "sandeepsingh11/splat-build",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": " A Splatoon 2 Gear Logger and Planner ",
+    "keywords": ["framework", "laravel", "splatoon"],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",

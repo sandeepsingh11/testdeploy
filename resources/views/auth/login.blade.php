@@ -1,20 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex justify-center">
-        <div class="w-4/12 bg-white p-6 rounded-lg">
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="lg:w-4/12 md:w-8/12 w-11/12 bg-white my-4 p-6 rounded-lg shadow-md">
+            <div id="login-header">
+                <h1 class="mb-6 text-3xl font-bold text-center">Login</h1>
+            </div>
+            
             @if (session('status'))
+                {{-- error message --}}
                 <div class="bg-red-500 p-4 rounded-lg mb-6 text-white text-center">
                     {{ session('status') }}
+                </div>
+            @endif
+
+            @if (session('reset-pw'))
+                {{-- success message --}}
+                <div class="bg-green-500 p-4 rounded-lg mb-6 text-white text-center">
+                    {{ session('reset-pw') }}
                 </div>
             @endif
 
             <form action="{{ route('login') }}" method="post">
                 @csrf
 
-                <div class="mb-4">
-                    <label for="username" class="sr-only">Username</label>
-                    <input type="text" name="username" id="username" placeholder="username" class="bg-gray-100 border-2 w-full p-4 rounded-lg @error('username') border-red-500 @enderror" value="{{ old('username') }}">
+                <div class="mb-5">
+                    <x-label for="username" value="Username" />
+                    <x-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus />
 
                     @error('username')
                         <div class="text-red-500 mt-2 text-sm">
@@ -23,9 +35,9 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="password" class="sr-only">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" class="bg-gray-100 border-2 w-full p-4 rounded-lg @error('password') border-red-500 @enderror" value="">
+                <div class="mb-5">
+                    <x-label for="password" value="Password" />
+                    <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
 
                     @error('password')
                         <div class="text-red-500 mt-2 text-sm">
@@ -34,17 +46,27 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <div class="flex items-center">
-                        <input type="checkbox" name="remember" id="remember" class="mr-2">
-                        <label for="remember">Remember me</label>
+                <div class="mb-7">
+                    <div class="flex flex-wrap justify-between items-center">
+                        <div class="flex items-center">
+                            <input type="checkbox" name="remember" id="remember" class="mr-1 rounded text-indigo-600 focus:ring-indigo-500 cursor-pointer">
+                            <label for="remember">Remember me</label>
+                        </div>
+
+                        <div>
+                            <x-link link="{{ route('password.request') }}" text="Forgot password?" />
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-3 rounded font-medium w-full">Login</button>
+                <div class="mb-6">
+                    <x-button text="Login" />
                 </div>
             </form>
+
+            <div class="text-center">
+                <x-link link="{{ route('register') }}" text="No account? Register here" class="text-sm opacity-75" />
+            </div>
         </div>
     </div>
 @endsection

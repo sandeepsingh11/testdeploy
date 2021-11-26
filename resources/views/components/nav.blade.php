@@ -73,7 +73,7 @@
             <ul
                 x-show.transition="open"
                 @click.away="open = false"
-                class="absolute top-full left-0 flex flex-col justify-evenly w-screen bg-primary-500 text-center"
+                class="absolute top-full left-0 flex flex-col justify-evenly w-screen bg-primary-500 text-center z-20"
                 style="display: none"
             >
                 @auth

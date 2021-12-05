@@ -59,5 +59,13 @@ class BaseGearSelect extends Component
         else {
             $this->filteredList = $this->searchable;
         }
+
+        // if empty list, fill with default
+        if (!isset(array_keys($this->filteredList)[0])) {
+            $this->filteredList = $this->searchable;
+        }
+
+        // update gear selection
+        $this->selectUpdate(array_keys($this->filteredList)[0]); 
     }
 }

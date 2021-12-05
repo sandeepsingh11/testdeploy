@@ -21,7 +21,7 @@
                     <img 
                         src="{{ asset('storage/skills/' . $gearSkillNames[1] . '.png') }}" 
                         alt="{{ $gearSkillNames[1] }}"
-                        class="draggable slot"
+                        class="draggable"
                         data-skill-id="{{ $gearSkillIds[1] }}"
                         data-skill-name="{{ $gearSkillNames[1] }}"
                         data-skill-type="All"
@@ -32,7 +32,7 @@
                     <img 
                         src="{{ asset('storage/skills/' . $gearSkillNames[2] . '.png') }}" 
                         alt="{{ $gearSkillNames[2] }}"
-                        class="draggable slot"
+                        class="draggable"
                         data-skill-id="{{ $gearSkillIds[2] }}"
                         data-skill-name="{{ $gearSkillNames[2] }}"
                         data-skill-type="All"
@@ -43,7 +43,7 @@
                     <img 
                         src="{{ asset('storage/skills/' . $gearSkillNames[3] . '.png') }}" 
                         alt="{{ $gearSkillNames[3] }}"
-                        class="draggable slot"
+                        class="draggable"
                         data-skill-id="{{ $gearSkillIds[3] }}"
                         data-skill-name="{{ $gearSkillNames[3] }}"
                         data-skill-type="All"
@@ -66,7 +66,7 @@
                 <img 
                     src="{{ asset('storage/skills/' . $skill->skill_name . '.png') }}" 
                     alt="{{ $skill->skill_name }}"
-                    class="draggable bank"
+                    class="draggable"
                     data-skill-id="{{ $skill->id }}"
                     data-skill-name="{{ $skill->skill_name }}"
                     data-skill-type="Main"
@@ -87,7 +87,7 @@
                     <img 
                         src="{{ asset('storage/skills/' . $skill->skill_name . '.png') }}" 
                         alt="{{ $skill->skill_name }}"
-                        class="draggable bank"
+                        class="draggable"
                         data-skill-id="{{ $skill->id }}"
                         data-skill-name="{{ $skill->skill_name }}"
                         data-skill-type="All"

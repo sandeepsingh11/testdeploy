@@ -2019,6 +2019,78 @@ function loadSubData() {
       }
     });
   });
+} // click-slot-to-toggle skill
+
+
+var slots = document.getElementsByClassName('slot');
+var bank = document.getElementsByClassName('bank'); // add skill
+
+for (var i = 0; i < bank.length; i++) {
+  bank[i].addEventListener('click', function (e) {
+    clickToAddSkill(e);
+  });
+} // remove skill
+
+
+for (var _i = 0; _i < slots.length; _i++) {
+  slots[_i].addEventListener('click', function (e) {
+    clickToRemoveSkill(e);
+  });
+}
+
+function clickToAddSkill(e) {
+  draggedSkillName = e.target.dataset.skillName;
+  draggedSkillId = e.target.dataset.skillId;
+  draggedSkillType = e.target.dataset.skillType;
+  draggedSkillImgUrl = e.target.src; // find next open slot
+
+  var openSlotEle = null;
+
+  for (var j = 0; j < slots.length; j++) {
+    if (slots[j].dataset.skillId === '27') {
+      openSlotEle = slots[j];
+      break;
+    }
+  } // continue if there is an available slot (currently 'unknown' skill)
+
+
+  if (openSlotEle != null) {
+    // skill types of 'Main' must be dropped in the 'Main' skill slot
+    if (draggedSkillType === 'Main') {
+      if (openSlotEle.parentNode.id !== 'skill-main') {
+        // illegal drop
+        return;
+      }
+    } // update slot's values
+
+
+    openSlotEle.src = draggedSkillImgUrl;
+    openSlotEle.alt = draggedSkillName;
+    openSlotEle.dataset.skillId = draggedSkillId;
+    openSlotEle.dataset.skillName = draggedSkillName; // set the slot's id to the hidden input field
+
+    document.getElementById('hidden-' + openSlotEle.parentNode.id).value = draggedSkillId; // calc stats
+
+    var highMidLowFiles = ['BombDamage_Reduction', 'BombDistance_Up', 'HumanMove_Up', 'InkRecovery_Up', 'JumpTime_Save', 'MainInk_Save', 'MarkingTime_Reduction', 'OpInkEffect_Reduction', 'RespawnSpecialGauge_Save', 'RespawnTime_Save', 'SpecialIncrease_Up', 'SpecialTime_Up', 'SquidMove_Up', 'SubInk_Save'];
+
+    if (highMidLowFiles.indexOf(draggedSkillName) != -1) {
+      recalculateStats();
+    }
+  }
+}
+
+function clickToRemoveSkill(e) {
+  if (e.target.dataset.skillId != '27') {
+    // reset slot's values
+    e.target.src = '/storage/skills/unknown.png';
+    e.target.alt = 'unknown';
+    e.target.dataset.skillId = '27';
+    e.target.dataset.skillName = 'unknown'; // reset the slot's id to the hidden input field
+
+    document.getElementById('hidden-' + e.target.parentNode.id).value = '27'; // re-calc
+
+    recalculateStats();
+  }
 } // on dragstart handler
 
 
@@ -2961,8 +3033,8 @@ function calcBdu(skillObj) {
 
 var draggableEle = document.getElementsByClassName('draggable');
 
-for (var i = 0; i < draggableEle.length; i++) {
-  draggableEle[i].addEventListener('dragstart', function (e) {
+for (var _i2 = 0; _i2 < draggableEle.length; _i2++) {
+  draggableEle[_i2].addEventListener('dragstart', function (e) {
     dragStartHandler(e);
   });
 } // assign dragover, drop listeners on drag-into elements
@@ -2970,12 +3042,12 @@ for (var i = 0; i < draggableEle.length; i++) {
 
 var dragIntoEle = document.getElementsByClassName('drag-into');
 
-for (var _i = 0; _i < dragIntoEle.length; _i++) {
-  dragIntoEle[_i].addEventListener('dragover', function (e) {
+for (var _i3 = 0; _i3 < dragIntoEle.length; _i3++) {
+  dragIntoEle[_i3].addEventListener('dragover', function (e) {
     dragOverHandler(e);
   });
 
-  dragIntoEle[_i].addEventListener('drop', function (e) {
+  dragIntoEle[_i3].addEventListener('drop', function (e) {
     dropHandler(e);
   });
 } // if on gearset page, set listeners for gear changes

@@ -13,7 +13,7 @@
         <img 
             src="{{ asset('storage/skills/' . $mainSkill . '.png') }}" 
             alt="{{ $mainSkill }}"
-            class="draggable"
+            class="draggable slot"
             data-skill-id="{{ $mainSkillId }}"
             data-skill-name="{{ $mainSkill }}"
             data-skill-type="Main"

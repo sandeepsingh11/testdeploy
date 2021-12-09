@@ -1,7 +1,7 @@
 <div>
     {{-- gear list --}}
     <label for="gear-id" class="block">Select gear:</label>
-    <x-select-search :filteredList="$filteredList" selectId="gear-id" />
+    <x-select-search :filteredList="$filteredList" :selectedItem="$gearName" selectId="gear-id" />
 
 
     {{-- gear image --}}

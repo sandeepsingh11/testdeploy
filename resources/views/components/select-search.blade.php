@@ -1,5 +1,6 @@
 @props([
     'filteredList' => [],
+    'selectedItem' => '',
     'selectId' => ''
 ])
 
@@ -15,7 +16,7 @@
         <input
             type="text" 
             wire:model.debounce.500ms="searchTerm" 
-            wire:keydown="search"
+            wire:keyup="search"
             class="search-input w-1/2 sm:w-full rounded-tl rounded-bl  pl-7 focus:ring-primary-400 focus:border-primary-400"
         >
 
@@ -27,7 +28,7 @@
             {{ $attributes->merge(['class' => 'w-1/2 sm:w-full rounded-tr rounded-br focus:ring-primary-400 focus:border-primary-400']) }}
         >
             @foreach ($filteredList as $key => $value)
-                <option value="{{ $key }}">{{ $value }}</option>
+                <option value="{{ $key }}" @if(__($selectedItem) == $value) selected @endif>{{ $value }}</option>
             @endforeach
         </select>
     </div>

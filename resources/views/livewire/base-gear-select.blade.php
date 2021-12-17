@@ -1,26 +1,7 @@
 <div>
     {{-- gear list --}}
     <label for="gear-id" class="block">Select gear:</label>
-    <select 
-        name="gear-id" 
-        id="gear-id"
-        class="block w-full rounded focus:ring-primary-400 focus:border-primary-400"
-        wire:change="updateGear($event.target.value)"
-    >
-
-        
-        @for ($i = 0; $i < sizeof($gearTypes); $i++)
-            {{-- head, clothing, or shoes group --}}
-            <optgroup label="{{ $gearTypesDisplay[$i] }}">
-                
-                @foreach ($gears->where('base_gear_type', '=', $gearTypes[$i]) as $gear)
-                    {{-- gear --}}
-                    <option value="{{ $gear->id }}" @if($gear->base_gear_name === $gearName) selected @endif>{{ __($gear->base_gear_name) }}</option>
-                @endforeach
-
-            </optgroup>
-        @endfor
-    </select>
+    <x-select-search :filteredList="$filteredList" :selectedItem="$gearName" selectId="gear-id" />
 
 
     {{-- gear image --}}
@@ -32,7 +13,7 @@
         <img 
             src="{{ asset('storage/skills/' . $mainSkill . '.png') }}" 
             alt="{{ $mainSkill }}"
-            class="draggable"
+            class="draggable slot"
             data-skill-id="{{ $mainSkillId }}"
             data-skill-name="{{ $mainSkill }}"
             data-skill-type="Main"

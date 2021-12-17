@@ -4,7 +4,7 @@
     <div class="flex justify-center items-center min-h-screen">
         <div class="lg:w-4/12 md:w-8/12 w-11/12 bg-white my-4 p-6 rounded-lg shadow-md">
             <div id="login-header">
-                <h1 class="mb-6 text-3xl font-bold text-center">Login</h1>
+                <h1 class="mb-6 text-3xl font-bold text-center">Login!!!!!!!!!</h1>
             </div>
             
             @if (session('status'))

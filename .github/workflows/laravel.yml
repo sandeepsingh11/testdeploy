@@ -9,6 +9,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PUSH_TOKEN }}
+    - name: Set Up Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16.x'
+    - run: npm install
+    - run: npm run production
+    - name: Commit Built Assets
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git checkout -B deploy
+        git add -f public/
+        git commit -m "Build front-end assets"
+        git push -f origin deploy
+        git status
     - name: Deploy to Production
       uses: appleboy/ssh-action@master
       with:
@@ -18,4 +37,4 @@ jobs:
         port: ${{ secrets.PORT }}
         script: |
           cd ${{ secrets.BASE_PATH }}
-          ls
+          ./server_prod_deploy.sh
